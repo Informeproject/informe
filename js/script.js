@@ -662,15 +662,16 @@ var vm = new Vue({
 
 			return r;
 		},
-		getproducer: function (energycat, materialcat, energysrc, powersize, panelang, paneldir) {
+		getproducer: function (energycat, materialcat, energysrc, powersize, electrpowersize, panelang, paneldir) {
 			var allproducers = this.producerlist[0];
 
-			console.log(energycat, materialcat, powersize);
+			console.log(energycat, materialcat, powersize, electrpowersize);
 
 			if (energycat == 2) {
 				for (i=0; i<allproducers.length; i++) {
 					if (allproducers[i].energycategory == energycat &&
 						allproducers[i].materialcategory == materialcat &&
+						allproducers[i].electrpowerkw == electrpowersize &&
 						allproducers[i].panelangle == panelang &&
 						allproducers[i].paneldirection == paneldir
 						) {
