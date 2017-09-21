@@ -25,7 +25,6 @@
 	<div id="checkthese" class="panel-group col-md-12">
 
 		<!-- disclaimer -->
-
 		<modal id="disclaimer" v-if="showDisclaimer" @close="this.acceptdisclaimer">
 			
 			<div slot="body">
@@ -73,13 +72,15 @@
 						
 						Tässä sovelluksessa on rajallinen määrä kohteita, joten valitse lähin sopiva.</p>
 					</div>
-					<div class="row">
+
+					<!-- <div class="row">
 						<div class="col-md-2"></div>
 						<div class="progress col-md-8">
 							<div class="progress-bar" role="progressbar" v-bind:style="{width: progressPercentage + '%'}">Vaihe {{progressCurrent}}/{{progressTotal}} ({{catMessage}})</div>
 						</div>
 						<div class="col-md-2"></div>
-					</div>
+					</div> -->
+
 					<div class="row">
 						<div class="col-md-12">
 							<p>Lämmönkulutus yhteensä {{ heatingkwvalue }} kW</p>
@@ -108,6 +109,7 @@
 							</span>
 						</div>
 					</div>
+
 					<!--volumelist loop-->
 					<div class="row text-center">
 						<div class="col-md-12">
@@ -309,7 +311,7 @@
 							<div class="col-md-12">
 								<h4>Valitse aurinkopaneelin teholuokka:</h4>
                                                                 
-                                                                <p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
+								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
                                                               
 								<ul style="list-style: none" class="selectedMaterials">
 									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
@@ -381,7 +383,7 @@
 							<div class="col-md-12" style="margin-bottom: 35px;">
 								<ul style="list-style: none" class="selectedProds">
 									<li class="prodlisting" v-for="item in this.finalpage[0]">
-										<button class="btn prodresultbutton" v-bind:id="item.id" v-on:click="getproducer(item.energycategory, item.materialcategory, item.energysource, heatingpowersize)" data-toggle="modal" data-target="#resultmodal">
+										<button class="btn prodresultbutton" v-bind:id="item.id" v-on:click="getproducer(item.energycategory, item.materialcategory, item.energysource, heatingpowersize, item.panelangle, item.paneldirection)" data-toggle="modal" data-target="#resultmodal">
 											{{item.energysource}}
 											<p v-if="(item.energycategory) == 2">Kulma: {{item.panelangle}}°<br>Suunta: {{item.paneldirection}}</p>	
 											<p v-if="(item.energycategory) == 1">{{parseInt(heatresult/item.energyperunitkwh)}} {{item.inputunit}}</p>

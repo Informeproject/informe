@@ -635,7 +635,7 @@ var vm = new Vue({
 			return uniques;
 		},
 		roundtonearest: function (energycat, materialcat) {
-			console.log("roundtonearesttt"+energycat, materialcat);
+			console.log("roundtonearestt"+energycat, materialcat);
 			producers = this.producerlist[0];
 			var val = this.heatingkwvalue;
 			var values = [];
@@ -662,7 +662,7 @@ var vm = new Vue({
 
 			return r;
 		},
-		getproducer: function (energycat, materialcat, energysrc, powersize) {
+		getproducer: function (energycat, materialcat, energysrc, powersize, panelang, paneldir) {
 			var allproducers = this.producerlist[0];
 
 			console.log(energycat, materialcat, powersize);
@@ -671,7 +671,9 @@ var vm = new Vue({
 				for (i=0; i<allproducers.length; i++) {
 					if (allproducers[i].energycategory == energycat &&
 						allproducers[i].materialcategory == materialcat &&
-						allproducers[i].energysource == energysrc) {
+						allproducers[i].panelangle == panelang &&
+						allproducers[i].paneldirection == paneldir
+						) {
 							console.log(allproducers[i].materialcategory);
 							this.prodmodalvalue = allproducers[i];
 						}
