@@ -1,21 +1,21 @@
 # informe 
- 
-// Jaksaako joku oikeesti kommentoida
- 
-rahe = getOpintolaina();
- 
-if(rahe > 0) {</br>
-&nbsp;buyKalja(rahe, out kaljat);</br>
-}
- 
-foreach(kalja k in kaljat) {</br>
-&nbsp;drinkKalje(k);</br>
-&nbsp;if(humala == "suuri") {</br>
-&nbsp;&nbsp;passout();</br>
-&nbsp;&nbsp;break;</br>
-&nbsp;}</br>
-}
- 
-kys();
-
+ <br/>
+//Jaksaako joku oikeesti kommentoida<br />
+rahe = getOpintolaina();<br />
+<br />
+if(rahe > 0)<br />
+  buyKalja(rahe, out kaljat);<br />
+<br />
+foreach(kalja k in kaljat)<br />
+{<br />
+ drinkKalje(k);<br />
+ if(humala == "suuri")<br />
+ {<br />
+   passout();<br />
+    break;<br />
+ }<br />
+} <br />
+<br />
+kys();<br />
+<br />
 # informe
