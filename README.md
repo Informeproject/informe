@@ -5,15 +5,15 @@
 rahe = getOpintolaina();
  
 if(rahe > 0) {</br>
-&#09;buyKalja(rahe, out kaljat);</br>
+&nbsp;buyKalja(rahe, out kaljat);</br>
 }
  
 foreach(kalja k in kaljat) {</br>
-&#09;drinkKalje(k);</br>
-&#09;if(humala == "suuri") {</br>
-&#09;&#09;passout();</br>
-&#09;&#09;break;</br>
-&#09;}</br>
+&nbsp;drinkKalje(k);</br>
+&nbsp;if(humala == "suuri") {</br>
+&nbsp;&nbsp;passout();</br>
+&nbsp;&nbsp;break;</br>
+&nbsp;}</br>
 }
  
 kys();
