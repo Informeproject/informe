@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
+<!-- testi -->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,19 +27,19 @@
 		<!-- disclaimer -->
 
 		<modal id="disclaimer" v-if="showDisclaimer" @close="this.acceptdisclaimer">
-			
+
 			<div slot="body">
 				<h2>Tervetuloa käyttämään InforMe:n energiasovellusta</h2>
 				<p>
-					Tällä sovelluksella voi tarkastella erilaisten rakennusten tyypillisiä kulutusprofiileja ja eri energiantuotantotekniikoiden tuotantopotentiaaleja niille soveltuvilla tehoalueilla. Tuotantorakennusten kulutusluvut on johdettu mm. maatilan energiasuunnitelmista, asuin- ja toimitilarakennusten osalta on hyödynnetty mm. energiakatselmusten keskiarvotietoja ja aurinkoenergian tuotantopotentiaali on laskettu Keski-Suomen arvoilla. 
+					Tällä sovelluksella voi tarkastella erilaisten rakennusten tyypillisiä kulutusprofiileja ja eri energiantuotantotekniikoiden tuotantopotentiaaleja niille soveltuvilla tehoalueilla. Tuotantorakennusten kulutusluvut on johdettu mm. maatilan energiasuunnitelmista, asuin- ja toimitilarakennusten osalta on hyödynnetty mm. energiakatselmusten keskiarvotietoja ja aurinkoenergian tuotantopotentiaali on laskettu Keski-Suomen arvoilla.
 				</p>
 				<h3>Ohjeita käyttäjälle</h3>
-				<p>							
+				<p>
 					Ohjelma on jaettu kolmeen eri vaiheeseen. Jokaisen vaiheen ikkunassa on ohjeet niiden käyttöä varten. Saadaksesi tämän ruudun takaisin näkyviin, paina Info-nappia oikeasta yläkulmasta.
 				</p>
 				<h3>Vastuuvapauslauseke</h3>
 				<p>
-					Tämän sovelluksen tulokset ovat suuntaa antavia ja neuvonnallisia. Sovelluksen on tarkoitus on madaltaa kynnystä tutustua uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi tulee aina perustaa tarkempiin laskelmiin. 
+					Tämän sovelluksen tulokset ovat suuntaa antavia ja neuvonnallisia. Sovelluksen on tarkoitus on madaltaa kynnystä tutustua uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi tulee aina perustaa tarkempiin laskelmiin.
 					<br><br>
 					Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
 					<br><br>
@@ -70,7 +70,7 @@
 					<div class="row text-center">
 						<h4>Valitse rakennukset:</h4>
 						<p class="volumep">Valitse haluamasi kohde klikkaamalla sen kuvaa. Paina "Seuraava"-nappia siirtyäksesi seuraavaan rakennuskategoriaan. <br>Voit perua valintoja painamalla valitun kohteen yläkulmassa olevaa nuolta. Valittuasi halutut kohteet, paina "Laske"-nappia siirtyäksesi seuraavaan vaiheeseen.<br>
-						
+
 						Tässä sovelluksessa on rajallinen määrä kohteita, joten valitse lähin sopiva.</p>
 					</div>
 					<div class="row">
@@ -104,7 +104,7 @@
 						<div class="col-md-12">
 									<button type="button" class="btn" v-on:click="clear()">Tyhjennä valinnat</button>
 									<button type="button" class="btn" v-show="showSelected===false" v-on:click="showSelected=true"> Näytä valinnat </button>
-									<button type="button" class="btn" v-show="showSelected===true" v-on:click="showSelected=false"> Piilota</button>				
+									<button type="button" class="btn" v-show="showSelected===true" v-on:click="showSelected=false"> Piilota</button>
 							</span>
 						</div>
 					</div>
@@ -123,9 +123,9 @@
 										</input>
 										</label>
 										<div class="buttonicons" v-if="countchecked(item.id) > 0">
-											
+
 											<!-- Highlight -->
-											<div class="buttonhighlight">	
+											<div class="buttonhighlight">
 											</div>
 											<div class="removeicon">
 												<label>
@@ -133,7 +133,7 @@
 														<img :src="'img/uncheck.png'" />
 													</input>
 												</label>
-											</div>		
+											</div>
 											<div class="quantityicon">
 												<p>{{ countchecked(item.id) }}</p>
 											</div>
@@ -144,7 +144,7 @@
 
 
 
-									
+
 									<!-- <div>
 										<label class="custombutton" v-bind:id="item.id">
 										<input class="btn btn-primary" name="button" v-bind:id="item.id" v-on:click="select($event)" data-parent="#checkthese">
@@ -160,7 +160,7 @@
 												</label>
 
 											</div>
-											
+
 											<div class="quantityicon">
 												<p>{{ countchecked(item.id) }}</p>
 											</div>
@@ -308,9 +308,9 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4>Valitse aurinkopaneelin teholuokka:</h4>
-                                                                
+
                                                                 <p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
-                                                              
+
 								<ul style="list-style: none" class="selectedMaterials">
 									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
 										<label>
@@ -329,7 +329,7 @@
 							<div class="col-md-12">
 								<ul style="list-style: none" class="selectedMaterials">
 									<li v-for="item in noduplicates(this.prodlist[2], 'materialcategory')">
-										<label>	
+										<label>
 										<button class="prodbutton" @click="prods(item.energycategory, item.materialcategory, item.panelangle)">{{item.materialcatname}}</button><br>
 										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 									</label>
@@ -383,7 +383,7 @@
 									<li class="prodlisting" v-for="item in this.finalpage[0]">
 										<button class="btn prodresultbutton" v-bind:id="item.id" v-on:click="getproducer(item.energycategory, item.materialcategory, item.energysource, heatingpowersize)" data-toggle="modal" data-target="#resultmodal">
 											{{item.energysource}}
-											<p v-if="(item.energycategory) == 2">Kulma: {{item.panelangle}}°<br>Suunta: {{item.paneldirection}}</p>	
+											<p v-if="(item.energycategory) == 2">Kulma: {{item.panelangle}}°<br>Suunta: {{item.paneldirection}}</p>
 											<p v-if="(item.energycategory) == 1">{{parseInt(heatresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
 											<p v-if="(item.energycategory) == 2 || (item.energycategory) == 3">{{parseInt(electrresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
 										</button>
@@ -401,15 +401,15 @@
 									<button type="button" class="close" data-dismiss="modal">&times;</button>
 									<h4>Energianlähde: {{this.prodmodalvalue.energysource}}</h4>
 								</div>
-								<div class="modal-body col-md-12">	
+								<div class="modal-body col-md-12">
 									<div class="row">
 										<p>Tuotantotapa: {{this.prodmodalvalue.method}}</p>
 									</div>
-										<p v-if="(prodmodalvalue.energycategory) == 2">Paneelin kulma: {{this.prodmodalvalue.panelangle}}°, paneelin suunta: {{this.prodmodalvalue.paneldirection}}</p>	
+										<p v-if="(prodmodalvalue.energycategory) == 2">Paneelin kulma: {{this.prodmodalvalue.panelangle}}°, paneelin suunta: {{this.prodmodalvalue.paneldirection}}</p>
 										<p v-if="(prodmodalvalue.energycategory) == 1">Tarvittava määrä: {{parseInt(heatresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>
 										<p v-if="(prodmodalvalue.energycategory) == 1">Tuotantolaitoksen teholuokka: {{this.prodmodalvalue.heatingpowerkw}} kW</p>
 										<p v-if="(prodmodalvalue.energycategory) == 2">Paneelien teholuokka: {{this.prodmodalvalue.electrpowerkw}} kW</p>
-										<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>	
+										<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>
 										<br>
 									<div class="row text-center">
 										<p>Alla olevassa taulukossa on tuotantotavasta riippuen<br>esitetty arvioitu kuukausittainen energiantuotanto kilowateissa.</p>
@@ -442,13 +442,13 @@
 			<div class="modal-mask">
 				<div class="modal-wrapper">
 					<div class="modal-container">
-	
+
 						<div class="modal-header">
 							<slot name="header">
 
 							</slot>
 						</div>
-	
+
 						<div class="modal-body">
 							<slot name="body">
 
