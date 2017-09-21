@@ -1,0 +1,474 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>inforMe</title>
+	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+    	<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="backgroundimg container-fluid">
+
+	<!-- wrapper -->
+	<div id="checkthese" class="panel-group col-md-12">
+
+		<!-- disclaimer -->
+
+		<modal id="disclaimer" v-if="showDisclaimer" @close="this.acceptdisclaimer">
+			
+			<div slot="body">
+				<h2>Tervetuloa käyttämään InforMe:n energiasovellusta</h2>
+				<p>
+					Tällä sovelluksella voi tarkastella erilaisten rakennusten tyypillisiä kulutusprofiileja ja eri energiantuotantotekniikoiden tuotantopotentiaaleja niille soveltuvilla tehoalueilla. Tuotantorakennusten kulutusluvut on johdettu mm. maatilan energiasuunnitelmista, asuin- ja toimitilarakennusten osalta on hyödynnetty mm. energiakatselmusten keskiarvotietoja ja aurinkoenergian tuotantopotentiaali on laskettu Keski-Suomen arvoilla. 
+				</p>
+				<h3>Ohjeita käyttäjälle</h3>
+				<p>							
+					Ohjelma on jaettu kolmeen eri vaiheeseen. Jokaisen vaiheen ikkunassa on ohjeet niiden käyttöä varten. Saadaksesi tämän ruudun takaisin näkyviin, paina Info-nappia oikeasta yläkulmasta.
+				</p>
+				<h3>Vastuuvapauslauseke</h3>
+				<p>
+					Tämän sovelluksen tulokset ovat suuntaa antavia ja neuvonnallisia. Sovelluksen on tarkoitus on madaltaa kynnystä tutustua uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi tulee aina perustaa tarkempiin laskelmiin. 
+					<br><br>
+					Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
+					<br><br>
+					Jos käytössäsi on Internet Explorer -selain, suosittelemme käyttämään toista selainta, koska sovellus ei toimi sillä tarkoituksenmukaisella tavalla.
+				</p>
+			</div>
+		</modal>
+
+		<!-- banner -->
+		<div class="col-md-12 container" id="banner">
+			<div class="row">
+				<button type="button" id="openInfo" class="btn btn-primary" @click="showDisclaimer = true">Info</button>
+				<img src="img/banner.png" class="logo" alt="logo">
+			</div>
+		</div>
+
+		<!-- rakennukset-collapse -->
+		<div class="panel panel-default col-md-12">
+			<div class="row text-center">
+				<div class="header col-md-12" id="header1">
+					<label>Rakennukset</label>
+					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo" data-parent="#checkthese"> <span class="glyphicon glyphicon-menu-down"></span> </button>
+				</div>
+			</div>
+
+			<div class="panel-collapse collapse in text-center" id="demo" style="margin-bottom: 10px !important;">
+				<div class="col-md-12">
+					<div class="row text-center">
+						<h4>Valitse rakennukset:</h4>
+						<p class="volumep">Valitse haluamasi kohde klikkaamalla sen kuvaa. Paina "Seuraava"-nappia siirtyäksesi seuraavaan rakennuskategoriaan. <br>Voit perua valintoja painamalla valitun kohteen yläkulmassa olevaa nuolta. Valittuasi halutut kohteet, paina "Laske"-nappia siirtyäksesi seuraavaan vaiheeseen.<br>
+						
+						Tässä sovelluksessa on rajallinen määrä kohteita, joten valitse lähin sopiva.</p>
+					</div>
+					<div class="row">
+						<div class="col-md-2"></div>
+						<div class="progress col-md-8">
+							<div class="progress-bar" role="progressbar" v-bind:style="{width: progressPercentage + '%'}">Vaihe {{progressCurrent}}/{{progressTotal}} ({{catMessage}})</div>
+						</div>
+						<div class="col-md-2"></div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<p>Lämmönkulutus yhteensä {{ heatingkwvalue }} kW</p>
+						</div>
+					</div>
+
+					<!--checkedid loop-->
+					<div class="row" style="margin-top: 10px;">
+						<ul v-show="showSelected === true" style="list-style: none">
+							<li v-for="item in checkedid" style="float: left;">
+								<label class="custombutton">
+									<input type="button" class="btn btn-primary" name="button" v-bind:id="item" v-on:click="unselect($event)" data-parent="#checkthese">
+									<img :src="'img/'+item+'.png'" style="height: 80px; margin-right: 20px" />
+									</input>
+								</label>
+							</li>
+						</ul>
+
+					</div>
+					<!--buttons-->
+					<div class="row">
+						<div class="col-md-12">
+									<button type="button" class="btn" v-on:click="clear()">Tyhjennä valinnat</button>
+									<button type="button" class="btn" v-show="showSelected===false" v-on:click="showSelected=true"> Näytä valinnat </button>
+									<button type="button" class="btn" v-show="showSelected===true" v-on:click="showSelected=false"> Piilota</button>				
+							</span>
+						</div>
+					</div>
+					<!--volumelist loop-->
+					<div class="row text-center">
+						<div class="col-md-12">
+							<ul style="list-style: none" id="selectedVolume">
+								<li v-for="item in volumelist[buildingcategory]">
+
+
+
+									<div>
+										<label class="custombutton" v-bind:id="item.id">
+										<input class="btn btn-primary" name="button" v-bind:id="item.id" v-on:click="select($event)" data-parent="#checkthese">
+											<img :src="'img/'+item.id+'.png'" style="height: 104px;" />
+										</input>
+										</label>
+										<div class="buttonicons" v-if="countchecked(item.id) > 0">
+											
+											<!-- Highlight -->
+											<div class="buttonhighlight">	
+											</div>
+											<div class="removeicon">
+												<label>
+													<input type="button" v-bind:id="item.id" v-on:click="unselect($event)" data-parent="#checkthese">
+														<img :src="'img/uncheck.png'" />
+													</input>
+												</label>
+											</div>		
+											<div class="quantityicon">
+												<p>{{ countchecked(item.id) }}</p>
+											</div>
+										</div>
+									</div>
+									<p class="descp">{{item.use}}</p>
+									<p class="volumep">{{item.volumeDefinition}}</p>
+
+
+
+									
+									<!-- <div>
+										<label class="custombutton" v-bind:id="item.id">
+										<input class="btn btn-primary" name="button" v-bind:id="item.id" v-on:click="select($event)" data-parent="#checkthese">
+											<img :src="'img/'+item.id+'.png'" style="height: 104px;" />
+										</input>
+										</label>
+										<div class="buttonicons" v-if="countchecked(item.id) > 0">
+											<div class="removeicon">
+												<label>
+												<input type="button" v-bind:id="item.id" v-on:click="unselect($event)" data-parent="#checkthese">
+												<img :src="'img/uncheck.png'" />
+												</input>
+												</label>
+
+											</div>
+											
+											<div class="quantityicon">
+												<p>{{ countchecked(item.id) }}</p>
+											</div>
+										</div>
+									</div>
+									<p class="descp">{{item.use}}</p>
+									<p class="volumep">{{item.volumeDefinition}}</p> -->
+								</li>
+							</ul>
+						</div>
+					</div>
+					<h4 v-show="heatingovermaximum" class="heatingmaxwarning">Lämmön kulutus saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4>
+					<div class="row" style="margin-top: 20px; margin-bottom: 25px;">
+						<div class="col-md-3"></div>
+						<div class="col-md-2">
+							<button type="button" class="btn btn-primary" v-on:click="back" v-show="first === false" data-toggle="collapse" data-parent="#checkthese">&lt; Edellinen </button>
+						</div>
+						<div class="col-md-2">
+							<button type="button" class="btn btn-primary" id="calculatebutton" v-on:click="calculate" data-toggle="collapse"
+							data-target="#demo2" data-parent="#checkthese">Laske</button>
+						</div>
+						<div class="col-md-2">
+							<button type="button" class="btn btn-primary" v-on:click="next" v-show="final === false" data-toggle="collapse" data-parent="#checkthese"> Seuraava &gt;</button>
+						</div>
+						<div class="col-md-3"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /rakennukset-collapse -->
+
+
+		<!-- tulokset-collapse -->
+		<div class="panel panel-default col-md-12">
+			<div class="row text-center">
+				<div class="header col-md-12" id="header3">
+					<label>Tulokset</label>
+					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo2" data-parent="#checkthese"> <span class="glyphicon glyphicon-menu-down"></span> </button>
+				</div>
+			</div>
+			<div class="panel-collapse collapse text-center" id="demo2" style="margin-bottom: 60px !important;">
+				<div class="col-md-8">
+					<div class="yConsume">Yhteenlaskettu energiankulutus (lämmitys ja laitesähkö, ajoneuvopolttoaineet ei mukana): </div>
+					<div class="yConsumep">
+						<h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4>
+					</div>
+					<!--<div class="yConsumep"><h4>Keskimääräinen lämpöenergian kulutus: {{avgHeating}} MWh kuukaudessa</h4></div>-->
+					<div class="yConsumep">
+						<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa </h4>
+					</div>
+					<div class="row text-center" style="width: 100%; height: 100%;">
+						<div id="column_chart" class="customchart col-md-12"></div>
+					</div>
+					<div class="col-md-12 text-center">
+						<button style="margin-bottom: 25px;" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo3" data-parent="#checkthese">Tuotanto &gt;</button>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="yConsume">Valitse rakennus, jonka kulutustietoja haluat tarkastella yksilöllisesti:</div>
+					<div class="row">
+						<div id="buttonDiv">
+							<!-- buttons for individual buildings -->
+							<div v-for="item in kWhvalue" id="buttonDivCss">
+								<label class="custombutton">
+								<input type="button" v-on:click="modali(item.id)">
+								<img :src="'img/'+item.id+'.png'" style="height: 96px;" />
+								<p class="descp">{{item.consumer.use}}</p>
+								<p class="volumep">{{item.consumer.volumeDefinition}}</p>
+							</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- tulokset-modal -->
+				<div id="graphModal" class="modal col-md-12" role="dialog">
+					<div class="modal-dialog modal-lg" style="width:80%">
+						<!-- modal content -->
+						<div class="modal-content">
+							<!--<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Yksittäisen rakennuksen energiakäyrät</h4>
+						</div>-->
+							<h3 id="modalText"></h3>
+							<div class="modal-body">
+								<div class="chart text-center" id="modal_column_chart" style="width: 100%; height: 500px"></div>
+								<br>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /modal -->
+			</div>
+			<!-- demo2 -->
+		</div>
+		<!-- /tulokset-collapse -->
+
+
+		<!-- tuotanto-collapse -->
+		<div class="panel panel-default col-md-12">
+			<div class="row text-center">
+				<div class="header col-md-12" id="header4">
+					<label>Tuotanto</label>
+					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo3" data-parent="#checkthese"> <span class="glyphicon glyphicon-menu-down"></span> </button>
+				</div>
+			</div>
+			<div class="panel-collapse collapse text-center" id="demo3" style="margin-bottom: 60px !important;">
+				<div class="col-md-12">
+					<div class="row" style="margin-bottom: 35px">
+						<div><h4>Valitse, mitä haluat tuottaa:</h4><br></div>
+						<div class="col-md-12">
+							<div class="col-md-4">
+								<button type="button" class="btn prodselectbtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
+							</div>
+							<div class="col-md-4">
+								<button type="button" class="btn prodselectbtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false">Sähköä</button>
+							</div>
+							<div class="col-md-4">
+								<button type="button" class="btn prodselectbtn" @click="prodstep = 2; selectElecheating = true; selectHeating = false; selectElectricity = false" disabled>CHP</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- Lämpöä -->
+					<template v-if="prodstep == 0">
+						<div class="row">
+							<div class="col-md-12">
+								<h4>Valitse energiatyyppi:</h4>
+								<ul style="list-style: none" class="selectedMaterials">
+									<li v-for="item in noduplicates(this.prodlist[0], 'materialcategory')">
+										<label>
+										<button class="prodbutton" @click="heatingprods(item.energycategory, item.materialcategory)">{{item.materialcatname}}</button><br>
+										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
+									</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+
+					<!-- Sähköä -->
+					<template v-if="prodstep == 1">
+						<div class="row">
+							<div class="col-md-12">
+								<h4>Valitse aurinkopaneelin teholuokka:</h4>
+                                                                
+                                                                <p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
+                                                              
+								<ul style="list-style: none" class="selectedMaterials">
+									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
+										<label>
+										<button class="prodbutton" @click="prodstep = 4; prodParams.push(item.electrpowerkw)">{{item.electrpowerkw}} kW</button><br>
+										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
+									</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+
+					<!-- CHP -->
+					<template v-if="prodstep == 2">
+						<div class="row">
+							<div class="col-md-12">
+								<ul style="list-style: none" class="selectedMaterials">
+									<li v-for="item in noduplicates(this.prodlist[2], 'materialcategory')">
+										<label>	
+										<button class="prodbutton" @click="prods(item.energycategory, item.materialcategory, item.panelangle)">{{item.materialcatname}}</button><br>
+										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
+									</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+
+					<!-- Aurinkopaneelivalinnat -->
+					<template v-if="prodstep == 4">
+						<div class="row">
+							<div class="col-md-12">
+								<h4>Valitse aurinkopaneelin kulma:</h4>
+								<ul style="list-style: none" class="selectedMaterials">
+									<li v-for="item in noduplicates(this.prodlist[1], 'panelangle')">
+										<label>
+										<button class="prodbutton" @click="prodstep = 5; prodParams.push(item.panelangle)">{{item.panelangle}}&#176;</button><br>
+										<img :src="'img/production/'+item.panelangle+'.png'" style="height: 150px;" />
+									</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+					<template v-if="prodstep == 5">
+						<div class="row">
+							<div class="col-md-12">
+								<h4>Valitse aurinkopaneelin suunta:</h4>
+								<ul style="list-style: none" class="selectedMaterials">
+									<li v-for="item in noduplicates(this.prodlist[1], 'paneldirection')">
+										<label>
+										<button class="prodbutton" @click="electrprods(item.energycategory, item.materialcategory, prodParams[0], prodParams[1], item.paneldirection)">{{item.paneldirection}}</button><br>
+										<img :src="'img/production/'+item.paneldirection+'.png'" style="height: 150px;" />
+									</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+
+					<!-- finalpage -->
+					<template v-if="prodstep == 3">
+						<div class="row">
+							<h4 v-if="selectHeating">Lämmitysenergian tarve: {{parseInt(heatresult)}} kWh</h4>
+							<h4 v-if="(selectElectricity || selectElecheating)">Laitesähkön tarve: {{parseInt(electrresult)}} kWh</h4>
+						</div>
+						<div class="row">
+							<div class="col-md-12" style="margin-bottom: 35px;">
+								<ul style="list-style: none" class="selectedProds">
+									<li class="prodlisting" v-for="item in this.finalpage[0]">
+										<button class="btn prodresultbutton" v-bind:id="item.id" v-on:click="getproducer(item.energycategory, item.materialcategory, item.energysource, heatingpowersize)" data-toggle="modal" data-target="#resultmodal">
+											{{item.energysource}}
+											<p v-if="(item.energycategory) == 2">Kulma: {{item.panelangle}}°<br>Suunta: {{item.paneldirection}}</p>	
+											<p v-if="(item.energycategory) == 1">{{parseInt(heatresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
+											<p v-if="(item.energycategory) == 2 || (item.energycategory) == 3">{{parseInt(electrresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
+										</button>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+
+					<div id="resultmodal" class="modal col-md-12" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<!-- modal content -->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4>Energianlähde: {{this.prodmodalvalue.energysource}}</h4>
+								</div>
+								<div class="modal-body col-md-12">	
+									<div class="row">
+										<p>Tuotantotapa: {{this.prodmodalvalue.method}}</p>
+									</div>
+										<p v-if="(prodmodalvalue.energycategory) == 2">Paneelin kulma: {{this.prodmodalvalue.panelangle}}°, paneelin suunta: {{this.prodmodalvalue.paneldirection}}</p>	
+										<p v-if="(prodmodalvalue.energycategory) == 1">Tarvittava määrä: {{parseInt(heatresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>
+										<p v-if="(prodmodalvalue.energycategory) == 1">Tuotantolaitoksen teholuokka: {{this.prodmodalvalue.heatingpowerkw}} kW</p>
+										<p v-if="(prodmodalvalue.energycategory) == 2">Paneelien teholuokka: {{this.prodmodalvalue.electrpowerkw}} kW</p>
+										<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>	
+										<br>
+									<div class="row text-center">
+										<p>Alla olevassa taulukossa on tuotantotavasta riippuen<br>esitetty arvioitu kuukausittainen energiantuotanto kilowateissa.</p>
+									</div>
+									<div class="row text-center">
+										<div id="prod_column_chart"></div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #61a786; color: white;">Sulje</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!-- demo3 -->
+		</div>
+		<!-- tuotanto-collapse -->
+
+
+	</div>
+	<!-- /wrapper -->
+
+	<!-- scripts -->
+	<!-- template for the modal component -->
+	<script type="text/x-template" id="modal-template">
+		<transition name="modal">
+			<div class="modal-mask">
+				<div class="modal-wrapper">
+					<div class="modal-container">
+	
+						<div class="modal-header">
+							<slot name="header">
+
+							</slot>
+						</div>
+	
+						<div class="modal-body">
+							<slot name="body">
+
+							</slot>
+						</div>
+						<div class="modal-footer">
+								<slot name="footer">
+									<button type="button" class="btn btn-primary" @click="$emit('close')" id="continue">Sulje</button>
+								</slot>
+						</div>
+					</div>
+				</div>
+			</div>
+		</transition>
+	</script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="js/script.js"></script>
+</body>
+
+</html>
