@@ -52,7 +52,7 @@ var vm = new Vue({
 		heatingovermaximum: false,
 		heatingpowersize: 0, // power size rounded up from heatingkwvalue
 		prodmodalvalue: [],
-		IEdetection: false,
+		IEdetection: true,
 	},
 	created: function () {
 
@@ -79,19 +79,26 @@ var vm = new Vue({
 			return "";
 		}
 		
-		function detectIE() {
-			if (this.navigator.AppName === "Microsoft Internet Explorer") {
-				console.log("IE");
-				IEdetection = true;
-			}
-			else {
-				console.log("not ie");
-			}
-		}
+
 
 		this.populate();
 
 	},
+	
+	browerdetection: function () {
+			var using_ms_browser = this.navigator.appName === 'Microsoft Internet Explorer' || (this.navigator.appName === "Netscape" && this.navigator.appVersion.indexOf('Trident') > -1);
+			
+			if (this.using_ms_browser === true){
+				this.console.log("MSIE");
+				this.IEdetection = true;
+			}
+			else {
+				this.console.log("All's good");
+				this.IEdetection = false;
+			}
+		return this.IEdetection = false;
+	},
+	
 	computed: {
 
 		i: function () {
