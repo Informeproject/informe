@@ -52,7 +52,7 @@ var vm = new Vue({
 		heatingovermaximum: false,
 		heatingpowersize: 0, // power size rounded up from heatingkwvalue
 		prodmodalvalue: [],
-		IEdetection: true,
+		IEdetection: false,
 	},
 	created: function () {
 
@@ -86,17 +86,16 @@ var vm = new Vue({
 	},
 	
 	browerdetection: function () {
-			var using_ms_browser = this.navigator.appName === 'Microsoft Internet Explorer' || (this.navigator.appName === "Netscape" && this.navigator.appVersion.indexOf('Trident') > -1);
+			using_ms_browser = navigator.appName === 'Microsoft Internet Explorer' || (navigator.appName === "Netscape" && navigator.appVersion.indexOf('Trident') > -1);
 			
-			if (this.using_ms_browser === true){
-				this.console.log("MSIE");
+			if (using_ms_browser === true){
 				this.IEdetection = true;
 			}
 			else {
-				this.console.log("All's good");
-				this.IEdetection = false;
+				console.log("All's good");
+				IEdetection = false;
 			}
-		this.IEdetection = false;
+		IEdetection = false;
 	},
 	
 	computed: {
