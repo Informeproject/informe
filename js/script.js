@@ -52,6 +52,7 @@ var vm = new Vue({
 		heatingovermaximum: false,
 		heatingpowersize: 0, // power size rounded up from heatingkwvalue
 		prodmodalvalue: [],
+		IEdetection: false,
 	},
 	created: function () {
 
@@ -76,6 +77,16 @@ var vm = new Vue({
 			}
 
 			return "";
+		}
+		
+		function detectIE() {
+			if (this.navigator.AppName === "Microsoft Internet Explorer") {
+				console.log("IE");
+				IEdetection = true;
+			}
+			else {
+				console.log("not ie");
+			}
 		}
 
 		this.populate();
