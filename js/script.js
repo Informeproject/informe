@@ -96,7 +96,7 @@ var vm = new Vue({
 				this.console.log("All's good");
 				this.IEdetection = false;
 			}
-		return this.IEdetection = false;
+		this.IEdetection = false;
 	},
 	
 	computed: {
