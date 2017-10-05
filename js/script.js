@@ -771,6 +771,16 @@ var vm = new Vue({
 				}
 			}		
 		},
+		sortbypowerkw: function (items) {
+			items.sort(function (a, b) {
+				return a.electrpowerkw - b.electrpowerkw;
+				});
+		},
+		sortbyangle: function (items) {
+			items.sort(function (a, b) {
+				return a.panelangle - b.panelangle;
+				});
+		}
 	}
 });
 
