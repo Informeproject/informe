@@ -42,7 +42,8 @@
 					<br><br>
 					Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
 					<br><br>
-					Jos käytössäsi on Internet Explorer -selain, suosittelemme käyttämään toista selainta, koska sovellus ei toimi sillä tarkoituksenmukaisella tavalla.
+					<p v-if="IEDetection === true">Jos käytössäsi on Internet Explorer -selain, suosittelemme käyttämään toista selainta, koska sovellus ei toimi sillä tarkoituksenmukaisella tavalla.
+					</p>
 				</p>
 			</div>
 		</modal>
