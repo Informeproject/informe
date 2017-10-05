@@ -52,7 +52,8 @@ var vm = new Vue({
 		heatingovermaximum: false,
 		heatingpowersize: 0, // power size rounded up from heatingkwvalue
 		prodmodalvalue: [],
-		IEdetection: false,
+    prodmodalCat: 0,
+    IEdetection: false
 	},
 	created: function () {
 
@@ -203,7 +204,9 @@ var vm = new Vue({
 					yearlyTotal += Math.floor(val[i].value);
 				}
 
-				this.result = parseInt(Math.round(yearlyTotal)).toLocaleString();
+				var resultPlaceholder = parseInt(Math.round(yearlyTotal)).toLocaleString();
+				resultPlaceholder = resultPlaceholder.replace(/,/g," ");
+				this.result = resultPlaceholder;
 				this.heatresult = parseFloat(yearlyTotal).toFixed(2);
 				
 				this.avgHeating = parseInt(Math.round(yearlyTotal / 12)).toLocaleString();
@@ -212,13 +215,15 @@ var vm = new Vue({
 				for (var f = 0; f < val.length; f++) {
 					eyearlyTotal += Math.floor(eConsumptionValue[f].value);
 				}
-				this.eResult = parseInt(Math.round(eyearlyTotal)).toLocaleString();
+				var eResultPlaceholder = parseInt(Math.round(eyearlyTotal)).toLocaleString();
+				eResultPlaceholder = eResultPlaceholder.replace(/,/g," ");
+				this.eResult = eResultPlaceholder;
+				
+				
 				this.electrresult = parseFloat(eyearlyTotal).toFixed(2);	
 				google.charts.load('current', { 'packages': ['corechart'] });
 				google.charts.setOnLoadCallback(drawChart);
 
-				this.eResult = parseInt(Math.round(eyearlyTotal)).toLocaleString();
-				console.log('eResult: ' + this.eResult);
 
 				function drawChart() {
 					var data = google.visualization.arrayToDataTable([
@@ -305,43 +310,83 @@ var vm = new Vue({
 			},
 			deep: true
 		},
-		prodmodalvalue: { //tämä tarvitaan
+		prodmodalvalue: { 
 			handler: function (val, oldVal) {
-				console.log("Modal Graph Active");
-				console.log(val);
-				
-				google.charts.load('current', { 'packages': ['corechart'] });
-				google.charts.setOnLoadCallback(drawChart);
-				function drawChart() {
-					var data = google.visualization.arrayToDataTable([
-						['Kuukausi', 'Lämmitys', 'Sähkö'],
-						['Tammi', Number(val.heatjanuary), Number(val.electjanuary)],
-						['Helmi', Number(val.heatfebruary), Number(val.electfebruary)],
-						['Maalis', Number(val.heatmarch), Number(val.electmarch)],
-						['Huhti', Number(val.heatapril), Number(val.electapril)],
-						['Touko', Number(val.heatmay), Number(val.electmay)],
-						['Kesä', Number(val.heatjune), Number(val.electjune)],
-						['Heinä', Number(val.heatjuly), Number(val.electjuly)],
-						['Elo', Number(val.heataugust), Number(val.electaugust)],
-						['Syys', Number(val.heatseptember), Number(val.electseptember)],
-						['Loka', Number(val.heatoctober), Number(val.electoctober)],
-						['Marras', Number(val.heatnovember), Number(val.electnovember)],
-						['Joulu', Number(val.heatdecember), Number(val.electdecember)],
-					]);
+				if (this.prodmodalCat == 1){
+					console.log("Modal Graph Active");
+					console.log(val);
+					
+					google.charts.load('current', { 'packages': ['corechart'] });
+					google.charts.setOnLoadCallback(drawChart);
+					function drawChart() {
+						var data = google.visualization.arrayToDataTable([
+							['Kuukausi', 'Lämmitys'],
+							['Tammi', Number(val.heatjanuary)],
+							['Helmi', Number(val.heatfebruary)],
+							['Maalis', Number(val.heatmarch)],
+							['Huhti', Number(val.heatapril)],
+							['Touko', Number(val.heatmay)],
+							['Kesä', Number(val.heatjune)],
+							['Heinä', Number(val.heatjuly)],
+							['Elo', Number(val.heataugust)],
+							['Syys', Number(val.heatseptember)],
+							['Loka', Number(val.heatoctober)],
+							['Marras', Number(val.heatnovember)],
+							['Joulu', Number(val.heatdecember)],
+						]);
 
-					var options = {
-						title: 'kWh / kk',
-						legend: { 'position': 'right'},
-						bars: 'vertical',
-						vAxis: { format: 'decimal' },
-						colors: ['#BF2F38', '#0892D0'],
-						height: 550,
-						width: 850
-					};
+						var options = {
+							title: 'kWh / kk',
+							legend: { 'position': 'right'},
+							bars: 'vertical',
+							vAxis: { format: 'decimal' },
+							colors: ['#BF2F38'],
+							height: 550,
+							width: 850
+						};
 
-					var chart = new google.visualization.ColumnChart(document.getElementById('prod_column_chart'));
+						var chart = new google.visualization.ColumnChart(document.getElementById('prod_column_chart'));
 
-					chart.draw(data, options);
+						chart.draw(data, options);
+					}
+				}
+				else{
+					console.log("Modal Graph Active");
+					console.log(val);
+					
+					google.charts.load('current', { 'packages': ['corechart'] });
+					google.charts.setOnLoadCallback(drawChart);
+					function drawChart() {
+						var data = google.visualization.arrayToDataTable([
+						['Kuukausi', 'Sähkö'],
+						['Tammi', Number(val.electjanuary)],
+						['Helmi', Number(val.electfebruary)],
+						['Maalis', Number(val.electmarch)],
+						['Huhti', Number(val.electapril)],
+						['Touko', Number(val.electmay)],
+						['Kesä', Number(val.electjune)],
+						['Heinä', Number(val.electjuly)],
+						['Elo', Number(val.electaugust)],
+						['Syys', Number(val.electseptember)],
+						['Loka', Number(val.electoctober)],
+						['Marras', Number(val.electnovember)],
+						['Joulu', Number(val.electdecember)],
+						]);
+
+						var options = {
+							title: 'kWh / kk',
+							legend: { 'position': 'right'},
+							bars: 'vertical',
+							vAxis: { format: 'decimal' },
+							colors: ['#0892D0'],
+							height: 550,
+							width: 850
+						};
+
+						var chart = new google.visualization.ColumnChart(document.getElementById('prod_column_chart'));
+
+						chart.draw(data, options);
+					}
 				}
 			},
 			deep: true
@@ -703,6 +748,7 @@ var vm = new Vue({
 
 			if (energycat == 2) {
 				for (i=0; i<allproducers.length; i++) {
+					this.prodmodalCat = 2;
 					if (allproducers[i].energycategory == energycat &&
 						allproducers[i].materialcategory == materialcat &&
 						allproducers[i].electrpowerkw == electrpowersize &&
@@ -716,6 +762,7 @@ var vm = new Vue({
 				
 			} else {
 				for (i=0; i<allproducers.length; i++) {
+					this.prodmodalCat = 1;
 					if (allproducers[i].energycategory == energycat &&
 						allproducers[i].materialcategory == materialcat &&
 						allproducers[i].energysource == energysrc &&
