@@ -411,10 +411,37 @@
 										<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>	
 										<br>
 									<div class="row text-center">
-										<p>Alla olevassa taulukossa on tuotantotavasta riippuen<br>esitetty arvioitu kuukausittainen energiantuotanto kilowateissa.</p>
+										<p>Alla olevassa taulukossa on esitetty arvioitu kuukausittainen energiantuotanto kilowateissa.</p>
 									</div>
 									<div class="row text-center">
 										<div id="prod_column_chart"></div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div v-if="(prodmodalvalue.energycategory) == 1">
+												<p>
+													Yhteenlaskettu arvioitu lämmitysenergian tuotanto: {{((parseInt(this.prodmodalvalue.heatjanuary)) + (parseInt(this.prodmodalvalue.heatfebruary)) + (parseInt(this.prodmodalvalue.heatmarch)) + (parseInt(this.prodmodalvalue.heatapril)) + (parseInt(this.prodmodalvalue.heatmay)) + (parseInt(this.prodmodalvalue.heatjune)) + (parseInt(this.prodmodalvalue.heatjuly)) + (parseInt(this.prodmodalvalue.heataugust)) + (parseInt(this.prodmodalvalue.heatseptember)) + (parseInt(this.prodmodalvalue.heatoctober)) + (parseInt(this.prodmodalvalue.heatnovember)) + (parseInt(this.prodmodalvalue.heatdecember)))}} kWh vuodessa
+												</p><br>
+												<p>Kuukausierittely:</p>
+												<p>Tammikuu: {{parseInt(this.prodmodalvalue.heatjanuary)}} kWh, Helmikuu: {{parseInt(this.prodmodalvalue.heatfebruary)}} kWh</p>
+												<p>Maaliskuu: {{parseInt(this.prodmodalvalue.heatmarch)}} kWh, Huhtikuu: {{parseInt(this.prodmodalvalue.heatapril)}} kWh</p>
+												<p>Toukokuu: {{parseInt(this.prodmodalvalue.heatmay)}} kWh, Kesäkuu: {{parseInt(this.prodmodalvalue.heatjune)}} kWh</p>
+												<p>Heinäkuu: {{parseInt(this.prodmodalvalue.heatjuly)}} kWh, Elokuu: {{parseInt(this.prodmodalvalue.heataugust)}} kWh</p>
+												<p>Syyskuu: {{parseInt(this.prodmodalvalue.heatseptember)}} kWh, Lokakuu: {{parseInt(this.prodmodalvalue.heatoctober)}} kWh</p>
+												<p>Marraskuu: {{parseInt(this.prodmodalvalue.heatnovember)}} kWh, Joulukuu: {{parseInt(this.prodmodalvalue.heatdecember)}} kWh</p>
+											</div>
+											<div v-if="(prodmodalvalue.energycategory) == 2">
+												<p>
+													Yhteenlaskettu arvioitu laitesähkön tuotanto: {{((parseInt(this.prodmodalvalue.electjanuary)) + (parseInt(this.prodmodalvalue.electfebruary)) + (parseInt(this.prodmodalvalue.electmarch)) + (parseInt(this.prodmodalvalue.electapril)) + (parseInt(this.prodmodalvalue.electmay)) + (parseInt(this.prodmodalvalue.electjune)) + (parseInt(this.prodmodalvalue.electjuly)) + (parseInt(this.prodmodalvalue.electaugust)) + (parseInt(this.prodmodalvalue.electseptember)) + (parseInt(this.prodmodalvalue.electoctober)) + (parseInt(this.prodmodalvalue.electnovember)) + (parseInt(this.prodmodalvalue.electdecember)))}} kWh vuodessa
+												</p>
+												<p>Tammikuu: {{parseInt(this.prodmodalvalue.electjanuary)}} kWh, Helmikuu: {{parseInt(this.prodmodalvalue.electfebruary)}} kWh</p>
+												<p>Maaliskuu: {{parseInt(this.prodmodalvalue.electmarch)}} kWh, Huhtikuu: {{parseInt(this.prodmodalvalue.electapril)}} kWh</p>
+												<p>Toukokuu: {{parseInt(this.prodmodalvalue.electmay)}} kWh, Kesäkuu: {{parseInt(this.prodmodalvalue.electjune)}} kWh</p>
+												<p>Heinäkuu: {{parseInt(this.prodmodalvalue.electjuly)}} kWh, Elokuu: {{parseInt(this.prodmodalvalue.electaugust)}} kWh</p>
+												<p>Syyskuu: {{parseInt(this.prodmodalvalue.electseptember)}} kWh, Lokakuu: {{parseInt(this.prodmodalvalue.electoctober)}} kWh</p>
+												<p>Marraskuu: {{parseInt(this.prodmodalvalue.electnovember)}} kWh, Joulukuu: {{parseInt(this.prodmodalvalue.electdecember)}} kWh</p>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="modal-footer">

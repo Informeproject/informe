@@ -318,7 +318,7 @@ var vm = new Vue({
 					google.charts.setOnLoadCallback(drawChart);
 					function drawChart() {
 						var data = google.visualization.arrayToDataTable([
-							['Kuukausi', 'Lämmitys'],
+							['Kuukausi', 'Lämmitysenergian tuotanto'],
 							['Tammi', Number(parseInt(val.heatjanuary))],
 							['Helmi', Number(parseInt(val.heatfebruary))],
 							['Maalis', Number(parseInt(val.heatmarch))],
@@ -335,7 +335,7 @@ var vm = new Vue({
 
 						var options = {
 							title: 'Arvioitu lämmitysenergian tuotanto (kWh / kk)',
-							legend: { 'position': 'right'},
+							legend: { 'position': 'bottom'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
 							colors: ['#BF2F38'],
@@ -356,7 +356,7 @@ var vm = new Vue({
 					google.charts.setOnLoadCallback(drawChart);
 					function drawChart() {
 						var data = google.visualization.arrayToDataTable([
-						['Kuukausi', 'Sähkö'],
+						['Kuukausi', 'Laitesähkön tuotanto'],
 						['Tammi', Number(val.electjanuary)],
 						['Helmi', Number(val.electfebruary)],
 						['Maalis', Number(val.electmarch)],
@@ -373,7 +373,7 @@ var vm = new Vue({
 
 						var options = {
 							title: 'Arvioitu laitesähkön tuotanto (kWh / kk)',
-							legend: { 'position': 'right'},
+							legend: { 'position': 'bottom'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
 							colors: ['#0892D0'],
