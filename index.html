@@ -221,7 +221,7 @@
 					<div class="row">
 						<div id="buttonDiv">
 							<!-- buttons for individual buildings -->
-							<div v-for="item in kWhvalue" id="buttonDivCss">
+							<div v-for="item in noduplicates(kWhvalue, 'id')" id="buttonDivCss">
 								<label class="custombutton">
 								<input type="button" v-on:click="modali(item.id)">
 								<img :src="'img/'+item.id+'.png'" style="height: 96px;" />
