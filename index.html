@@ -275,7 +275,7 @@
 								<button type="button" class="btn prodselectbtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
 							</div>
 							<div class="col-md-4">
-								<button type="button" class="btn prodselectbtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false">Sähköä</button>
+								<button type="button" class="btn prodselectbtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]);">Sähköä</button>
 							</div>
 							<div class="col-md-4">
 								<button type="button" class="btn prodselectbtn" @click="prodstep = 2; selectElecheating = true; selectHeating = false; selectElectricity = false" disabled>CHP</button>
@@ -304,14 +304,13 @@
 					<template v-if="prodstep == 1">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse aurinkopaneelin teholuokka:</h4>
-                                                                
+								<h4>Valitse aurinkopaneelin teholuokka:</h4>                                                       
 								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
                                                               
 								<ul style="list-style: none" class="selectedMaterials">
 									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
 										<label>
-										<button class="prodbutton" @click="prodstep = 4; prodParams.push(item.electrpowerkw)">{{item.electrpowerkw}} kW</button><br>
+										<button class="prodbutton" @click="prodstep = 4; prodParams.push(item.electrpowerkw); sortbyangle(prodlist[1]);">{{item.electrpowerkw}} kW</button><br>
 										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 									</label>
 									</li>
