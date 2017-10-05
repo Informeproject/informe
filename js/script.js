@@ -52,8 +52,7 @@ var vm = new Vue({
 		heatingovermaximum: false,
 		heatingpowersize: 0, // power size rounded up from heatingkwvalue
 		prodmodalvalue: [],
-    prodmodalCat: 0,
-    IEdetection: false
+		prodmodalCat: 0,
 	},
 	created: function () {
 
@@ -79,43 +78,10 @@ var vm = new Vue({
 
 			return "";
 		}
-		
-
 
 		this.populate();
 
 	},
-	
-	browerdetection: function () {
-		var ua = window.navigator.userAgent;
-
-		  var msie = ua.indexOf('MSIE ');
-		  if (msie > 0) {
-			// IE 10 or older => return version number
-			this.IEdetection = true;
-			return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10); //returns the version number
-		  }
-
-		  var trident = ua.indexOf('Trident/');
-		  if (trident > 0) {
-			// IE 11 => return version number
-			var rv = ua.indexOf('rv:');
-			this.IEdetection = true;
-			return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-		  }
-
-		  var edge = ua.indexOf('Edge/');
-		  if (edge > 0) {
-			// Edge (IE 12+) => return version number
-			this.IEdetection = true;
-			return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
-		  }
-
-		  // other browser
-		  return false;
-		
-	},
-	
 	computed: {
 
 		i: function () {
@@ -321,22 +287,22 @@ var vm = new Vue({
 					function drawChart() {
 						var data = google.visualization.arrayToDataTable([
 							['Kuukausi', 'Lämmitys'],
-							['Tammi', Number(val.heatjanuary)],
-							['Helmi', Number(val.heatfebruary)],
-							['Maalis', Number(val.heatmarch)],
-							['Huhti', Number(val.heatapril)],
-							['Touko', Number(val.heatmay)],
-							['Kesä', Number(val.heatjune)],
-							['Heinä', Number(val.heatjuly)],
-							['Elo', Number(val.heataugust)],
-							['Syys', Number(val.heatseptember)],
-							['Loka', Number(val.heatoctober)],
-							['Marras', Number(val.heatnovember)],
-							['Joulu', Number(val.heatdecember)],
+							['Tammi', Number(parseInt(val.heatjanuary))],
+							['Helmi', Number(parseInt(val.heatfebruary))],
+							['Maalis', Number(parseInt(val.heatmarch))],
+							['Huhti', Number(parseInt(val.heatapril))],
+							['Touko', Number(parseInt(val.heatmay))],
+							['Kesä', Number(parseInt(val.heatjune))],
+							['Heinä', Number(parseInt(val.heatjuly))],
+							['Elo', Number(parseInt(val.heataugust))],
+							['Syys', Number(parseInt(val.heatseptember))],
+							['Loka', Number(parseInt(val.heatoctober))],
+							['Marras', Number(parseInt(val.heatnovember))],
+							['Joulu', Number(parseInt(val.heatdecember))],
 						]);
 
 						var options = {
-							title: 'kWh / kk',
+							title: 'Arvioitu lämmitysenergian tuotanto (kWh / kk)',
 							legend: { 'position': 'right'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
@@ -374,7 +340,7 @@ var vm = new Vue({
 						]);
 
 						var options = {
-							title: 'kWh / kk',
+							title: 'Arvioitu laitesähkön tuotanto (kWh / kk)',
 							legend: { 'position': 'right'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },

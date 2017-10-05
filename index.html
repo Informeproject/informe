@@ -42,11 +42,8 @@
 					<br><br>
 					Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
 					<br><br>
+					Jos käytössäsi on Internet Explorer -selain, suosittelemme käyttämään toista selainta, koska sovellus ei toimi sillä tarkoituksenmukaisella tavalla.
 				</p>
-				<p v-show="IEdetection === true">
-					Jos käytössäsi on Internet Explorer -selain, suosittelemme käyttämään toista selainta, koska sovellus ei toimi kyseisellä selaimella tarkoituksenmukaisella tavalla.
-				</p>
-				
 			</div>
 		</modal>
 
@@ -76,13 +73,17 @@
 						Tässä sovelluksessa on rajallinen määrä kohteita, joten valitse lähin sopiva.</p>
 					</div>
 
-					<!-- <div class="row">
-						<div class="col-md-2"></div>
-						<div class="progress col-md-8">
-							<div class="progress-bar" role="progressbar" v-bind:style="{width: progressPercentage + '%'}">Vaihe {{progressCurrent}}/{{progressTotal}} ({{catMessage}})</div>
-						</div>
-						<div class="col-md-2"></div>
-					</div> -->
+					<!-- Building category tabs -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="active"><a data-toggle="tab" v-on:click="buildingcategory = 0" data-toggle="collapse" data-parent="#checkthese">Asuinrakennukset</a></li>
+                                <li><a data-toggle="tab" v-on:click="buildingcategory = 1" data-toggle="collapse" data-parent="#checkthese">Muut rakennukset</a></li>
+                                <li><a data-toggle="tab" v-on:click="buildingcategory = 2" data-toggle="collapse" data-parent="#checkthese">Tuotantorakennukset</a></li>
+                                <li><a data-toggle="tab" v-on:click="buildingcategory = 3" data-toggle="collapse" data-parent="#checkthese">Kuivurit</a></li>
+                            </ul>
+                        </div>
+                    </div>
 
 					<div class="row">
 						<div class="col-md-12">
@@ -179,18 +180,12 @@
 					</div>
 					<h4 v-show="heatingovermaximum" class="heatingmaxwarning">Lämmön kulutus saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4>
 					<div class="row" style="margin-top: 20px; margin-bottom: 25px;">
-						<div class="col-md-3"></div>
-						<div class="col-md-2">
-							<button type="button" class="btn btn-primary" v-on:click="back" v-show="first === false" data-toggle="collapse" data-parent="#checkthese">&lt; Edellinen </button>
-						</div>
-						<div class="col-md-2">
+						<div class="col-md-4"></div>
+						<div class="col-md-3">
 							<button type="button" class="btn btn-primary" id="calculatebutton" v-on:click="calculate" data-toggle="collapse"
 							data-target="#demo2" data-parent="#checkthese">Laske</button>
 						</div>
-						<div class="col-md-2">
-							<button type="button" class="btn btn-primary" v-on:click="next" v-show="final === false" data-toggle="collapse" data-parent="#checkthese"> Seuraava &gt;</button>
-						</div>
-						<div class="col-md-3"></div>
+						<div class="col-md-5"></div>
 					</div>
 				</div>
 			</div>
@@ -209,13 +204,10 @@
 			<div class="panel-collapse collapse text-center" id="demo2" style="margin-bottom: 60px !important;">
 				<div class="col-md-8">
 					<div class="yConsume">Yhteenlaskettu energiankulutus (lämmitys ja laitesähkö, ajoneuvopolttoaineet ei mukana): </div>
-					<div class="yConsumep">
-						<h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4>
-					</div>
+					<div class="yConsumep"><h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4></div>
 					<!--<div class="yConsumep"><h4>Keskimääräinen lämpöenergian kulutus: {{avgHeating}} MWh kuukaudessa</h4></div>-->
-					<div class="yConsumep">
-						<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa </h4>
-					</div>
+					<div class="yConsumep"><h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4></div>
+					<div class="yConsumep"><h4>Rakennusten yhteenlaskettu tehonkulutus: {{ heatingkwvalue }} kW</h4></div>
 					<div class="row text-center" style="width: 100%; height: 100%;">
 						<div id="column_chart" class="customchart col-md-12"></div>
 					</div>
