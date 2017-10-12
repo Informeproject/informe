@@ -54,6 +54,7 @@ var vm = new Vue({
 		prodmodalvalue: [],
 		prodmodalCat: 0,
 		IEDetection: false,
+		heatValueForProd: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 	},
 	created: function () {
 
@@ -201,7 +202,7 @@ var vm = new Vue({
 				for (var i = 0; i < val.length; i++) {
 					yearlyTotal += Math.floor(val[i].value);
 				}
-
+				this.heatValueForProd = val;
 				var resultPlaceholder = parseInt(Math.round(yearlyTotal)).toLocaleString();
 				resultPlaceholder = resultPlaceholder.replace(/,/g," ");
 				this.result = resultPlaceholder;
@@ -313,32 +314,32 @@ var vm = new Vue({
 				if (this.prodmodalCat == 1){
 					console.log("Modal Graph Active");
 					console.log(val);
-					
+					var heatVal = this.heatValueForProd;
 					google.charts.load('current', { 'packages': ['corechart'] });
 					google.charts.setOnLoadCallback(drawChart);
 					function drawChart() {
 						var data = google.visualization.arrayToDataTable([
-							['Kuukausi', 'Lämmitysenergian tuotanto'],
-							['Tammi', Number(parseInt(val.heatjanuary))],
-							['Helmi', Number(parseInt(val.heatfebruary))],
-							['Maalis', Number(parseInt(val.heatmarch))],
-							['Huhti', Number(parseInt(val.heatapril))],
-							['Touko', Number(parseInt(val.heatmay))],
-							['Kesä', Number(parseInt(val.heatjune))],
-							['Heinä', Number(parseInt(val.heatjuly))],
-							['Elo', Number(parseInt(val.heataugust))],
-							['Syys', Number(parseInt(val.heatseptember))],
-							['Loka', Number(parseInt(val.heatoctober))],
-							['Marras', Number(parseInt(val.heatnovember))],
-							['Joulu', Number(parseInt(val.heatdecember))],
+							['Kuukausi', 'Tuotettu Lämpö' , 'Lämmön Tarve'],
+							['Tammi', Number(parseInt(val.heatjanuary)), heatVal[0].value],
+							['Helmi', Number(parseInt(val.heatfebruary)), heatVal[1].value],
+							['Maalis', Number(parseInt(val.heatmarch)), heatVal[2].value],
+							['Huhti', Number(parseInt(val.heatapril)), heatVal[3].value],
+							['Touko', Number(parseInt(val.heatmay)), heatVal[4].value],
+							['Kesä', Number(parseInt(val.heatjune)), heatVal[5].value],
+							['Heinä', Number(parseInt(val.heatjuly)), heatVal[6].value],
+							['Elo', Number(parseInt(val.heataugust)), heatVal[7].value],
+							['Syys', Number(parseInt(val.heatseptember)), heatVal[8].value],
+							['Loka', Number(parseInt(val.heatoctober)), heatVal[9].value],
+							['Marras', Number(parseInt(val.heatnovember)), heatVal[10].value],
+							['Joulu', Number(parseInt(val.heatdecember)), heatVal[11].value],
 						]);
 
 						var options = {
-							title: 'Arvioitu lämmitysenergian tuotanto (kWh / kk)',
-							legend: { 'position': 'bottom'},
+							title: 'Arvioitu lämmitysenergian tuotanto ja tarve (kWh / kk)',
+							legend: { 'position': 'right'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
-							colors: ['#BF2F38'],
+							colors: ['#ff7c02', '#630000'],
 							height: 550,
 							width: 850
 						};
@@ -351,32 +352,36 @@ var vm = new Vue({
 				else{
 					console.log("Modal Graph Active");
 					console.log(val);
-					
+					var eConsumptionValue = this.eConsumption;
+					var eyearlyTotal = 0;
+					for (var f = 0; f < val.length; f++) {
+						eyearlyTotal += Math.floor(eConsumptionValue[f].value);
+					}
 					google.charts.load('current', { 'packages': ['corechart'] });
 					google.charts.setOnLoadCallback(drawChart);
 					function drawChart() {
 						var data = google.visualization.arrayToDataTable([
-						['Kuukausi', 'Laitesähkön tuotanto'],
-						['Tammi', Number(val.electjanuary)],
-						['Helmi', Number(val.electfebruary)],
-						['Maalis', Number(val.electmarch)],
-						['Huhti', Number(val.electapril)],
-						['Touko', Number(val.electmay)],
-						['Kesä', Number(val.electjune)],
-						['Heinä', Number(val.electjuly)],
-						['Elo', Number(val.electaugust)],
-						['Syys', Number(val.electseptember)],
-						['Loka', Number(val.electoctober)],
-						['Marras', Number(val.electnovember)],
-						['Joulu', Number(val.electdecember)],
+						['Kuukausi', 'Tuotettu Sähkö' , 'Sähkön tarve'],
+						['Tammi', Number(val.electjanuary), eConsumptionValue[0].value],
+						['Helmi', Number(val.electfebruary), eConsumptionValue[1].value ],
+						['Maalis', Number(val.electmarch), eConsumptionValue[2].value],
+						['Huhti', Number(val.electapril), eConsumptionValue[3].value],
+						['Touko', Number(val.electmay), eConsumptionValue[4].value],
+						['Kesä', Number(val.electjune), eConsumptionValue[5].value],
+						['Heinä', Number(val.electjuly), eConsumptionValue[6].value],
+						['Elo', Number(val.electaugust), eConsumptionValue[7].value],
+						['Syys', Number(val.electseptember), eConsumptionValue[8].value],
+						['Loka', Number(val.electoctober), eConsumptionValue[9].value],
+						['Marras', Number(val.electnovember), eConsumptionValue[10].value],
+						['Joulu', Number(val.electdecember), eConsumptionValue[11].value],
 						]);
 
 						var options = {
-							title: 'Arvioitu laitesähkön tuotanto (kWh / kk)',
-							legend: { 'position': 'bottom'},
+							title: 'Arvioitu laitesähkön tuotanto ja tarve (kWh / kk)',
+							legend: { 'position': 'right'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
-							colors: ['#0892D0'],
+							colors: ['#0892D0', '#0c007c'],
 							height: 550,
 							width: 850
 						};
