@@ -656,24 +656,20 @@ var vm = new Vue({
 					// handle error
 				});
 		},
-		clear: function () {
-			if (this.checkedid.length > 0) {
+		clear: function () {			
 				this.checkedid = [];
 				this.clearresults();
-				this.heatingkwvalue = 0;
-			}
+				this.heatingkwvalue = 0;			
 		},
 
 		//clears after results
-		clearresults: function () {
-			if (this.result > 0) {
+		clearresults: function () {		
 				this.yearlyTotal = 0;
 				this.result = 0;
 				this.eResult = 0;
 				this.kWhvalue = [];
 				this.heating = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-				this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-			}
+				this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];	
 		},
 		heatingprods: function (energycat, materialcat) {
 			console.log(energycat, materialcat);
