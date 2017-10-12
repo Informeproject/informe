@@ -21,10 +21,18 @@
 
 <body class="backgroundimg container-fluid">
 
-	<!-- wrapper -->
-	<div id="checkthese" class="panel-group col-md-12">
-
-		<!-- disclaimer -->
+		
+			
+		<!-- banner -->
+		<div class="col-md-12 container" id="banner">
+			<div class="row text-center">
+				<img src="img/banner2.png" style="width: 100%;">
+			</div>
+		</div>
+		
+		<!-- wrapper -->
+		<div id="checkthese" class="panel-group col-md-12">
+		
 		<modal id="disclaimer" v-if="showDisclaimer" @close="this.acceptdisclaimer">
 			
 			<div slot="body">
@@ -47,20 +55,12 @@
 				</p>
 			</div>
 		</modal>
-
-		<!-- banner -->
-		<div class="col-md-12 container" id="banner">
-			<div class="row">
-				<button type="button" id="openInfo" class="btn btn-primary" @click="showDisclaimer = true">Info</button>
-				<img src="img/banner.png" class="logo" alt="logo">
-			</div>
-		</div>
-
+		
 		<!-- rakennukset-collapse -->
 		<div class="panel panel-default col-md-12">
 			<div class="row text-center">
-				<div class="header col-md-12" id="header1">
-					<label>Rakennukset</label>
+				<div class="header col-md-12" id="header1" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+					<label>RAKENNUKSET</label>
 					<button type="button" class="btn btn-primary" data-toggle="collapse" v-on:click="clear()" data-target="#demo" data-parent="#checkthese"> <span class="glyphicon glyphicon-menu-down"></span> </button>
 				</div>
 			</div>
@@ -198,7 +198,7 @@
 		<div class="panel panel-default col-md-12">
 			<div class="row text-center">
 				<div class="header col-md-12" id="header3">
-					<label>Tulokset</label>
+					<label>TULOKSET</label>
 					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo2" data-parent="#checkthese"> <span class="glyphicon glyphicon-menu-down"></span> </button>
 				</div>
 			</div>
@@ -262,8 +262,8 @@
 		<!-- tuotanto-collapse -->
 		<div class="panel panel-default col-md-12">
 			<div class="row text-center">
-				<div class="header col-md-12" id="header4">
-					<label>Tuotanto</label>
+				<div class="header col-md-12" id="header4" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+					<label>TUOTANTO</label>
 					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#demo3" data-parent="#checkthese"> <span class="glyphicon glyphicon-menu-down"></span> </button>
 				</div>
 			</div>
@@ -455,10 +455,11 @@
 			<!-- demo3 -->
 		</div>
 		<!-- tuotanto-collapse -->
+		</div>
+		<!-- /wrapper -->
+			
 
-
-	</div>
-	<!-- /wrapper -->
+	
 
 	<!-- scripts -->
 	<!-- template for the modal component -->
