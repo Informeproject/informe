@@ -413,7 +413,7 @@ var vm = new Vue({
 						for (var j = 0; j <= 11; j++) {
 							this.heating[j].value += Math.floor(response.data[months[j]]);
 						}
-						this.kWhvalue.push(response.data);  //adds the received object to kWhvalue				
+						this.kWhvalue.push(response.data);  //adds the received object to kWhvalue			
 
 					}, function (error) {
 						// handle error

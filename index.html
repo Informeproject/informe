@@ -120,9 +120,6 @@
 						<div class="col-md-12">
 							<ul style="list-style: none" id="selectedVolume">
 								<li v-for="item in volumelist[buildingcategory]">
-
-
-
 									<div>
 										<label class="custombutton" v-bind:id="item.id">
 										<input class="btn btn-primary" name="button" v-bind:id="item.id" v-on:click="select($event)" data-parent="#checkthese">
@@ -148,33 +145,6 @@
 									</div>
 									<p class="descp">{{item.use}}</p>
 									<p class="volumep">{{item.volumeDefinition}}</p>
-
-
-
-									
-									<!-- <div>
-										<label class="custombutton" v-bind:id="item.id">
-										<input class="btn btn-primary" name="button" v-bind:id="item.id" v-on:click="select($event)" data-parent="#checkthese">
-											<img :src="'img/'+item.id+'.png'" style="height: 104px;" />
-										</input>
-										</label>
-										<div class="buttonicons" v-if="countchecked(item.id) > 0">
-											<div class="removeicon">
-												<label>
-												<input type="button" v-bind:id="item.id" v-on:click="unselect($event)" data-parent="#checkthese">
-												<img :src="'img/uncheck.png'" />
-												</input>
-												</label>
-
-											</div>
-											
-											<div class="quantityicon">
-												<p>{{ countchecked(item.id) }}</p>
-											</div>
-										</div>
-									</div>
-									<p class="descp">{{item.use}}</p>
-									<p class="volumep">{{item.volumeDefinition}}</p> -->
 								</li>
 							</ul>
 						</div>
@@ -225,6 +195,11 @@
 								<label class="custombutton">
 								<input type="button" v-on:click="modali(item.id)">
 								<img :src="'img/'+item.id+'.png'" style="height: 96px;" />
+								<div class="buttonicons" v-if="countchecked(item.id) > 0">
+									<div class="quantityicon">
+										<p>{{ countchecked(item.id) }}</p>
+									</div>
+								</div>
 								<p class="descp">{{item.consumer.use}}</p>
 								<p class="volumep">{{item.consumer.volumeDefinition}}</p>
 							</label>
