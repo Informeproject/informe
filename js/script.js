@@ -4,7 +4,7 @@ Vue.component('modal', {
 });
 
 var vm = new Vue({
-	el: '#checkthese',
+	el: '#container',
 	data: {
 		buildings: [],
 		volumelist: [],
@@ -171,8 +171,8 @@ var vm = new Vue({
 	watch: {
 		heatingovermaximum: {
 						handler: function (val, oldVal) {
-				if (this.heatingovermaximum) document.getElementById("calculatebutton").disabled = true;
-				else document.getElementById("calculatebutton").disabled = false;
+				if (this.heatingovermaximum) document.getElementById("calcbtn").disabled = true;
+				else document.getElementById("calcbtn").disabled = false;
 			},
 			deep: true
 		},
@@ -250,7 +250,7 @@ var vm = new Vue({
 						colors: ['#BF2F38', '#0892D0']
 					};
 
-					var chart = new google.visualization.ColumnChart(document.getElementById('column_chart'));
+					var chart = new google.visualization.ColumnChart(document.getElementById('resultchart'));
 					chart.draw(data, options);
 				}
 			},
@@ -265,7 +265,7 @@ var vm = new Vue({
 					console.log(response.data);
 					var eValue = response.data;
 
-					document.getElementById('modalText').innerHTML = val.consumer.use;
+					document.getElementById('resultmodaltext').innerHTML = val.consumer.use;
 
 					google.charts.load('current', { 'packages': ['corechart'] });
 					google.charts.setOnLoadCallback(drawChart);
@@ -294,7 +294,7 @@ var vm = new Vue({
 							colors: ['#BF2F38', '#0892D0']
 						};
 
-						var chart = new google.visualization.ColumnChart(document.getElementById('modal_column_chart'));
+						var chart = new google.visualization.ColumnChart(document.getElementById('resultmodalchart'));
 
 						chart.draw(data, options);
 
@@ -344,7 +344,7 @@ var vm = new Vue({
 							width: 850
 						};
 
-						var chart = new google.visualization.ColumnChart(document.getElementById('prod_column_chart'));
+						var chart = new google.visualization.ColumnChart(document.getElementById('prodmodalchart'));
 
 						chart.draw(data, options);
 					}
@@ -386,7 +386,7 @@ var vm = new Vue({
 							width: 850
 						};
 
-						var chart = new google.visualization.ColumnChart(document.getElementById('prod_column_chart'));
+						var chart = new google.visualization.ColumnChart(document.getElementById('prodmodalchart'));
 
 						chart.draw(data, options);
 					}
@@ -435,7 +435,7 @@ var vm = new Vue({
 			}
 		},
 		modali: function (id) {
-			$("#graphModal").modal()
+			$("#resultmodal").modal()
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + id + '/heating').then(function (response) {
 				console.log(response.data);
 				this.modalValue = response.data;
