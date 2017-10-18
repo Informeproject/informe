@@ -247,7 +247,7 @@ var vm = new Vue({
 						legend: { position: 'bottom' },
 						bars: 'vertical',
 						vAxis: { format: 'decimal' },
-						colors: ['#BF2F38', '#0892D0']
+						colors: ['#C52F03', '#328FB2']
 					};
 
 					var chart = new google.visualization.ColumnChart(document.getElementById('resultchart'));
@@ -291,7 +291,7 @@ var vm = new Vue({
 							legend: { position: 'bottom' },
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
-							colors: ['#BF2F38', '#0892D0']
+							colors: ['#C52F03', '#328FB2']
 						};
 
 						var chart = new google.visualization.ColumnChart(document.getElementById('resultmodalchart'));
@@ -339,7 +339,7 @@ var vm = new Vue({
 							legend: { 'position': 'right'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
-							colors: ['#ff7c02', '#630000'],
+							colors: ['#FE7621', '#C52F03'],
 							height: 550,
 							width: 850
 						};
@@ -381,7 +381,7 @@ var vm = new Vue({
 							legend: { 'position': 'right'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
-							colors: ['#0892D0', '#0c007c'],
+							colors: ['#328FB2', '#085978'],
 							height: 550,
 							width: 850
 						};
