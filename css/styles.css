@@ -57,11 +57,34 @@ html, body {
 }
 
 .btn-primary {
-	background-color: #479AA4;
-	float: right;
+	background-color: #03824F;
+	border-color: #0A623F;
 }
 
+.collapsebutton {
+	background-color: #0A623F !important;
+	float: right;
+	border-color: #0A623F !important;
+}
 
+.collapsebutton:hover {
+	background-color: #005D2E !important;
+	float: right;
+	border-color: #0A623F !important;
+}
+
+.collapsebutton:active {
+	background-color: #0A623F !important;
+	float: right;
+	border-color: #0A623F !important;
+}
+
+.collapsebutton:focus {
+	background-color: #0A623F !important;
+	float: right;
+	border-color: #0A623F !important;
+	outline: none !important;
+}
 
 /* ------ modals ------ */
 
@@ -186,6 +209,8 @@ html, body {
 	position: relative;
 }
 
+
+
 .buttonhighlight {
 	position: absolute;
 	left: 27.5%;
@@ -246,6 +271,17 @@ html, body {
 	color: white;
 	background-color: firebrick;
 	padding: 2px 5px;
+}
+
+.calculatebtn {
+	background-color: #0A623F !important;
+	border-color: #0A623F !important;
+}
+
+.calculatebtn:hover {
+	background-color: #005D2E !important;
+	outline: none !important;
+	border-color: #0A6C00 !important;
 }
 
 .calculatebtn:disabled {

@@ -62,7 +62,7 @@
 			<div class="row text-center">
 				<div class="header col-md-12" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
 					<label>RAKENNUKSET</label>
-					<button type="button" class="btn btn-primary" data-toggle="collapse" v-on:click="clear()" data-target="#buildingtab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
+					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" v-on:click="clear()" data-target="#buildingtab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
 				</div>
 			</div>	
 			<!-- rakennukset-collapse -->
@@ -152,7 +152,7 @@
 					<div class="row" style="margin-top: 20px; margin-bottom: 25px;">
 						<div class="col-md-4"></div>
 						<div class="col-md-3">
-							<button type="button" class="btn btn-primary" id="calcbtn" v-on:click="calculate" data-toggle="collapse"
+							<button type="button" class="btn btn-primary calculatebtn" id="calcbtn" v-on:click="calculate" data-toggle="collapse"
 							data-target="#resulttab" data-parent="#container">Laske</button>
 						</div>
 						<div class="col-md-5"></div>
@@ -169,7 +169,7 @@
 			<div class="row text-center">
 				<div class="header col-md-12">
 					<label>TULOKSET</label>
-					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#resulttab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
+					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" data-target="#resulttab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
 				</div>
 			</div>
 			<!-- tulokset-collapse -->
@@ -220,7 +220,7 @@
 								<br>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Sulje</button>
+								<button type="button" class="btn btn-default calculatebtn" data-dismiss="modal">Sulje</button>
 							</div>
 						</div>
 					</div>
@@ -236,7 +236,7 @@
 			<div class="row text-center">
 				<div class="header col-md-12" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
 					<label>TUOTANTO</label>
-					<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#productiontab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
+					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" data-target="#productiontab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
 				</div>
 			</div>
 			<!-- tuotanto-collapse -->
@@ -277,11 +277,13 @@
 					<template v-if="prodstep == 1">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse energiatyyppi:</h4>
+								<h4>Valitse aurinkopaneelin teholuokka:</h4>                                                       
+								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
+
 								<ul style="list-style: none" class="prodmatlist">
-									<li v-for="item in noduplicates(this.prodlist[1], 'materialcategory')">
+									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
 										<label>
-										<button class="srcselectbtn" @click="prodstep = 6;">{{item.materialcatname}}</button><br>
+										<button class="srcselectbtn" @click="prodstep = 4; prodParams.push(item.electrpowerkw); sortbyangle(prodlist[1]);">{{item.electrpowerkw}} kW</button><br>
 										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 									</label>
 									</li>
@@ -297,24 +299,6 @@
 									<li v-for="item in noduplicates(this.prodlist[2], 'materialcategory')">
 										<label>	
 										<button class="srcselectbtn" @click="prods(item.energycategory, item.materialcategory, item.panelangle)">{{item.materialcatname}}</button><br>
-										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
-									</label>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</template>
-					<!-- solar panel scale -->
-					<template v-if="prodstep == 6">
-						<div class="row">
-							<div class="col-md-12">
-								<h4>Valitse aurinkopaneelin teholuokka:</h4>                                                       
-								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
-
-								<ul style="list-style: none" class="prodmatlist">
-									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
-										<label>
-										<button class="srcselectbtn" @click="prodstep = 4; prodParams.push(item.electrpowerkw); sortbyangle(prodlist[1]);">{{item.electrpowerkw}} kW</button><br>
 										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 									</label>
 									</li>
@@ -430,7 +414,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal" style="background-color: #61a786; color: white;">Sulje</button>
+									<button type="button" class="btn btn-default calculatebtn" data-dismiss="modal" style="background-color: #61a786; color: white;">Sulje</button>
 								</div>
 							</div>
 						</div>
@@ -464,7 +448,7 @@
 						</div>
 						<div class="modal-footer">
 								<slot name="footer">
-									<button type="button" class="btn btn-primary" @click="$emit('close')" id="continue">Sulje</button>
+									<button type="button" class="btn btn-primary calculatebtn" @click="$emit('close')" id="continue">Sulje</button>
 								</slot>
 						</div>
 					</div>
