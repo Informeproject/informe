@@ -27,7 +27,6 @@
 </head>
 <body class="backgroundimg container-fluid">
 		
-	
 	<!-- banner image -->
 	<div class="col-md-12 container" id="banner">
 		<div class="row text-center">
@@ -35,10 +34,8 @@
 		</div>
 	</div>
 	
-	
 	<!-- container/wrapper (container) -->
 	<div id="container" class="panel-group col-md-12">
-	
 	
 		<!-- disclaimer modal -->
 		<modal id="disclaimer" v-if="showDisclaimer" @close="this.acceptdisclaimer">
@@ -62,7 +59,6 @@
 				</p>
 			</div>
 		</modal>
-
 
 		<!-- rakennukset-tab -->
 		<div class="panel panel-default col-md-12">
@@ -273,7 +269,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[0], 'materialcategory')">
 										<label>
-										<button class="srcselectbtn" @click="heatingprods(item.energycategory, item.materialcategory)">{{item.materialcatname}}</button><br>
+										<button class="srcselectbtn" @click="materialcategorycheck(item.energycategory, item.materialcategory, item.origin)">{{item.materialcatname}}</button><br>
 										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 									</label>
 									</li>
@@ -356,6 +352,21 @@
 										<label>
 										<button class="srcselectbtn" @click="electrprods(item.energycategory, item.materialcategory, prodParams[0], prodParams[1], item.paneldirection)">{{item.paneldirection}}</button><br>
 										<img :src="'img/production/'+item.paneldirection+'.png'" style="height: 150px;" />
+									</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+					<!-- biogas origin options -->
+					<template v-if="prodstep == 7">
+						<div class="row">
+							<div class="col-md-12">
+								<h4>Valitse biokaasun alkuperä:</h4>
+								<ul style="list-style: none" class="prodmatlist">
+									<li v-for="item in noduplicates(this.prodlist[0], 'origin')">
+										<label>
+										<button class="srcselectbtn" @click="heatingprods(item.energycategory, item.materialcategory, item.origin)">{{item.origin}}</button><br>
 									</label>
 									</li>
 								</ul>
