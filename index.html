@@ -70,7 +70,7 @@
 			<div class="row text-center">
 				<div class="header col-md-12" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
 					<label>RAKENNUKSET</label>
-					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" v-on:click="clear()" data-target="#buildingtab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
+					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" v-on:click="clearresults()" data-target="#buildingtab" data-parent="#container"> <span class="glyphicon glyphicon-menu-down"></span> </button>
 				</div>
 			</div>	
 			<!-- rakennukset-collapse -->
@@ -115,7 +115,7 @@
 					<!-- buttons to show/hide selected buildings -->
 					<div class="row">
 						<div class="col-md-12">
-							<button type="button" class="btn" v-on:click="clear()">Tyhjennä valinnat</button>
+							<button type="button" class="btn" v-on:click="clearchecked()">Tyhjennä valinnat</button>
 							<button type="button" class="btn" v-show="showSelected===false" v-on:click="showSelected=true"> Näytä valinnat </button>
 							<button type="button" class="btn" v-show="showSelected===true" v-on:click="showSelected=false"> Piilota</button>				
 						</div>

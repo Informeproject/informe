@@ -610,9 +610,8 @@ var vm = new Vue({
 					// handle error
 				});
 		},
-		clear: function () {			
+		clearchecked: function () {			
 				this.checkedid = [];
-				this.clearresults();
 				this.heatingkwvalue = 0;			
 		},
 
