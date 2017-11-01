@@ -447,57 +447,6 @@ var vm = new Vue({
 		back: function () {
 			this.buildingcategory--;
 		},
-		increase: function (type) {
-			console.log('inc');
-			this.clear();
-			if (type === 0) {
-				this.houseCounter++;
-				this.buildings.push(0);
-			}
-			else if (type === 1) {
-				this.communityCounter++;
-				this.buildings.push(1);
-			}
-			else if (type === 2) {
-				this.productionCounter++;
-				this.buildings.push(2);
-			}
-			else {
-				this.holidayCounter++;
-				this.buildings.push(3);
-			}
-		},
-		decrease: function (type) {
-			console.log(type);
-			switch (type) {
-				case 0:
-					if (this.houseCounter !== 0) {
-						this.houseCounter--;
-					}
-					break;
-				case 1:
-					if (this.communityCounter !== 0) {
-						this.communityCounter--;
-					}
-					break;
-				case 2:
-					if (this.productionCounter !== 0) {
-						this.productionCounter--;
-					}
-					break;
-				default:
-					if (this.holidayCounter !== 0) {
-						this.holidayCounter--;
-					}
-			}
-			//Clear results
-			this.clear();
-			//Remove building
-			var index = this.buildings.indexOf(type);
-			if (index > -1) {
-				this.buildings.splice(index, 1);
-			}
-		},
 		select: function (event) {
 			var cons = this.consumerlist[0];
 
