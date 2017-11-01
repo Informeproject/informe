@@ -277,6 +277,22 @@
 					<template v-if="prodstep == 1">
 						<div class="row">
 							<div class="col-md-12">
+								<h4>Valitse energiatyyppi:</h4>
+								<ul style="list-style: none" class="prodmatlist">
+									<li v-for="item in noduplicates(this.prodlist[1], 'materialcategory')">
+										<label>
+										<button class="srcselectbtn" @click="prodstep = 6;">{{item.materialcatname}}</button><br>
+										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
+									</label>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</template>
+					<!-- solar panel scale -->
+					<template v-if="prodstep == 6">
+						<div class="row">
+							<div class="col-md-12">
 								<h4>Valitse aurinkopaneelin teholuokka:</h4>                                                       
 								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
 
