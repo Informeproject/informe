@@ -268,6 +268,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4>Valitse energiatyyppi:</h4>
+								<h5>Valitsemiesi rakennusten arvioitu lämmitystehon tarve on yhteensä {{result}} kW. Tällä sovelluksella on mahdollista tarkastella lämmön tuotantoa seuraavista lähteistä: metsä, pelto, biokaasutukseen soveltuvat peltobiomassat ja lanta. Valitsemiisi kohteisiin soveltuvat parhaiten alla olevat vaihtoehdot. Valitse tarkasteltavat lähteet</h5>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[0], 'materialcategory')">
 										<label>
@@ -401,7 +402,7 @@
 									<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>	
 									<br>
 									<div class="row text-center">
-										<p>Alla olevassa taulukossa on esitetty arvioitu kuukausittainen energiantuotanto kilowateissa.</p>
+										<p>Alla on esitetty energiantuotannon jakautuminen kuukausittain sekä valittujen kohteiden laitesähkön kuukausikulutus</p>
 									</div>
 									<div class="row text-center">
 										<div id="prodmodalchart"></div>
