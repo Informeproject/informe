@@ -55,6 +55,7 @@ var vm = new Vue({
 		prodmodalCat: 0,
 		IEDetection: false,
 		heatValueForProd: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
+		biogasproducers: [],
 	},
 	created: function () {
 
@@ -577,12 +578,6 @@ var vm = new Vue({
 				}, function (error) {
 					// handle error
 				});
-			
-			var noduplicatebiogaskws = [];
-			noduplicatebiogaskws = this.noduplicates(this.materiallist[2], "heatingpowerkw");
-			console.log(noduplicatebiogaskws);
-			// Biogas producers with first unique heating kW value (to make Vue conditional filtering work in biogas scale step)
-			Vue.set(this.biogasprodsnoduplicatekws, 0, noduplicatebiogaskws);
 		},
 		clearchecked: function () {			
 				this.checkedid = [];
@@ -719,6 +714,13 @@ var vm = new Vue({
 				}, function (error) {
 					//handle error
 			});
+		},
+		biogasorigin: function (origin) {
+			var prods = this.materiallist[2].filter(function(producer){
+				return producer.origin == origin;
+			  });
+			console.log(prods);
+			Vue.set(this.biogasproducers, 0, prods);
 		},
 	}
 });

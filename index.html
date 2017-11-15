@@ -412,7 +412,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.materiallist[2], 'origin')">
 										<label>
-											<button class="srcselectbtn" @click="prodstep = 8; prodchoices[0] = item.origin;">{{item.origin}}</button>
+											<button class="srcselectbtn" @click="prodstep = 8; prodchoices[0] = item.origin; biogasorigin(item.origin)">{{item.origin}}</button>
 											<br>
 											<!-- <img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" /> -->
 										</label>
@@ -427,7 +427,7 @@
 							<div class="col-md-12">
 								<h4>Biokaasuenergian kokoluokka:</h4>
 								<ul style="list-style: none" class="prodmatlist">
-									<li v-for="item in noduplicates(this.materiallist[2], 'heatingpowerkw')">
+									<li v-for="item in noduplicates(this.biogasproducers[0], 'heatingpowerkw')" v-if="item.origin == prodchoices[0]">
 										<label>
 											<button class="srcselectbtn" @click="biogasprods(item.energycategory, item.materialcategory, prodchoices[0], item.heatingpowerkw)">{{item.heatingpowerkw}}</button>
 											<br>
