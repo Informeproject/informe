@@ -612,7 +612,7 @@ var vm = new Vue({
 		},
 		clearchecked: function () {			
 				this.checkedid = [];
-				this.heatingkwvalue = 0;			
+				this.heatingkwvalue = 0;
 		},
 
 		//clears after results
