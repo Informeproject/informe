@@ -13,7 +13,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>inforMe</title>
+	<title>InforMe</title>
 	<link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/styles.css">
@@ -45,7 +45,23 @@
 		<!-- disclaimer modal -->
 		<modal id="disclaimer" v-if="showDisclaimer" @close="this.acceptdisclaimer">
 			<div slot="body">
-				<h2>Tervetuloa käyttämään InforMe:n energiasovellusta</h2>
+				<h2>Tervetuloa käyttämään InforME:n energiasovellusta</h2>
+				<h3 style="color: red;">
+					<script>
+                		var ba = ["MSIE","Trident"];
+                		var b, ua = navigator.userAgent;
+                		for(var i=0; i < ba.length; i++){
+                    		if( ua.indexOf(ba[i]) > -1 ){
+                        		b = ba[i];
+                        		break;
+                    		}
+                		}
+                		if(b == "MSIE" || b == "Trident"){
+                    		b = "Internet Explorer";
+							document.write("Käytät " + b + " -selainta, eivätkä sivumme kaikki ominaisuutemme toimi sillä. Toivomme, että vaihdatte toiseen selaimeen, esimerkiksi Google Chrome tai Mozilla Firefox.");
+                		}
+                	</script>
+				</h3>
 				<p>
 					Tällä sovelluksella voi tarkastella erilaisten rakennusten tyypillisiä kulutusprofiileja ja eri energiantuotantotekniikoiden
 					tuotantopotentiaaleja niille soveltuvilla tehoalueilla. Tuotantorakennusten kulutusluvut on johdettu mm. maatilan energiasuunnitelmista,
@@ -63,12 +79,11 @@
 					uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi
 					tulee aina perustaa tarkempiin laskelmiin.
 					<br>
-					<br> Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista
-					virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
 					<br>
-					<br>
-					<p v-if="IEDetection === true">Jos käytössäsi on Internet Explorer -selain, suosittelemme käyttämään toista selainta, koska sovellus ei toimi sillä
-						tarkoituksenmukaisella tavalla.
+					Tämän sovelluksen tulokset ovat suuntaa antavia ja neuvonnallisia. Sovelluksen on tarkoitus on madaltaa kynnystä tutustua uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi tulee aina perustaa tarkempiin laskelmiin. 
+					<br><br>
+					Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
+					<br><br>
 					</p>
 				</p>
 			</div>
@@ -207,16 +222,10 @@
 			<div class="panel-collapse collapse text-center" id="resulttab" style="margin-bottom: 60px !important;">
 				<div class="col-md-8">
 					<!-- calculated values -->
-					<div class="biginfotext">Yhteenlaskettu energiankulutus (lämmitys ja laitesähkö, ajoneuvopolttoaineet ei mukana): </div>
-					<div class="biginfotext">
-						<h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4>
-					</div>
-					<div class="biginfotext">
-						<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4>
-					</div>
-					<div class="biginfotext">
-						<h4>Rakennusten yhteenlaskettu tehonkulutus: {{ heatingkwvalue }} kW</h4>
-					</div>
+					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitys- ja sähkötehon tarve (ajoneuvopolttoaineet ei mukana): </div>
+					<div class="biginfotext"><h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4></div>
+					<div class="biginfotext"><h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4></div>
+					<div class="biginfotext"><h4>Rakennusten yhteenlaskettu tehonkulutus: {{ heatingkwvalue }} kW</h4></div>			
 					<!-- consumption chart -->
 					<div class="row text-center" style="width: 100%; height: 100%;">
 						<div id="resultchart" class="col-md-12"></div>
@@ -284,10 +293,9 @@
 				<div class="col-md-12">
 					<!-- buttons for heat/electr/chp -->
 					<div class="row" style="margin-bottom: 35px">
-						<div>
-							<h4>Valitse, mitä haluat tuottaa:</h4>
-							<br>
-						</div>
+						<div><br><p>Tässä osiossa voit tarkastella eri vaihtoehtoja uusiutuvan energian tuotantoon. <br>
+						Valitse ensin, haluatko tarkastella lämmön vai sähkön tuotantomahdollisuuksia.</p></div>
+						<div><h4>Valitse, mitä haluat tuottaa:</h4><br></div>
 						<div class="col-md-12">
 							<div class="col-md-4">
 								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
@@ -305,7 +313,10 @@
 					<template v-if="prodstep == 0">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse energiatyyppi:</h4>
+								<p v-if="selectHeating">Valitsemiesi rakennusten lämmitystehon tarve on yhteensä {{ heatingkwvalue }} kW.<br><br>
+								Tällä sovelluksella on mahdollista tarkastella lämmön tuotantoa seuraavista lähteistä: metsä, pelto,<br>
+								biokaasutukseen soveltuvat peltobiomassa ja lanta. Valitsemiisi kohteisiin soveltuvat parhaiten alla olevat vaihtoehdot.<br><br></p>
+								<h4>Valitse tarkasteltavat lähteet:</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[0], 'materialcategory')">
 										<label>
@@ -339,9 +350,10 @@
 					<template v-if="prodstep == 6">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse aurinkopaneelin teholuokka:</h4>
-								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
-
+								<p>Tämän sovelluksen avulla on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla.<br>
+								Valitse ensin, minkä kokoluokan järjestelmää haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on<br>
+								kannattavaa tuottaa vain osa tarvittavasta sähköstä.</p><br>
+								<h4>Valitse aurinkopaneelin teholuokka:</h4><br>                                                      
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
 										<label>
@@ -374,7 +386,7 @@
 					<template v-if="prodstep == 4">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse aurinkopaneelin kulma:</h4>
+								<h4>Valitse seuraavaksi aurinkopaneelien asennuskulma.</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'panelangle')">
 										<label>
@@ -391,7 +403,7 @@
 					<template v-if="prodstep == 5">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse aurinkopaneelin suunta:</h4>
+								<h4>Valitse seruraavaksi aurinkopaneelien ilmansuunta.</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'paneldirection')">
 										<label>
@@ -443,10 +455,13 @@
 						<div class="row">
 							<h4 v-if="selectHeating">Lämmitysenergian tarve: {{parseInt(heatresult)}} kWh</h4>
 							<h4 v-if="(selectElectricity || selectElecheating)">Laitesähkön tarve: {{parseInt(electrresult)}} kWh</h4>
+							<br>
+							
 						</div>
 						<div class="row">
 							<div class="col-md-12" style="margin-bottom: 35px;">
 								<ul style="list-style: none" class="prodresultlist">
+								
 									<li v-for="item in this.finalpage[0]">
 										<button class="btn prodresultbutton" v-bind:id="item.id" v-on:click="getproducer(item.energycategory, item.materialcategory, item.energysource, item.heatingpowerkw, item.electrpowerkw, item.panelangle, item.paneldirection)"
 										 data-toggle="modal" data-target="#prodresultmodal">
@@ -483,7 +498,7 @@
 									<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>
 									<br>
 									<div class="row text-center">
-										<p>Alla olevassa taulukossa on esitetty arvioitu kuukausittainen energiantuotanto kilowateissa.</p>
+										<p>Alla on esitetty energiantuotannon jakautuminen kuukausittain sekä valittujen kohteiden laitesähkön kuukausikulutus.</p>
 									</div>
 									<div class="row text-center">
 										<div id="prodmodalchart"></div>
