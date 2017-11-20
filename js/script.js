@@ -40,7 +40,7 @@ var vm = new Vue({
 		selectHeating: false,
 		selectElectricity: false,
 		selectElecheating: false,
-		prodParams: [],
+		prodchoices: [],
 		prodresult: '',
 		finalpage: [],
 		motimiinus: false,
@@ -55,6 +55,7 @@ var vm = new Vue({
 		prodmodalCat: 0,
 		IEDetection: false,
 		heatValueForProd: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
+		biogasproducers: [],
 	},
 	created: function () {
 
@@ -520,39 +521,7 @@ var vm = new Vue({
 					Vue.set(this.volumelist, 3, vollist[1]);	// NUMEROT SEKASIN!			
 				}, function (error) {
 					// handle error
-				});		
-
-			// // Asuinrakennukset
-			// this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers?id=true&type=Asuinrakennus', { params: {} }).then(
-			// 	function (response) {
-			// 		Vue.set(this.volumelist, 0, response.data);
-			// 	}, function (error) {
-			// 		// handle error
-			// 	});
-
-			// // Muut rakennukset
-			// this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers?id=true&type=muurakennus', { params: {} }).then(
-			// 	function (response) {
-			// 		Vue.set(this.volumelist, 1, response.data);
-			// 	}, function (error) {
-			// 		// handle error
-			// 	});
-
-			// // Tuotantorakennukset
-			// this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers?id=true&type=tuotantorakennus', { params: {} }).then(
-			// 	function (response) {
-			// 		Vue.set(this.volumelist, 2, response.data);
-			// 	}, function (error) {
-			// 		// handle error
-			// 	});
-
-			// // Kuivurit
-			// this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers?id=true&type=kuivuri', { params: {} }).then(
-			// 	function (response) {
-			// 		Vue.set(this.volumelist, 3, response.data);
-			// 	}, function (error) {
-			// 		// handle error
-			// 	});
+				});
 
 			// Kaikki tuotantopuolen rakennukset
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions', { params: {} }).then(
@@ -562,7 +531,7 @@ var vm = new Vue({
 					// handle error
 				});
 
-			// Energycategory 1 
+			// Energycategory 1 (Lämpö)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory=1', { params: {} }).then(
 				function (response) {
 					Vue.set(this.prodlist, 0, response.data);
@@ -570,7 +539,7 @@ var vm = new Vue({
 					// handle error
 				});
 
-			// Energycategory 2
+			// Energycategory 2 (Sähkö)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory=2', { params: {} }).then(
 				function (response) {
 					Vue.set(this.prodlist, 1, response.data);
@@ -578,7 +547,7 @@ var vm = new Vue({
 					// handle error
 				});
 
-			// Energycategory 3
+			// Energycategory 3 (CHP)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory=3', { params: {} }).then(
 				function (response) {
 					Vue.set(this.prodlist, 2, response.data);
@@ -586,7 +555,7 @@ var vm = new Vue({
 					// handle error
 				});
 			
-			// Materialcategory 1
+			// Materialcategory 1 (Puu)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=1', { params: {} }).then(
 				function (response) {
 					Vue.set(this.materiallist, 0, response.data);
@@ -594,7 +563,7 @@ var vm = new Vue({
 					// handle error
 				});
 			
-			// Materialcategory 2
+			// Materialcategory 2 (Pelto)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=2', { params: {} }).then(
 				function (response) {
 					Vue.set(this.materiallist, 1, response.data);
@@ -602,7 +571,7 @@ var vm = new Vue({
 					// handle error
 				});
 			
-			// Materialcategory 3
+			// Materialcategory 3 (Biokaasu)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=3', { params: {} }).then(
 				function (response) {
 					Vue.set(this.materiallist, 2, response.data);
@@ -729,7 +698,30 @@ var vm = new Vue({
 			items.sort(function (a, b) {
 				return a.panelangle - b.panelangle;
 				});
-		}
+		},
+		readmaterialcat: function (energycat, materialcat, materialcatname) {
+			if (materialcatname == "Biokaasu") {
+				this.prodstep = 7;
+			} else {
+				this.heatingprods(energycat, materialcat);
+			}
+		},
+		biogasprods: function (energycat, materialcat, origin, kwsize) {
+			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory='+energycat+'&materialcategory='+materialcat+'&origin='+origin+'&heatingpowerkw='+kwsize, {params:  {}} ).then(
+				function (response) {
+					Vue.set(this.finalpage, 0, response.data);
+					this.prodstep = 3;
+				}, function (error) {
+					//handle error
+			});
+		},
+		biogasorigin: function (origin) {
+			var prods = this.materiallist[2].filter(function(producer){
+				return producer.origin == origin;
+			  });
+			console.log(prods);
+			Vue.set(this.biogasproducers, 0, prods);
+		},
 	}
 });
 
