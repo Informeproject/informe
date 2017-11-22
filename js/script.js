@@ -23,6 +23,7 @@ var vm = new Vue({
 		heating: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 		avgHeating: 0,
 		result: 0,
+		HCTS: 0,
 		eResult: 0,
 		message1: 'Asuinrakennus',
 		message2: 'Muu rakennus',
@@ -619,10 +620,27 @@ var vm = new Vue({
 		clearresults: function () {		
 				this.yearlyTotal = 0;
 				this.result = 0;
+				this.HCTS = NULL;
 				this.eResult = 0;
 				this.kWhvalue = [];
 				this.heating = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
 				this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];	
+		},
+		heatingCatTextSelect: function (HeatCatTextSelect){
+			var x = HeatCatTextSelect;
+			console.log(x);
+				if(x == 1){	
+					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
+				} else if (x == 2) {
+					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
+				} else if (x == 3) {
+					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan biokaasun syötteen määrän vuodessa. Klikkaamalla kuvaketta voi tarkastella soveltuvia tekniikoita ja eri kokoisia biokaasulaitoksia.";					
+				} else if (x == 4){
+					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden tehon tarvetta vastaavan maa- tai vesilämpöputkiston pituuden. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla";
+				} else {
+					this.HCTS = null;
+				}
+			console.log(this.HCTS);
 		},
 		heatingprods: function (energycat, materialcat) {
 			console.log(energycat, materialcat);

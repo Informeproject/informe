@@ -90,7 +90,7 @@
 								<li class="active"><a data-toggle="tab" v-on:click="buildingcategory = 0" data-toggle="collapse" data-parent="#container">Asuinrakennukset</a></li>
 								<li><a data-toggle="tab" v-on:click="buildingcategory = 1" data-toggle="collapse" data-parent="#container">Muut rakennukset</a></li>
 								<li><a data-toggle="tab" v-on:click="buildingcategory = 2" data-toggle="collapse" data-parent="#container">Tuotantorakennukset</a></li>
-								<li><a data-toggle="tab" v-on:click="buildingcategory = 3" data-toggle="collapse" data-parent="#container">Kuivurit</a></li>
+								<li class="disabled"><a data-toggle="tab" v-on:click="buildingcategory = 3" data-toggle="collapse" data-parent="#container">Kuivurit</a></li>
 							</ul>
 						</div>
 					</div>
@@ -250,7 +250,10 @@
 				<div class="col-md-12">
 					<!-- buttons for heat/electr/chp -->
 					<div class="row" style="margin-bottom: 35px">
-						<div><h4>Valitse, mitä haluat tuottaa:</h4><br></div>
+						<div><h4>Valitse, mitä haluat tuottaa:</h4>
+							<h5>Tässä osiossa voit tarkastella eri vaihtoehtoja uusiutuvan energian tuotantoon. Valitse ensin, haluatko tarkastella lämmön vai sähkön tuotantomahdollisuuksia</h5>
+							<br>
+						</div>
 						<div class="col-md-12">
 							<div class="col-md-4">
 								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
@@ -272,7 +275,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[0], 'materialcategory')">
 										<label>
-										<button class="srcselectbtn" @click="heatingprods(item.energycategory, item.materialcategory)">{{item.materialcatname}}</button><br>
+										<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory )">{{item.materialcatname}}</button><br>
 										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 									</label>
 									</li>
@@ -301,8 +304,8 @@
 						<div class="row">
 							<div class="col-md-12">
 								<h4>Valitse aurinkopaneelin teholuokka:</h4>                                                       
+								<p>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{eResult}} kW. Tämän sovelluksen avulla on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta sähköstä</p>
 								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
-
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
 										<label>
@@ -333,11 +336,11 @@
 					<template v-if="prodstep == 4">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse aurinkopaneelin kulma:</h4>
+								<h4>Valitse seuraavaksi aurinkopaneelien asennuskulma:</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'panelangle')">
 										<label>
-										<button class="srcselectbtn" @click="prodstep = 5; prodParams.push(item.panelangle)">{{item.panelangle}}&#176;</button><br>
+										<button class="srcselectbtn" @click="prodstep = 5; prodParams.push(item.panelangle); heatingCatTextSelect(0);">{{item.panelangle}}&#176;</button><br>
 										<img :src="'img/production/'+item.panelangle+'.png'" style="height: 150px;" />
 									</label>
 									</li>
@@ -349,7 +352,7 @@
 					<template v-if="prodstep == 5">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse aurinkopaneelin suunta:</h4>
+								<h4>Valitse seuraavaksi aurinkopaneelien ilmansuunta:</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'paneldirection')">
 										<label>
@@ -367,6 +370,7 @@
 							<h4 v-if="selectHeating">Lämmitysenergian tarve: {{parseInt(heatresult)}} kWh</h4>
 							<h4 v-if="(selectElectricity || selectElecheating)">Laitesähkön tarve: {{parseInt(electrresult)}} kWh</h4>
 						</div>
+						<p class="text-center">{{HCTS}}</p>
 						<div class="row">
 							<div class="col-md-12" style="margin-bottom: 35px;">
 								<ul style="list-style: none" class="prodresultlist">

@@ -28,7 +28,10 @@ html, body {
 
 
 /* ------ general ------ */
-
+.disabled {
+    pointer-events:none;
+    opacity:0.6;
+}
 .col-md-4 {
 	width: 353px;
 	padding-left:80px;
