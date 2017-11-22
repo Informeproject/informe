@@ -116,6 +116,7 @@ var vm = new Vue({
 		
 	},
 	
+	
 	computed: {
 
 		i: function () {
