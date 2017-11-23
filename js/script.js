@@ -49,6 +49,7 @@ var vm = new Vue({
 		heatresult: 0,
 		electrresult: 0,
 		heatingkwvalue: 0,
+		electrpowerkwvalue: 0,
 		heatingmaximum: 5000,
 		heatingovermaximum: false,
 		heatingpowersize: 0, // power size rounded up from heatingkwvalue
@@ -454,6 +455,7 @@ var vm = new Vue({
 			for (i=0; i < cons.length; i++){
 				if (cons[i].id == event.currentTarget.id) {
 					this.heatingkwvalue += parseInt(cons[i].heatingkw);
+					this.electrpowerkwvalue += parseInt(cons[i].electrkw);
 				}
 			}
 	
