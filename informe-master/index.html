@@ -314,7 +314,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'panelangle')">
 										<label>
-										<button class="srcselectbtn" @click="prodstep = 5; prodParams.push(item.panelangle)">{{item.panelangle}}&#176;</button><br>
+										<button class="srcselectbtn" @click="prodstep = 5; prodchoices.push(item.panelangle)">{{item.panelangle}}&#176;</button><br>
 										<img :src="'img/production/'+item.panelangle+'.png'" style="height: 150px;" />
 									</label>
 									</li>
@@ -330,7 +330,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'paneldirection')">
 										<label>
-										<button class="srcselectbtn" @click="electrprods(item.energycategory, item.materialcategory, prodParams[0], prodParams[1], item.paneldirection)">{{item.paneldirection}}</button><br>
+										<button class="srcselectbtn" @click="electrprods(item.energycategory, item.materialcategory, prodchoices[0], prodchoices[1], item.paneldirection)">{{item.paneldirection}}</button><br>
 										<img :src="'img/production/'+item.paneldirection+'.png'" style="height: 150px;" />
 									</label>
 									</li>

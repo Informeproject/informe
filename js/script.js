@@ -119,12 +119,12 @@ var vm = new Vue({
 	
 	computed: {
 
-		i: function () {
-			return this.buildings[this.checkedid.length];
-		},
-		j: function () {
-			return 0;
-		},
+		// i: function () {
+		// 	return this.buildings[this.checkedid.length];
+		// },
+		// j: function () {
+		// 	return 0;
+		// },
 		final: function () {
 			if (this.buildingcategory === 3) {
 				return true;
@@ -443,12 +443,12 @@ var vm = new Vue({
 				this.modalValue = response.data;
 			});
 		},
-		next: function () {
-			this.buildingcategory++;
-		},
-		back: function () {
-			this.buildingcategory--;
-		},
+		// next: function () {
+		// 	this.buildingcategory++;
+		// },
+		// back: function () {
+		// 	this.buildingcategory--;
+		// },
 		select: function (event) {
 			var cons = this.consumerlist[0];
 
@@ -722,6 +722,42 @@ var vm = new Vue({
 			  });
 			console.log(prods);
 			Vue.set(this.biogasproducers, 0, prods);
+		},
+		preparematerialcategories: function () {
+			var allcategories = this.noduplicates(this.prodlist[0], 'materialcategory');
+			var cat = [];
+			var availablecategories = [];
+
+			for (z=0; z<=allcategories.length; z++) {
+				console.log(allcategories[z].materialcatname);
+				cat = this.filterbyattrvalue(this.prodlist[0], 'materialcategory', allcategories[z].materialcategory);
+				console.log("var cat:");
+				console.log(cat);
+				var max = Math.max.apply(Math,cat.map(function(o){return o.heatingpowerkw;}));
+				var min = Math.min.apply(Math,cat.map(function(o){return o.heatingpowerkw;}));
+				console.log(z+" max:");
+				console.log(max);
+				console.log(z+" min:");
+				console.log(min);
+
+				// if (this.heatingkwvalue > min && this.heatingkwvalue < max) {
+				// 	console.log("Category "+materalcategories[i].materialcatname+" added to availablecategories.")
+				// 	availablecategories.push(materalcategories[i]);
+				// }
+			}
+			
+			return availablecategories;
+		},
+		filterbyattrvalue: function (arr, attr, val) {
+			var filtered = [];
+			
+			for (i=0; i<arr.length; i++) {
+				if (arr[i][attr] == val) {
+					filtered.push(arr[i]);
+				}
+			}
+
+			return filtered;
 		},
 	}
 });
