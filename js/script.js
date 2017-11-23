@@ -469,6 +469,7 @@ var vm = new Vue({
 			for (i=0; i < cons.length; i++){
 				if (cons[i].id == event.currentTarget.id) {
 					this.heatingkwvalue -= parseInt(cons[i].heatingkw);
+					this.electrpowerkwvalue -= parseInt(cons[i].electrkw);
 				}
 			}
 
@@ -586,6 +587,7 @@ var vm = new Vue({
 		clearchecked: function () {			
 				this.checkedid = [];
 				this.heatingkwvalue = 0;
+				this.electrpowerkwvalue = 0;
 		},
 
 		//clears after results
