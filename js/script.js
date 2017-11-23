@@ -750,22 +750,17 @@ var vm = new Vue({
 			var cat = [];
 			var availablecategories = [];
 
-			for (z=0; z<=allcategories.length; z++) {
-				console.log(allcategories[z].materialcatname);
+			for (z=0; z<allcategories.length; z++) {
 				cat = this.filterbyattrvalue(this.prodlist[0], 'materialcategory', allcategories[z].materialcategory);
-				console.log("var cat:");
-				console.log(cat);
 				var max = Math.max.apply(Math,cat.map(function(o){return o.heatingpowerkw;}));
 				var min = Math.min.apply(Math,cat.map(function(o){return o.heatingpowerkw;}));
-				console.log(z+" max:");
-				console.log(max);
-				console.log(z+" min:");
-				console.log(min);
+				console.log(allcategories[z].materialcatname+" max: "+max);
+				console.log(allcategories[z].materialcatname+" min: "+min);
 
-				// if (this.heatingkwvalue > min && this.heatingkwvalue < max) {
-				// 	console.log("Category "+materalcategories[i].materialcatname+" added to availablecategories.")
-				// 	availablecategories.push(materalcategories[i]);
-				// }
+				if (this.heatingkwvalue > min && this.heatingkwvalue < max) {
+					console.log("Category "+allcategories[z].materialcatname+" added to availablecategories.")
+					availablecategories.push(allcategories[z]);
+				}
 			}
 			
 			return availablecategories;
