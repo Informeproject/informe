@@ -219,7 +219,8 @@
 					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitys- ja sähkötehon tarve (ajoneuvopolttoaineet ei mukana): </div>
 					<div class="biginfotext"><h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4></div>
 					<div class="biginfotext"><h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4></div>
-					<div class="biginfotext"><h4>Rakennusten yhteenlaskettu tehonkulutus: {{ heatingkwvalue }} kW</h4></div>			
+					<div class="biginfotext"><h4>Yhteenlaskettu lämmitysenergian tehonkulutus: {{ heatingkwvalue }} kW</h4></div>
+					<div class="biginfotext"><h4>Yhteenlaskettu laitesähkön tehonkulutus: {{ electrpowerkwvalue }} kW</h4></div>			
 					<!-- consumption chart -->
 					<div class="row text-center" style="width: 100%; height: 100%;">
 						<div id="resultchart" class="col-md-12"></div>
@@ -310,7 +311,7 @@
 					<template v-if="prodstep == 0">
 						<div class="row">
 							<div class="col-md-12">			
-								<h5>Valitsemiesi rakennusten arvioitu lämmitystehon tarve on yhteensä {{result}} kW. Tällä sovelluksella on mahdollista tarkastella lämmön tuotantoa seuraavista lähteistä: 
+								<h5>Valitsemiesi rakennusten arvioitu lämmitystehon tarve on yhteensä {{ heatingkwvalue }} kW. Tällä sovelluksella on mahdollista tarkastella lämmön tuotantoa seuraavista lähteistä: 
                 metsä, pelto, biokaasutukseen soveltuvat peltobiomassat ja lanta. Valitsemiisi kohteisiin soveltuvat parhaiten alla olevat vaihtoehdot. Valitse tarkasteltavat lähteet</h5>
                 <h4>Valitse energiatyyppi:</h4>
 								<ul style="list-style: none" class="prodmatlist">
@@ -346,7 +347,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								                                                      
-								<p>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{eResult}} kW. Tämän sovelluksen avulla on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta sähköstä</p>
+								<p>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{ electrpowerkwvalue }} kW. Tämän sovelluksen avulla on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta sähköstä</p>
 								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
                 <h4>Valitse aurinkopaneelin teholuokka:</h4> 
 								<ul style="list-style: none" class="prodmatlist">
@@ -385,7 +386,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'panelangle')">
 										<label>
-										<button class="srcselectbtn" @click="prodstep = 5; prodParams.push(item.panelangle); heatingCatTextSelect(0);">{{item.panelangle}}&#176;</button><br>
+										<button class="srcselectbtn" @click="prodstep = 5; prodchoices.push(item.panelangle); heatingCatTextSelect(0);">{{item.panelangle}}&#176;</button><br>
 										<img :src="'img/production/'+item.panelangle+'.png'" style="height: 150px;" />
 									</label>
 									</li>
