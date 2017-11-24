@@ -386,3 +386,17 @@ html, body {
 	width: 200px;
 	height: auto;
 }
+.shoplistbackground {
+	
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	background-color: #21a07f;
+	color: #ffffff !important;
+}
+#shoplistcolor{
+	color: #000000;
+	border: solid;
+	border-color: #21a07f;
+	border-width: 1px;
+	border-radius: 12px !important;
+}
