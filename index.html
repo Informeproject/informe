@@ -114,9 +114,9 @@
 							<br> Tässä sovelluksessa on rajallinen määrä kohteita, joten valitse lähin sopiva.</p>
 					</div>
 					<!-- building category tabs -->
-					<div class="row">
+					<div class="row text-center">
 						<div class="col-md-12">
-							<ul class="nav nav-tabs nav-justified shoplistbackground text-center col-md-12">
+							<ul class="nav nav-tabs nav-justified shoplistbackground">
 								<li class="active"><a data-toggle="tab" v-on:click="buildingcategory = 0" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Asuinrakennukset</a></li>
 								<li><a data-toggle="tab" v-on:click="buildingcategory = 1" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Muut rakennukset</a></li>
 								<li><a data-toggle="tab" v-on:click="buildingcategory = 2" data-toggle="collapse" data-parent="#container" id="shoplistcolor" >Tuotantorakennukset</a></li>
@@ -147,7 +147,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<button type="button" class="btn" v-on:click="clearchecked()">Tyhjennä valinnat</button>
-							<button type="button" class="btn" v-show="showSelected===false" v-on:click="showSelected=true"> Näytä valinnat </button>
+							<!--<button type="button" class="btn" v-show="showSelected===false" v-on:click="showSelected=true"> Näytä valinnat </button>-->
 							<button type="button" class="btn" v-show="showSelected===true" v-on:click="showSelected=false"> Piilota</button>
 						</div>
 					</div>
@@ -347,9 +347,9 @@
 						<div class="row">
 							<div class="col-md-12">
 								                                                      
-								<p>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{ electrpowerkwvalue }} kW. Tämän sovelluksen avulla on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta sähköstä</p>
-								<p>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</p>
-                <h4>Valitse aurinkopaneelin teholuokka:</h4> 
+								<h5>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{ electrpowerkwvalue }} kW. Tämän sovelluksen avulla on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta sähköstä</h5>
+								<h5>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</h5>
+                				<h4>Valitse aurinkopaneelin teholuokka:</h4> 
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
 										<label>
