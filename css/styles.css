@@ -387,7 +387,7 @@ html, body {
 	height: auto;
 }
 .shoplistbackground {
-	
+	margin-left: 3.5%;
 }
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
 	background-color: #21a07f;
@@ -399,4 +399,5 @@ html, body {
 	border-color: #21a07f;
 	border-width: 1px;
 	border-radius: 12px !important;
+	width: 190px;
 }
