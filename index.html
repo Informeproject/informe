@@ -128,7 +128,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<p>Lämmitystehon tarve {{ heatingkwvalue }} kW</p>
-							<p>Sähkötehon tarve {{ electrpowerkwvalue }} kW</p>
+							<!--<p>Sähkötehon tarve {{ electrpowerkwvalue }} kW</p>-->
 						</div>
 					</div>
 					<!-- show selected buildings (checkedid-loop) -->
@@ -220,7 +220,7 @@
 					<div class="biginfotext"><h4>Lämmitystehon tarve: {{result}} kWh vuodessa</h4></div> <!-- Lämmitysenergian kulutus -->
 					<div class="biginfotext"><h4>Sähkötehon tarve (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4></div> <!--laitesähkön tehonkulutus -->
 					<div class="biginfotext"><h4>Yhteenlaskettu lämmitystehon tarve: {{ heatingkwvalue }} kW</h4></div> <!--lämmitysenergian tehonkulutus-->
-					<div class="biginfotext"><h4>Yhteenlaskettu sähkötehon tarve: {{ electrpowerkwvalue }} kW</h4></div> <!--laitesähkön tehonkulutus-->
+					<!--<div class="biginfotext"><h4>Yhteenlaskettu sähkötehon tarve: {{ electrpowerkwvalue }} kW</h4></div> laitesähkön tehonkulutus-->
 					<!-- consumption chart -->
 					<div class="row text-center" style="width: 100%; height: 100%;">
 						<div id="resultchart" class="col-md-12"></div>
@@ -293,9 +293,9 @@
 							</h5>Tässä osiossa voit tarkastella eri vaihtoehtoja uusiutuvan energian tuotantoon. Valitse ensin, haluatko tarkastella lämmön vai sähkön tuotantomahdollisuuksia</h5>
 							<br>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-12" style="margin-top: 25px;">
 							<div class="col-md-4">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
+								<button type="button" disabled class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
 							</div>
 							<div class="col-md-4">
 								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]);">Sähköä</button>
@@ -470,98 +470,8 @@
 							</div>
 						</div>
 					</template>
-					<!-- results modal -->
-					<div id="prodresultmodal" class="modal col-md-12" role="dialog">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal">&times;</button>
-									<h4>Energianlähde: {{this.prodmodalvalue.energysource}}</h4>
-								</div>
-								<div class="modal-body col-md-12">
-									<div class="row">
-										<p>Tuotantotapa: {{this.prodmodalvalue.method}}</p>
-									</div>
-									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelin kulma: {{this.prodmodalvalue.panelangle}}°, paneelin suunta: {{this.prodmodalvalue.paneldirection}}</p>
-									<p v-if="(prodmodalvalue.energycategory) == 1">Tarvittava määrä: {{parseInt(heatresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>
-									<p v-if="(prodmodalvalue.energycategory) == 1">Tuotantolaitoksen teholuokka: {{this.prodmodalvalue.heatingpowerkw}} kW</p>
-									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelien teholuokka: {{this.prodmodalvalue.electrpowerkw}} kW</p>
-									<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>
-									<br>
-									<div class="row text-center">
-										<p>Alla on esitetty energiantuotannon jakautuminen kuukausittain sekä valittujen kohteiden laitesähkön kuukausikulutus</p>
-									</div>
-									<div class="row text-center">
-										<div id="prodmodalchart"></div>
-									</div>
-									<!-- consumption values (needs cleanup) -->
-									<div class="row">
-										<div class="col-md-12">
-											<div v-if="(prodmodalvalue.energycategory) == 1">
-												<p>
-													Yhteenlaskettu arvioitu lämmitysenergian tuotanto: {{((parseInt(this.prodmodalvalue.heatjanuary)) + (parseInt(this.prodmodalvalue.heatfebruary))
-													+ (parseInt(this.prodmodalvalue.heatmarch)) + (parseInt(this.prodmodalvalue.heatapril)) + (parseInt(this.prodmodalvalue.heatmay))
-													+ (parseInt(this.prodmodalvalue.heatjune)) + (parseInt(this.prodmodalvalue.heatjuly)) + (parseInt(this.prodmodalvalue.heataugust))
-													+ (parseInt(this.prodmodalvalue.heatseptember)) + (parseInt(this.prodmodalvalue.heatoctober)) + (parseInt(this.prodmodalvalue.heatnovember))
-													+ (parseInt(this.prodmodalvalue.heatdecember)))}} kWh vuodessa
-												</p>
-												<br>
-												<p>Kuukausierittely:</p>
-												<p>Tammikuu: {{parseInt(this.prodmodalvalue.heatjanuary)}} kWh, Helmikuu: {{parseInt(this.prodmodalvalue.heatfebruary)}}
-													kWh
-												</p>
-												<p>Maaliskuu: {{parseInt(this.prodmodalvalue.heatmarch)}} kWh, Huhtikuu: {{parseInt(this.prodmodalvalue.heatapril)}}
-													kWh
-												</p>
-												<p>Toukokuu: {{parseInt(this.prodmodalvalue.heatmay)}} kWh, Kesäkuu: {{parseInt(this.prodmodalvalue.heatjune)}}
-													kWh
-												</p>
-												<p>Heinäkuu: {{parseInt(this.prodmodalvalue.heatjuly)}} kWh, Elokuu: {{parseInt(this.prodmodalvalue.heataugust)}}
-													kWh
-												</p>
-												<p>Syyskuu: {{parseInt(this.prodmodalvalue.heatseptember)}} kWh, Lokakuu: {{parseInt(this.prodmodalvalue.heatoctober)}}
-													kWh
-												</p>
-												<p>Marraskuu: {{parseInt(this.prodmodalvalue.heatnovember)}} kWh, Joulukuu: {{parseInt(this.prodmodalvalue.heatdecember)}}
-													kWh
-												</p>
-											</div>
-											<div v-if="(prodmodalvalue.energycategory) == 2">
-												<p>
-													Yhteenlaskettu arvioitu laitesähkön tuotanto: {{((parseInt(this.prodmodalvalue.electjanuary)) + (parseInt(this.prodmodalvalue.electfebruary))
-													+ (parseInt(this.prodmodalvalue.electmarch)) + (parseInt(this.prodmodalvalue.electapril)) + (parseInt(this.prodmodalvalue.electmay))
-													+ (parseInt(this.prodmodalvalue.electjune)) + (parseInt(this.prodmodalvalue.electjuly)) + (parseInt(this.prodmodalvalue.electaugust))
-													+ (parseInt(this.prodmodalvalue.electseptember)) + (parseInt(this.prodmodalvalue.electoctober)) + (parseInt(this.prodmodalvalue.electnovember))
-													+ (parseInt(this.prodmodalvalue.electdecember)))}} kWh vuodessa
-												</p>
-												<p>Tammikuu: {{parseInt(this.prodmodalvalue.electjanuary)}} kWh, Helmikuu: {{parseInt(this.prodmodalvalue.electfebruary)}}
-													kWh
-												</p>
-												<p>Maaliskuu: {{parseInt(this.prodmodalvalue.electmarch)}} kWh, Huhtikuu: {{parseInt(this.prodmodalvalue.electapril)}}
-													kWh
-												</p>
-												<p>Toukokuu: {{parseInt(this.prodmodalvalue.electmay)}} kWh, Kesäkuu: {{parseInt(this.prodmodalvalue.electjune)}}
-													kWh
-												</p>
-												<p>Heinäkuu: {{parseInt(this.prodmodalvalue.electjuly)}} kWh, Elokuu: {{parseInt(this.prodmodalvalue.electaugust)}}
-													kWh
-												</p>
-												<p>Syyskuu: {{parseInt(this.prodmodalvalue.electseptember)}} kWh, Lokakuu: {{parseInt(this.prodmodalvalue.electoctober)}}
-													kWh
-												</p>
-												<p>Marraskuu: {{parseInt(this.prodmodalvalue.electnovember)}} kWh, Joulukuu: {{parseInt(this.prodmodalvalue.electdecember)}}
-													kWh
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default calculatebtn" data-dismiss="modal" style="background-color: #61a786; color: white;">Sulje</button>
-								</div>
-							</div>
-						</div>
-					</div>
+					
+					
 				</div>
 			</div>
 		</div>
