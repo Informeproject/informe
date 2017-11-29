@@ -127,8 +127,8 @@
 					<!-- show required heating energy in kW (heatingkwvalue) -->
 					<div class="row">
 						<div class="col-md-12">
-							<p>Lämmönkulutus yhteensä {{ heatingkwvalue }} kW</p>
-							<p>Sähkönkulutus yhteensä {{ electrpowerkwvalue }} kW</p>
+							<p>Lämmitystehon tarve {{ heatingkwvalue }} kW</p>
+							<p>Sähkötehon tarve {{ electrpowerkwvalue }} kW</p>
 						</div>
 					</div>
 					<!-- show selected buildings (checkedid-loop) -->
@@ -186,7 +186,7 @@
 						</div>
 					</div>
 					<!-- show warning and disable calculate-button when exceeding max kW -->
-					<h4 v-show="heatingovermaximum" class="heatingmaxwarning">Lämmön kulutus saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4>
+					<h4 v-show="heatingovermaximum" class="heatingmaxwarning">Lämmitystehon tarve saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4>
 					<!-- calculate-button -->
 					<div class="row" style="margin-top: 20px; margin-bottom: 25px;">
 						<div class="col-md-12">
@@ -216,11 +216,11 @@
 			<div class="panel-collapse collapse text-center" id="resulttab" style="margin-bottom: 60px !important;">
 				<div class="col-md-8">
 					<!-- calculated values -->
-					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitys- ja sähkötehon tarve (ajoneuvopolttoaineet ei mukana): </div>
-					<div class="biginfotext"><h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4></div>
-					<div class="biginfotext"><h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4></div>
-					<div class="biginfotext"><h4>Yhteenlaskettu lämmitysenergian tehonkulutus: {{ heatingkwvalue }} kW</h4></div>
-					<div class="biginfotext"><h4>Yhteenlaskettu laitesähkön tehonkulutus: {{ electrpowerkwvalue }} kW</h4></div>			
+					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitystehon ja sähkötehon kulutus (ajoneuvopolttoaineet ei mukana): </div>
+					<div class="biginfotext"><h4>Lämmitystehon tarve: {{result}} kWh vuodessa</h4></div> <!-- Lämmitysenergian kulutus -->
+					<div class="biginfotext"><h4>Sähkötehon tarve (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4></div> <!--laitesähkön tehonkulutus -->
+					<div class="biginfotext"><h4>Yhteenlaskettu lämmitystehon tarve: {{ heatingkwvalue }} kW</h4></div> <!--lämmitysenergian tehonkulutus-->
+					<div class="biginfotext"><h4>Yhteenlaskettu sähkötehon tarve: {{ electrpowerkwvalue }} kW</h4></div> <!--laitesähkön tehonkulutus-->
 					<!-- consumption chart -->
 					<div class="row text-center" style="width: 100%; height: 100%;">
 						<div id="resultchart" class="col-md-12"></div>
@@ -290,8 +290,7 @@
 					<!-- buttons for heat/electr/chp -->
 					<div class="row" style="margin-bottom: 35px">
 						<div>
-							<h5>Tässä osiossa voit tarkastella eri vaihtoehtoja uusiutuvan energian tuotantoon. Valitse ensin, haluatko tarkastella lämmön vai sähkön tuotantomahdollisuuksia</h5>
-              <h4>Valitse, mitä haluat tuottaa:</h4>
+							</h5>Tässä osiossa voit tarkastella eri vaihtoehtoja uusiutuvan energian tuotantoon. Valitse ensin, haluatko tarkastella lämmön vai sähkön tuotantomahdollisuuksia</h5>
 							<br>
 						</div>
 						<div class="col-md-12">
