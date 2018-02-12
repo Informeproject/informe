@@ -589,6 +589,9 @@ var vm = new Vue({
 				this.heatingkwvalue = 0;
 				this.electrpowerkwvalue = 0;
 		},
+		clearproductionresults: function () {			
+			this.finalpage = [];
+		},
 
 		//clears after results
 		clearresults: function () {		

@@ -317,13 +317,13 @@
 						</div>
 						<div class="col-md-12" style="margin-top: 25px;">
 							<div class="col-md-4">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false; clearproductionresults();">Lämpöä</button>
 							</div>
 							<div class="col-md-4">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]);">Sähköä</button>
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]); clearproductionresults();">Sähköä</button>
 							</div>
 							<div class="col-md-4">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 2; selectElecheating = true; selectHeating = false; selectElectricity = false"
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 2; selectElecheating = true; selectHeating = false; selectElectricity = false; clearproductionresults();"
 								 disabled>CHP</button>
 							</div>
 						</div>
@@ -339,7 +339,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in preparematerialcategories()">
 										<label>
-											<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory )">{{item.materialcatname}}</button>
+											<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory ); clearproductionresults();">{{item.materialcatname}}</button>
 											<br>
 											<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 										</label>
