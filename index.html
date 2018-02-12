@@ -490,7 +490,7 @@
 												<br>Suunta: {{item.paneldirection}}</p>
 											{{item.method}}
 											<br>
-											<p v-if="(item.energycategory) == 1">{{parseInt(heatresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
+											<p v-if="(item.energycategory) == 1">{{parseInt((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))}} {{item.inputunit}}</p>
 											<p v-if="(item.energycategory) == 2 || (item.energycategory) == 3">{{parseInt(electrresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
 										</button>
 									</li>
@@ -498,8 +498,7 @@
 							</div>
 						</div>
 					</template>
-
-
+					
 				</div>
 			</div>
 		</div>
