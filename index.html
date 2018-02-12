@@ -48,19 +48,19 @@
 				<h2>Tervetuloa käyttämään InforME:n energiasovellusta</h2>
 				<h3 style="color: red;">
 					<script>
-                		var ba = ["MSIE","Trident"];
-                		var b, ua = navigator.userAgent;
-                		for(var i=0; i < ba.length; i++){
-                    		if( ua.indexOf(ba[i]) > -1 ){
-                        		b = ba[i];
-                        		break;
-                    		}
-                		}
-                		if(b == "MSIE" || b == "Trident"){
-                    		b = "Internet Explorer";
+						var ba = ["MSIE", "Trident"];
+						var b, ua = navigator.userAgent;
+						for (var i = 0; i < ba.length; i++) {
+							if (ua.indexOf(ba[i]) > -1) {
+								b = ba[i];
+								break;
+							}
+						}
+						if (b == "MSIE" || b == "Trident") {
+							b = "Internet Explorer";
 							document.write("Käytät " + b + " -selainta, eivätkä sivumme kaikki ominaisuutemme toimi sillä. Toivomme, että vaihdatte toiseen selaimeen, esimerkiksi Google Chrome tai Mozilla Firefox.");
-                		}
-                	</script>
+						}
+					</script>
 				</h3>
 				<p>
 					Tällä sovelluksella voi tarkastella erilaisten rakennusten tyypillisiä kulutusprofiileja ja eri energiantuotantotekniikoiden
@@ -79,12 +79,15 @@
 					uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi
 					tulee aina perustaa tarkempiin laskelmiin.
 					<br>
+					<br> Tämän sovelluksen tulokset ovat suuntaa antavia ja neuvonnallisia. Sovelluksen on tarkoitus on madaltaa kynnystä tutustua
+					uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi
+					tulee aina perustaa tarkempiin laskelmiin.
 					<br>
-					Tämän sovelluksen tulokset ovat suuntaa antavia ja neuvonnallisia. Sovelluksen on tarkoitus on madaltaa kynnystä tutustua uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi tulee aina perustaa tarkempiin laskelmiin. 
-					<br><br>
-					Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
-					<br><br>
-					</p>
+					<br> Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista
+					virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
+					<br>
+					<br>
+				</p>
 				</p>
 			</div>
 		</modal>
@@ -117,10 +120,18 @@
 					<div class="row text-center">
 						<div class="col-md-12">
 							<ul class="nav nav-tabs nav-justified shoplistbackground">
-								<li class="active"><a data-toggle="tab" v-on:click="buildingcategory = 0" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Asuinrakennukset</a></li>
-								<li><a data-toggle="tab" v-on:click="buildingcategory = 1" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Muut rakennukset</a></li>
-								<li><a data-toggle="tab" v-on:click="buildingcategory = 2" data-toggle="collapse" data-parent="#container" id="shoplistcolor" >Tuotantorakennukset</a></li>
-								<li class="disabled"><a data-toggle="tab" v-on:click="buildingcategory = 3" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Kuivurit</a></li>
+								<li class="active">
+									<a data-toggle="tab" v-on:click="buildingcategory = 0" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Asuinrakennukset</a>
+								</li>
+								<li>
+									<a data-toggle="tab" v-on:click="buildingcategory = 1" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Muut rakennukset</a>
+								</li>
+								<li>
+									<a data-toggle="tab" v-on:click="buildingcategory = 2" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Tuotantorakennukset</a>
+								</li>
+								<li class="disabled">
+									<a data-toggle="tab" v-on:click="buildingcategory = 3" data-toggle="collapse" data-parent="#container" id="shoplistcolor">Kuivurit</a>
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -217,9 +228,18 @@
 				<div class="col-md-8">
 					<!-- calculated values -->
 					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitystehon ja sähkötehon kulutus (ajoneuvopolttoaineet ei mukana): </div>
-					<div class="biginfotext"><h4>Lämmitystehon tarve: {{result}} kWh vuodessa</h4></div> <!-- Lämmitysenergian kulutus -->
-					<div class="biginfotext"><h4>Sähkötehon tarve (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4></div> <!--laitesähkön tehonkulutus -->
-					<div class="biginfotext"><h4>Yhteenlaskettu lämmitystehon tarve: {{ heatingkwvalue }} kW</h4></div> <!--lämmitysenergian tehonkulutus-->
+					<div class="biginfotext">
+						<h4>Lämmitystehon tarve: {{result}} kWh vuodessa</h4>
+					</div>
+					<!-- Lämmitysenergian kulutus -->
+					<div class="biginfotext">
+						<h4>Sähkötehon tarve (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4>
+					</div>
+					<!--laitesähkön tehonkulutus -->
+					<div class="biginfotext">
+						<h4>Yhteenlaskettu lämmitystehon tarve: {{ heatingkwvalue }} kW</h4>
+					</div>
+					<!--lämmitysenergian tehonkulutus-->
 					<!--<div class="biginfotext"><h4>Yhteenlaskettu sähkötehon tarve: {{ electrpowerkwvalue }} kW</h4></div> laitesähkön tehonkulutus-->
 					<!-- consumption chart -->
 					<div class="row text-center" style="width: 100%; height: 100%;">
@@ -279,7 +299,8 @@
 			<div class="row text-center">
 				<div class="header col-md-12" style="border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
 					<label>TUOTANTO</label>
-					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" data-target="#productiontab" data-parent="#container" v-on:click="prodstep = -1; selectHeating = false; selectElectricity = false;  selectElecheating = false">
+					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" data-target="#productiontab" data-parent="#container"
+					 v-on:click="prodstep = -1; selectHeating = false; selectElectricity = false;  selectElecheating = false">
 						<span class="glyphicon glyphicon-menu-down"></span>
 					</button>
 				</div>
@@ -290,35 +311,38 @@
 					<!-- buttons for heat/electr/chp -->
 					<div class="row" style="margin-bottom: 35px">
 						<div>
-							</h5>Tässä osiossa voit tarkastella eri vaihtoehtoja uusiutuvan energian tuotantoon. Valitse ensin, haluatko tarkastella lämmön vai sähkön tuotantomahdollisuuksia</h5>
+							</h5>Tässä osiossa voit tarkastella eri vaihtoehtoja uusiutuvan energian tuotantoon. Valitse ensin, haluatko tarkastella
+							lämmön vai sähkön tuotantomahdollisuuksia</h5>
 							<br>
 						</div>
 						<div class="col-md-12" style="margin-top: 25px;">
 							<div class="col-md-4">
-								<button type="button" disabled class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false">Lämpöä</button>
 							</div>
 							<div class="col-md-4">
 								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]);">Sähköä</button>
 							</div>
 							<div class="col-md-4">
 								<button type="button" class="btn prodtypebtn" @click="prodstep = 2; selectElecheating = true; selectHeating = false; selectElectricity = false"
-									disabled>CHP</button>
+								 disabled>CHP</button>
 							</div>
 						</div>
 					</div>
 					<!-- initial heating buttons -->
 					<template v-if="prodstep == 0">
 						<div class="row">
-							<div class="col-md-12">			
-								<h5>Valitsemiesi rakennusten arvioitu lämmitystehon tarve on yhteensä {{ heatingkwvalue }} kW. Tällä sovelluksella on mahdollista tarkastella lämmön tuotantoa seuraavista lähteistä: 
-                metsä, pelto, biokaasutukseen soveltuvat peltobiomassat ja lanta. Valitsemiisi kohteisiin soveltuvat parhaiten alla olevat vaihtoehdot. Valitse tarkasteltavat lähteet</h5>
-                <h4>Valitse energiatyyppi:</h4>
+							<div class="col-md-12">
+								<h5>Valitsemiesi rakennusten arvioitu lämmitystehon tarve on yhteensä {{ heatingkwvalue }} kW. Tällä sovelluksella on
+									mahdollista tarkastella lämmön tuotantoa seuraavista lähteistä: metsä, pelto, biokaasutukseen soveltuvat peltobiomassat
+									ja lanta. Valitsemiisi kohteisiin soveltuvat parhaiten alla olevat vaihtoehdot. Valitse tarkasteltavat lähteet</h5>
+								<h4>Valitse energiatyyppi:</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in preparematerialcategories()">
 										<label>
-										<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory )">{{item.materialcatname}}</button><br>
-										<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
-									</label>
+											<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory )">{{item.materialcatname}}</button>
+											<br>
+											<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
+										</label>
 									</li>
 								</ul>
 							</div>
@@ -345,10 +369,13 @@
 					<template v-if="prodstep == 6">
 						<div class="row">
 							<div class="col-md-12">
-								                                                      
-								<h5>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{ electrpowerkwvalue }} kW. Tämän sovelluksen avulla on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta sähköstä</h5>
+
+								<h5>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{ electrpowerkwvalue }} kW. Tämän sovelluksen avulla
+									on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää
+									haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta
+									sähköstä</h5>
 								<h5>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</h5>
-                				<h4>Valitse aurinkopaneelin teholuokka:</h4> 
+								<h4>Valitse aurinkopaneelin teholuokka:</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'electrpowerkw')">
 										<label>
@@ -385,9 +412,10 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'panelangle')">
 										<label>
-										<button class="srcselectbtn" @click="prodstep = 5; prodchoices.push(item.panelangle); heatingCatTextSelect(0);">{{item.panelangle}}&#176;</button><br>
-										<img :src="'img/production/'+item.panelangle+'.png'" style="height: 150px;" />
-									</label>
+											<button class="srcselectbtn" @click="prodstep = 5; prodchoices.push(item.panelangle); heatingCatTextSelect(0);">{{item.panelangle}}&#176;</button>
+											<br>
+											<img :src="'img/production/'+item.panelangle+'.png'" style="height: 150px;" />
+										</label>
 									</li>
 								</ul>
 							</div>
@@ -447,13 +475,13 @@
 						<div class="row">
 							<h4 v-if="selectHeating">Lämmitysenergian tarve: {{parseInt(heatresult)}} kWh</h4>
 							<h4 v-if="(selectElectricity || selectElecheating)">Laitesähkön tarve: {{parseInt(electrresult)}} kWh</h4>
-							<br>	
+							<br>
 						</div>
 						<p class="text-center">{{HCTS}}</p>
 						<div class="row">
 							<div class="col-md-12" style="margin-bottom: 35px;">
 								<ul style="list-style: none" class="prodresultlist">
-									<li v-for="item in this.finalpage[0]">
+									<li v-for="item in this.finalpage">
 										<button class="btn prodresultbutton" v-bind:id="item.id" v-on:click="getproducer(item.energycategory, item.materialcategory, item.energysource, item.heatingpowerkw, item.electrpowerkw, item.panelangle, item.paneldirection)"
 										 data-toggle="modal" data-target="#prodresultmodal">
 											{{item.energysource}}
@@ -470,8 +498,8 @@
 							</div>
 						</div>
 					</template>
-					
-					
+
+
 				</div>
 			</div>
 		</div>

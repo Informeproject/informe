@@ -617,43 +617,35 @@ var vm = new Vue({
 			console.log(this.HCTS);
 		},
 		heatingprods: function (energycat, materialcat) {
-			console.log(energycat, materialcat);
-			var r = 0;
-			r = this.roundtonearest(energycat, materialcat);
-			console.log("heatingprods r: "+r);
-			this.heatingpowersize = r;
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory='+energycat+'&materialcategory='+materialcat+'&heatingpowerkw='+r, {params:  {}} ).then(
-				function (response) {
-					Vue.set(this.finalpage, 0, response.data);
-					this.prodstep = 3;
-				}, function (error) {
-					//handle error
-			});
-		},
-		electrprods: function (energycat, materialcat, kwsize, panelang, paneldir) {
-			console.log(energycat, materialcat, kwsize, panelang, paneldir)
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory='+energycat+'&materialcategory='+materialcat+'&electrpowerkw='+kwsize+'&panelangle='+panelang+'&paneldirection='+paneldir, {params:  {}} ).then(
-				function (response) {
-					Vue.set(this.finalpage, 0, response.data);
-					this.prodstep = 3;		
-				}, function (error) {
-					//handle error
-			});
+			console.log("Energy category: "+energycat+", Material category: "+materialcat);
+			
+			var producers = this.producerlist[0];
+			var roundedup = 0;
+			var roundeddown = 0;
+
+			roundedup = this.nextproductionscale(energycat, materialcat);
+			roundeddown = this.lastproductionscale(energycat, materialcat);
+			
+			console.log("The first production option to cover consumption: "+roundedup);
+			
+			this.heatingpowersize = roundedup;
+			
+			for (i=0, j=0; i<producers.length; i++) {
+				if (producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
+					if (producers[i].heatingpowerkw == roundedup) {
+						Vue.set(this.finalpage, j, producers[i]);
+						j++;
+					}
+					else if (producers[i].heatingpowerkw == roundeddown){
+						Vue.set(this.finalpage, j, producers[i]);
+						j++;
+					}
+				}
+			}
+
 			this.prodstep = 3;
 		},
-		noduplicates: function (obj, key) {
-			var uniques = [];
-			var checklist = [];
-			$.each(obj, function(i, val){
-				if($.inArray(val[key], checklist) === -1) {
-					uniques.push(val);
-					checklist.push(val[key]);
-				}
-			});
-			return uniques;
-		},
-		roundtonearest: function (energycat, materialcat) {
-			console.log("roundtonearestt"+energycat, materialcat);
+		nextproductionscale: function (energycat, materialcat) {
 			producers = this.producerlist[0];
 			var val = this.heatingkwvalue;
 			var values = [];
@@ -676,10 +668,91 @@ var vm = new Vue({
 				}
 			}
 			
-			console.log("roundtonearest r: "+r);
+			console.log("nextproductionscale r: "+r);
 
 			return r;
 		},
+		lastproductionscale: function (energycat, materialcat) {
+			producers = this.producerlist[0];
+			var val = this.heatingkwvalue;
+			var values = [];
+			var r;
+
+			for (i=0; i<producers.length; i++) {
+				if(producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
+					var heatingpower = parseInt(producers[i].heatingpowerkw);
+					Vue.set(values, i, heatingpower);
+				}
+			}
+			
+			values.sort(function(a, b){return a-b});
+
+			for (i = 0; i < values.length; i++) {
+				if (val <= values[i]) {
+					
+					r = values[i-1];
+					break;
+				}
+			}
+			
+			console.log("lastproductionscale r: "+r);
+
+			return r;
+		},
+		electrprods: function (energycat, materialcat, kwsize, panelang, paneldir) {
+			console.log(energycat, materialcat, kwsize, panelang, paneldir)
+			var producers = this.producerlist[0];
+			for (i=0; i<producers.length; i++) {
+				if (producers[i].energycategory == energycat &&
+					producers[i].materialcategory == materialcat &&
+					producers[i].electrpowerkw == kwsize &&
+					producers[i].panelangle == panelang &&
+					producers[i].paneldirection == paneldir
+					) {
+						Vue.set(this.finalpage, 0, producers[i]);
+						this.prodstep = 3;
+					}
+			}
+		},
+		noduplicates: function (obj, key) {
+			var uniques = [];
+			var checklist = [];
+			$.each(obj, function(i, val){
+				if($.inArray(val[key], checklist) === -1) {
+					uniques.push(val);
+					checklist.push(val[key]);
+				}
+			});
+			return uniques;
+		},
+		// roundtonearest: function (energycat, materialcat) {
+		// 	console.log("roundtonearestt"+energycat, materialcat);
+		// 	producers = this.producerlist[0];
+		// 	var val = this.heatingkwvalue;
+		// 	var values = [];
+		// 	var r;
+
+		// 	for (i=0; i<producers.length; i++) {
+		// 		if(producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
+		// 			var heatingpower = parseInt(producers[i].heatingpowerkw);
+		// 			Vue.set(values, i, heatingpower);
+		// 		}
+		// 	}
+			
+		// 	values.sort(function(a, b){return a-b});
+
+		// 	for (i = 0; i < values.length; i++) {
+		// 		if (val <= values[i]) {
+					
+		// 			r = values[i];
+		// 			break;
+		// 		}
+		// 	}
+			
+		// 	console.log("roundtonearest r: "+r);
+
+		// 	return r;
+		// },
 		getproducer: function (energycat, materialcat, energysrc, powersize, electrpowersize, panelang, paneldir) {
 			var allproducers = this.producerlist[0];
 
@@ -695,7 +768,8 @@ var vm = new Vue({
 						allproducers[i].paneldirection == paneldir
 						) {
 							console.log(allproducers[i].materialcategory);
-							this.prodmodalvalue = allproducers[i];
+							Vue.set(this.prodmodalvalue, 0, allproducers[i]);
+							// this.prodmodalvalue = allproducers[i];
 						}
 				}
 				
@@ -707,7 +781,8 @@ var vm = new Vue({
 						allproducers[i].energysource == energysrc &&
 						allproducers[i].heatingpowerkw == powersize) {
 							console.log(allproducers[i].materialcategory);
-							this.prodmodalvalue = allproducers[i];
+							Vue.set(this.prodmodalvalue, 0, allproducers[i]);
+							// this.prodmodalvalue = allproducers[i];
 						}
 				}
 			}		
