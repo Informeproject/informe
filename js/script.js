@@ -58,6 +58,7 @@ var vm = new Vue({
 		IEDetection: false,
 		heatValueForProd: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 		biogasproducers: [],
+		usingIE: false,
 	},
 	created: function () {
 
@@ -853,6 +854,23 @@ var vm = new Vue({
 			}
 
 			return filtered;
+		},
+		detectIE: function () {
+			var ba = ["MSIE", "Trident"];
+			var b, ua = navigator.userAgent;
+			for (var i = 0; i < ba.length; i++) {
+				if (ua.indexOf(ba[i]) > -1) {
+					b = ba[i];
+					break;
+				}
+			}
+			if (b == "MSIE" || b == "Trident") {
+				console.log("IE detected");
+				return true;
+			}
+			else {
+				return false;
+			}
 		},
 	}
 });

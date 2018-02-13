@@ -29,7 +29,6 @@
 
 <body class="backgroundimg container-fluid">
 
-
 	<!-- banner image -->
 	<div class="col-md-12 container" id="banner">
 		<div class="row text-center">
@@ -37,31 +36,20 @@
 		</div>
 	</div>
 
-
 	<!-- container/wrapper (container) -->
 	<div id="container" class="panel-group col-md-12">
-
 
 		<!-- disclaimer modal -->
 		<modal id="disclaimer" v-if="showDisclaimer" @close="this.acceptdisclaimer">
 			<div slot="body">
 				<h2>Tervetuloa käyttämään InforME:n energiasovellusta</h2>
-				<h3 style="color: red;">
-					<script>
-						var ba = ["MSIE", "Trident"];
-						var b, ua = navigator.userAgent;
-						for (var i = 0; i < ba.length; i++) {
-							if (ua.indexOf(ba[i]) > -1) {
-								b = ba[i];
-								break;
-							}
-						}
-						if (b == "MSIE" || b == "Trident") {
-							b = "Internet Explorer";
-							document.write("Käytät " + b + " -selainta, eivätkä sivumme kaikki ominaisuutemme toimi sillä. Toivomme, että vaihdatte toiseen selaimeen, esimerkiksi Google Chrome tai Mozilla Firefox.");
-						}
-					</script>
+
+				<!-- unsupported browser warning message -->
+				<h3 v-if="detectIE() == true" style="color: red;">
+					Käytät Internet Explorer -selainta, eivätkä sivumme kaikki ominaisuutemme toimi sillä. Toivomme, että vaihdatte toiseen selaimeen,
+					esimerkiksi Google Chrome tai Mozilla Firefox.
 				</h3>
+
 				<p>
 					Tällä sovelluksella voi tarkastella erilaisten rakennusten tyypillisiä kulutusprofiileja ja eri energiantuotantotekniikoiden
 					tuotantopotentiaaleja niille soveltuvilla tehoalueilla. Tuotantorakennusten kulutusluvut on johdettu mm. maatilan energiasuunnitelmista,
@@ -197,7 +185,7 @@
 						</div>
 					</div>
 					<!-- show warning and disable calculate-button when exceeding max kW -->
-					<h4 v-show="heatingovermaximum" class="heatingmaxwarning">Lämmitystehon tarve saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4>
+					<h4 v-if="heatingovermaximum == true" class="heatingmaxwarning">Lämmitystehon tarve saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4>
 					<!-- calculate-button -->
 					<div class="row" style="margin-top: 20px; margin-bottom: 25px;">
 						<div class="col-md-12">
@@ -317,13 +305,13 @@
 						</div>
 						<div class="col-md-12" style="margin-top: 25px;">
 							<div class="col-md-4">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false; clearproductionresults();">Lämpöä</button>
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false;">Lämpöä</button>
 							</div>
 							<div class="col-md-4">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]); clearproductionresults();">Sähköä</button>
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]);">Sähköä</button>
 							</div>
 							<div class="col-md-4">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 2; selectElecheating = true; selectHeating = false; selectElectricity = false; clearproductionresults();"
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 2; selectElecheating = true; selectHeating = false; selectElectricity = false;"
 								 disabled>CHP</button>
 							</div>
 						</div>
@@ -339,7 +327,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in preparematerialcategories()">
 										<label>
-											<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory );">{{item.materialcatname}}</button>
+											<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory )">{{item.materialcatname}}</button>
 											<br>
 											<img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" />
 										</label>
@@ -373,7 +361,8 @@
 								<h5>Valitsemiesi rakennusten arvioitu sähkötehon tarve on yhteensä {{ electrpowerkwvalue }} kW. Tämän sovelluksen avulla
 									on mahdollista tarkastella sähkön tuotantoa aurinkoenergian avulla. Valitse ensin, minkä kokoluokan järjestelmää
 									haluat tarkastella. Ota kuitenkin huomioon, että aurinkoenergialla on kannattavaa tuottaa vain osa tarvittavasta
-									sähköstä</h5>
+									sähköstä
+								</h5>
 								<h5>Todellinen sähköntuotanto vaihtelee vuodenajan, ilmansuunnan, sijainnin ja suuntauksen mukaan.</h5>
 								<h4>Valitse aurinkopaneelin teholuokka:</h4>
 								<ul style="list-style: none" class="prodmatlist">
