@@ -217,11 +217,11 @@
 					<!-- calculated values -->
 					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitystehon ja sähkötehon kulutus (ajoneuvopolttoaineet ei mukana): </div>
 					<div class="biginfotext">
-						<h4>Lämmitystehon tarve: {{result}} kWh vuodessa</h4>
+						<h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4>
 					</div>
 					<!-- Lämmitysenergian kulutus -->
 					<div class="biginfotext">
-						<h4>Sähkötehon tarve (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4>
+						<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4>
 					</div>
 					<!--laitesähkön tehonkulutus -->
 					<div class="biginfotext">
@@ -325,7 +325,7 @@
 									ja lanta. Valitsemiisi kohteisiin soveltuvat parhaiten alla olevat vaihtoehdot. Valitse tarkasteltavat lähteet</h5>
 								<h4>Valitse energiatyyppi:</h4>
 								<ul style="list-style: none" class="prodmatlist">
-									<li v-for="item in preparematerialcategories()">
+									<li v-for="item in noduplicates(this.prodlist[0], 'materialcategory')">
 										<label>
 											<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory )">{{item.materialcatname}}</button>
 											<br>
@@ -435,7 +435,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.materiallist[2], 'origin')">
 										<label>
-											<button class="srcselectbtn" @click="prodstep = 8; prodchoices[0] = item.origin; biogasorigin(item.origin)">{{item.origin}}</button>
+											<button class="srcselectbtn" @click="biogasresults(item.origin)">{{item.origin}}</button>
 											<br>
 											<!-- <img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" /> -->
 										</label>
@@ -445,7 +445,7 @@
 						</div>
 					</template>
 					<!-- biogas scale-->
-					<template v-if="prodstep == 8">
+					<!-- <template v-if="prodstep == 8">
 						<div class="row">
 							<div class="col-md-12">
 								<h4>Biokaasuenergian kokoluokka:</h4>
@@ -458,7 +458,7 @@
 								</ul>
 							</div>
 						</div>
-					</template>
+					</template> -->
 					<!-- result button page -->
 					<template v-if="prodstep == 3">
 						<div class="row">
@@ -475,7 +475,8 @@
 										 data-toggle="modal" data-target="#prodresultmodal">
 											{{item.energysource}}
 											<br>
-											<p v-if="(item.energycategory) == 2">Kulma: {{item.panelangle}}°
+											<p v-if="(item.energycategory) == 2">
+												Kulma: {{item.panelangle}}°
 												<br>Suunta: {{item.paneldirection}}</p>
 											{{item.method}}
 											<br>
@@ -487,7 +488,7 @@
 							</div>
 						</div>
 					</template>
-					
+
 				</div>
 			</div>
 		</div>

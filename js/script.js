@@ -622,32 +622,55 @@ var vm = new Vue({
 		},
 		heatingprods: function (energycat, materialcat) {
 			console.log("Energy category: "+energycat+", Material category: "+materialcat);
-			
-			var producers = this.producerlist[0];
-			var roundedup = 0;
-			var roundeddown = 0;
 
-			roundedup = this.nextproductionscale(energycat, materialcat);
-			roundeddown = this.lastproductionscale(energycat, materialcat);
-			
-			console.log("The first production option to cover consumption: "+roundedup);
-			
-			this.heatingpowersize = roundedup;
-			
-			for (i=0, j=0; i<producers.length; i++) {
-				if (producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
-					if (producers[i].heatingpowerkw == roundedup) {
+			this.finalpage = [];
+
+			// Material category is "biogas"
+			if (materialcat == 3) {
+				this.prodstep = 7;
+				return;
+			}
+			else {
+				var producers = this.producerlist[0];
+
+				// Filter producers by min and max kwh values
+				for (i=0, j=0; i<producers.length; i++) {
+					if ((producers[i].energycategory == energycat && producers[i].materialcategory == materialcat)
+						&& (this.heatingkwvalue > producers[i].heatingpowermin && this.heatingkwvalue < producers[i].heatingpowermax)) {
 						Vue.set(this.finalpage, j, producers[i]);
-						j++;
-					}
-					else if (producers[i].heatingpowerkw == roundeddown){
-						Vue.set(this.finalpage, j, producers[i]);
-						j++;
+						j++;				
 					}
 				}
-			}
 
-			this.prodstep = 3;
+				// Round up and down kwh power and get all producers with same
+				// kwh power as rounded values
+				// var roundedup = 0;
+				// var roundeddown = 0;
+	
+				// roundedup = this.nextproductionscale(energycat, materialcat);
+				// roundeddown = this.lastproductionscale(energycat, materialcat);
+				
+				// console.log("The smallest possible production option to fully cover consumption: "+roundedup);
+				// console.log("The production option to cover as much consumption as possible without exceeding it: "+roundeddown);
+				
+				// this.heatingpowersize = roundedup;
+				
+				// for (i=0, j=0; i<producers.length; i++) {
+				// 	if (producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
+				// 		if (producers[i].heatingpowerkw == roundedup) {
+				// 			Vue.set(this.finalpage, j, producers[i]);
+				// 			j++;
+				// 		}
+				// 		else if (producers[i].heatingpowerkw == roundeddown){
+				// 			Vue.set(this.finalpage, j, producers[i]);
+				// 			j++;
+				// 		}
+				// 	}
+				// }
+				
+				// Change view to results
+				this.prodstep = 3;
+			}		
 		},
 		nextproductionscale: function (energycat, materialcat) {
 			producers = this.producerlist[0];
@@ -705,6 +728,7 @@ var vm = new Vue({
 		},
 		electrprods: function (energycat, materialcat, kwsize, panelang, paneldir) {
 			console.log(energycat, materialcat, kwsize, panelang, paneldir)
+			this.finalpage = [];
 			var producers = this.producerlist[0];
 			for (i=0; i<producers.length; i++) {
 				if (producers[i].energycategory == energycat &&
@@ -808,21 +832,32 @@ var vm = new Vue({
 				this.heatingprods(energycat, materialcat);
 			}
 		},
-		biogasprods: function (energycat, materialcat, origin, kwsize) {
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory='+energycat+'&materialcategory='+materialcat+'&origin='+origin+'&heatingpowerkw='+kwsize, {params:  {}} ).then(
-				function (response) {
-					Vue.set(this.finalpage, 0, response.data);
-					this.prodstep = 3;
-				}, function (error) {
-					//handle error
-			});
-		},
-		biogasorigin: function (origin) {
-			var prods = this.materiallist[2].filter(function(producer){
-				return producer.origin == origin;
-			  });
-			console.log(prods);
-			Vue.set(this.biogasproducers, 0, prods);
+		// biogasprods: function (energycat, materialcat, origin, kwsize) {
+		// 	this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory='+energycat+'&materialcategory='+materialcat+'&origin='+origin+'&heatingpowerkw='+kwsize, {params:  {}} ).then(
+		// 		function (response) {
+		// 			Vue.set(this.finalpage, 0, response.data);
+		// 			this.prodstep = 3;
+		// 		}, function (error) {
+		// 			//handle error
+		// 	});
+		// },
+		// biogasorigin: function (origin) {
+		// 	var prods = this.materiallist[2].filter(function(producer){
+		// 		return producer.origin == origin;
+		// 	  });
+		// 	console.log(prods);
+		// 	Vue.set(this.biogasproducers, 0, prods);
+		// },
+		biogasresults: function (origin) {
+			var producers = this.producerlist[0];
+
+			for (i=0, j=0; i<producers.length; i++) {
+				if (producers[i].origin == origin) {
+					Vue.set(this.finalpage, j, producers[i]);
+					j++;
+				}
+			}
+			this.prodstep = 3;
 		},
 		preparematerialcategories: function () {
 			var allcategories = this.noduplicates(this.prodlist[0], 'materialcategory');
