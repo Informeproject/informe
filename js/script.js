@@ -625,36 +625,50 @@ var vm = new Vue({
 
 			this.finalpage = [];
 
+			// Material category is "biogas"
 			if (materialcat == 3) {
 				this.prodstep = 7;
 				return;
 			}
 			else {
 				var producers = this.producerlist[0];
-				var roundedup = 0;
-				var roundeddown = 0;
-	
-				roundedup = this.nextproductionscale(energycat, materialcat);
-				roundeddown = this.lastproductionscale(energycat, materialcat);
-				
-				console.log("The smallest possible production option to fully cover consumption: "+roundedup);
-				console.log("The production option to cover as much consumption as possible without exceeding it: "+roundeddown);
-				
-				this.heatingpowersize = roundedup;
-				
+
+				// Filter producers by min and max kwh values
 				for (i=0, j=0; i<producers.length; i++) {
-					if (producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
-						if (producers[i].heatingpowerkw == roundedup) {
-							Vue.set(this.finalpage, j, producers[i]);
-							j++;
-						}
-						else if (producers[i].heatingpowerkw == roundeddown){
-							Vue.set(this.finalpage, j, producers[i]);
-							j++;
-						}
+					if ((producers[i].energycategory == energycat && producers[i].materialcategory == materialcat)
+						&& (this.heatingkwvalue > producers[i].heatingpowermin && this.heatingkwvalue < producers[i].heatingpowermax)) {
+						Vue.set(this.finalpage, j, producers[i]);
+						j++;				
 					}
 				}
+
+				// Round up and down kwh power and get all producers with same
+				// kwh power as rounded values
+				// var roundedup = 0;
+				// var roundeddown = 0;
 	
+				// roundedup = this.nextproductionscale(energycat, materialcat);
+				// roundeddown = this.lastproductionscale(energycat, materialcat);
+				
+				// console.log("The smallest possible production option to fully cover consumption: "+roundedup);
+				// console.log("The production option to cover as much consumption as possible without exceeding it: "+roundeddown);
+				
+				// this.heatingpowersize = roundedup;
+				
+				// for (i=0, j=0; i<producers.length; i++) {
+				// 	if (producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
+				// 		if (producers[i].heatingpowerkw == roundedup) {
+				// 			Vue.set(this.finalpage, j, producers[i]);
+				// 			j++;
+				// 		}
+				// 		else if (producers[i].heatingpowerkw == roundeddown){
+				// 			Vue.set(this.finalpage, j, producers[i]);
+				// 			j++;
+				// 		}
+				// 	}
+				// }
+				
+				// Change view to results
 				this.prodstep = 3;
 			}		
 		},
