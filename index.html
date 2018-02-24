@@ -185,7 +185,7 @@
 						</div>
 					</div>
 					<!-- show warning and disable calculate-button when exceeding max kW -->
-					<h4 v-if="heatingovermaximum == true" class="heatingmaxwarning">Lämmitystehon tarve saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4>
+					<!-- <h4 v-if="heatingovermaximum == true" class="heatingmaxwarning">Lämmitystehon tarve saa olla korkeintaan {{ heatingmaximum }} kW, vähennä valittuja kohteita!</h4> -->
 					<!-- calculate-button -->
 					<div class="row" style="margin-top: 20px; margin-bottom: 25px;">
 						<div class="col-md-12">
@@ -215,7 +215,7 @@
 			<div class="panel-collapse collapse text-center" id="resulttab" style="margin-bottom: 60px !important;">
 				<div class="col-md-8">
 					<!-- calculated values -->
-					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitystehon ja sähkötehon kulutus (ajoneuvopolttoaineet ei mukana): </div>
+					<div class="biginfotext">Rakennusten yhteenlaskettu lämmitystehon ja laitesähkön kulutus (ajoneuvopolttoaineet ei mukana): </div>
 					<div class="biginfotext">
 						<h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4>
 					</div>
@@ -435,7 +435,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.materiallist[2], 'origin')">
 										<label>
-											<button class="srcselectbtn" @click="biogasresults(item.origin)">{{item.origin}}</button>
+											<button class="srcselectbtn" @click="biogasresults(item.energycategory, item.materialcategory, item.origin)">{{item.origin}}</button>
 											<br>
 											<!-- <img :src="'img/production/'+item.materialcategory+'.png'" style="height: 150px;" /> -->
 										</label>
@@ -481,6 +481,7 @@
 											{{item.method}}
 											<br>
 											<p v-if="(item.energycategory) == 1">{{parseInt((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))}} {{item.inputunit}}</p>
+											<p v-if="item.materialcategory == 3">{{item.heatingpowerkw}} kW</p>
 											<p v-if="(item.energycategory) == 2 || (item.energycategory) == 3">{{parseInt(electrresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
 										</button>
 									</li>
@@ -488,7 +489,6 @@
 							</div>
 						</div>
 					</template>
-
 				</div>
 			</div>
 		</div>
