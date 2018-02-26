@@ -174,13 +174,13 @@ var vm = new Vue({
 
 	},
 	watch: {
-		heatingovermaximum: {
-						handler: function (val, oldVal) {
-				if (this.heatingovermaximum) document.getElementById("calcbtn").disabled = true;
-				else document.getElementById("calcbtn").disabled = false;
-			},
-			deep: true
-		},
+		// heatingovermaximum: {
+		// 				handler: function (val, oldVal) {
+		// 		if (this.heatingovermaximum) document.getElementById("calcbtn").disabled = true;
+		// 		else document.getElementById("calcbtn").disabled = false;
+		// 	},
+		// 	deep: true
+		// },
 		heatingkwvalue: {
 			handler: function (val, oldVal) {
 				if (val > this.heatingmaximum) this.heatingovermaximum = true;
@@ -521,10 +521,10 @@ var vm = new Vue({
 						})
 					}
 
-					Vue.set(this.volumelist, 0, vollist[3]);	// NUMEROT SEKASIN!
+					Vue.set(this.volumelist, 0, vollist[3]);
 					Vue.set(this.volumelist, 1, vollist[2]);
 					Vue.set(this.volumelist, 2, vollist[0]);
-					Vue.set(this.volumelist, 3, vollist[1]);	// NUMEROT SEKASIN!			
+					Vue.set(this.volumelist, 3, vollist[1]);		
 				}, function (error) {
 					// handle error
 				});
@@ -636,7 +636,7 @@ var vm = new Vue({
 				// Filter producers by min and max kwh values
 				for (i=0, j=0; i<producers.length; i++) {
 					if ((producers[i].energycategory == energycat && producers[i].materialcategory == materialcat)
-						&& (this.heatingkwvalue > producers[i].heatingpowermin && this.heatingkwvalue < producers[i].heatingpowermax)) {
+						&& (this.heatingkwvalue >= producers[i].heatingpowermin && this.heatingkwvalue <= producers[i].heatingpowermax)) {
 						Vue.set(this.finalpage, j, producers[i]);
 						j++;				
 					}
@@ -753,34 +753,6 @@ var vm = new Vue({
 			});
 			return uniques;
 		},
-		// roundtonearest: function (energycat, materialcat) {
-		// 	console.log("roundtonearestt"+energycat, materialcat);
-		// 	producers = this.producerlist[0];
-		// 	var val = this.heatingkwvalue;
-		// 	var values = [];
-		// 	var r;
-
-		// 	for (i=0; i<producers.length; i++) {
-		// 		if(producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
-		// 			var heatingpower = parseInt(producers[i].heatingpowerkw);
-		// 			Vue.set(values, i, heatingpower);
-		// 		}
-		// 	}
-			
-		// 	values.sort(function(a, b){return a-b});
-
-		// 	for (i = 0; i < values.length; i++) {
-		// 		if (val <= values[i]) {
-					
-		// 			r = values[i];
-		// 			break;
-		// 		}
-		// 	}
-			
-		// 	console.log("roundtonearest r: "+r);
-
-		// 	return r;
-		// },
 		getproducer: function (energycat, materialcat, energysrc, powersize, electrpowersize, panelang, paneldir) {
 			var allproducers = this.producerlist[0];
 
@@ -825,34 +797,13 @@ var vm = new Vue({
 				return a.panelangle - b.panelangle;
 				});
 		},
-		readmaterialcat: function (energycat, materialcat, materialcatname) {
-			if (materialcatname == "Biokaasu") {
-				this.prodstep = 7;
-			} else {
-				this.heatingprods(energycat, materialcat);
-			}
-		},
-		// biogasprods: function (energycat, materialcat, origin, kwsize) {
-		// 	this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory='+energycat+'&materialcategory='+materialcat+'&origin='+origin+'&heatingpowerkw='+kwsize, {params:  {}} ).then(
-		// 		function (response) {
-		// 			Vue.set(this.finalpage, 0, response.data);
-		// 			this.prodstep = 3;
-		// 		}, function (error) {
-		// 			//handle error
-		// 	});
-		// },
-		// biogasorigin: function (origin) {
-		// 	var prods = this.materiallist[2].filter(function(producer){
-		// 		return producer.origin == origin;
-		// 	  });
-		// 	console.log(prods);
-		// 	Vue.set(this.biogasproducers, 0, prods);
-		// },
-		biogasresults: function (origin) {
+		biogasresults: function (energycat, materialcat, origin) {
 			var producers = this.producerlist[0];
 
 			for (i=0, j=0; i<producers.length; i++) {
-				if (producers[i].origin == origin) {
+				if (producers[i].energycategory == energycat
+					&& producers[i].materialcategory == materialcat
+					&& producers[i].origin == origin) {
 					Vue.set(this.finalpage, j, producers[i]);
 					j++;
 				}
