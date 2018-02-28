@@ -814,9 +814,13 @@ var vm = new Vue({
 			var availablecategories = [];
 
 			for (z=0; z<allcategories.length; z++) {
+
+				// Biogas category is displayed ignoring heatingpowermin and max values.
+				if (allcategories[z].materialcategory == 3) availablecategories.push(allcategories[z]);
+				
 				cat = this.filterbyattrvalue(this.prodlist[0], 'materialcategory', allcategories[z].materialcategory);
-				var max = Math.max.apply(Math,cat.map(function(o){return o.heatingpowerkw;}));
-				var min = Math.min.apply(Math,cat.map(function(o){return o.heatingpowerkw;}));
+				var max = Math.max.apply(Math,cat.map(function(o){return o.heatingpowermax;}));
+				var min = Math.min.apply(Math,cat.map(function(o){return o.heatingpowermin;}));
 				console.log(allcategories[z].materialcatname+" max: "+max);
 				console.log(allcategories[z].materialcatname+" min: "+min);
 

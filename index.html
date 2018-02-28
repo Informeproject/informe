@@ -325,7 +325,7 @@
 									ja lanta. Valitsemiisi kohteisiin soveltuvat parhaiten alla olevat vaihtoehdot. Valitse tarkasteltavat lähteet</h5>
 								<h4>Valitse energiatyyppi:</h4>
 								<ul style="list-style: none" class="prodmatlist">
-									<li v-for="item in noduplicates(this.prodlist[0], 'materialcategory')">
+									<li v-for="item in preparematerialcategories()">
 										<label>
 											<button class="srcselectbtn" @click="heatingCatTextSelect(item.materialcategory); heatingprods(item.energycategory, item.materialcategory )">{{item.materialcatname}}</button>
 											<br>
