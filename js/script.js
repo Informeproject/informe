@@ -768,8 +768,7 @@ var vm = new Vue({
 						allproducers[i].paneldirection == paneldir
 						) {
 							console.log(allproducers[i].materialcategory);
-							Vue.set(this.prodmodalvalue, 0, allproducers[i]);
-							// this.prodmodalvalue = allproducers[i];
+							this.prodmodalvalue = allproducers[i];
 						}
 				}
 				
@@ -781,8 +780,7 @@ var vm = new Vue({
 						allproducers[i].energysource == energysrc &&
 						allproducers[i].heatingpowerkw == powersize) {
 							console.log(allproducers[i].materialcategory);
-							Vue.set(this.prodmodalvalue, 0, allproducers[i]);
-							// this.prodmodalvalue = allproducers[i];
+							this.prodmodalvalue = allproducers[i];
 						}
 				}
 			}		
