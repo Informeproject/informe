@@ -476,10 +476,12 @@
 											{{item.energysource}}
 											<br>
 											<p v-if="(item.energycategory) == 2">
-												Kulma: {{item.panelangle}}°
-												<br>Suunta: {{item.paneldirection}}</p>
-											{{item.method}}
-											<br>
+												Kulma: {{item.panelangle}}°<br>
+												Suunta: {{item.paneldirection}}
+											</p>
+											<p v-if="(item.energycategory) == 1 || (item.energycategory) == 3">{{item.method}}</p>
+											<p v-if="(item.materialcategory) == 5">Putken tiedot: {{parseInt(item.geothermlenght)}} {{item.geothermunit}}</p>
+											<p>{{item.proddescription}} {{item.proddescriptionunit}}</p>	
 											<p v-if="(item.energycategory) == 1">{{parseInt((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))}} {{item.inputunit}}</p>
 											<p v-if="item.materialcategory == 3">{{item.heatingpowerkw}} kW</p>
 											<p v-if="(item.energycategory) == 2 || (item.energycategory) == 3">{{parseInt(electrresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
@@ -514,7 +516,7 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12">
-											<div v-if="(prodmodalvalue.energycategory) == 1">
+											<div v-if="(prodmodalvalue.energycategory) == 1 || (prodmodalvalue.energycategory) == 3">
 											    <p>Lämmitysenergian kulutus: {{this.result}} kWh vuodessa</p>
 												<p>
 													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{((parseInt(this.prodmodalvalue.heatjanuary)) + (parseInt(this.prodmodalvalue.heatfebruary))
