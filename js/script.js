@@ -598,7 +598,7 @@ var vm = new Vue({
 		clearresults: function () {		
 				this.yearlyTotal = 0;
 				this.result = 0;
-				this.HCTS = NULL;
+				this.HCTS = null;
 				this.eResult = 0;
 				this.kWhvalue = [];
 				this.heating = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
