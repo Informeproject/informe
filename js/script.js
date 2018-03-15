@@ -59,6 +59,8 @@ var vm = new Vue({
 		heatValueForProd: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 		biogasproducers: [],
 		usingIE: false,
+		monthlyHeat:[],
+		heatProdSum:0
 	},
 	created: function () {
 
@@ -310,44 +312,75 @@ var vm = new Vue({
 		},
 		result: {
 			handler: function (val, oldVal) {
-				console.log(val);
+				console.log("val: " + val);
 			},
 			deep: true
 		},
 		prodmodalvalue: { 
 			handler: function (val, oldVal) {
+				
+				var jan = (parseInt(this.heatingkwvalue)) * parseInt(val.heatjanuary);
+				var feb = (parseInt(this.heatingkwvalue)) * parseInt(val.heatfebruary);
+				var mar = (parseInt(this.heatingkwvalue)) * parseInt(val.heatmarch);
+				var apr = (parseInt(this.heatingkwvalue)) * parseInt(val.heatapril);
+				var may = (parseInt(this.heatingkwvalue)) * parseInt(val.heatmay);
+				var jun = (parseInt(this.heatingkwvalue)) * parseInt(val.heatjune);
+				var jul = (parseInt(this.heatingkwvalue)) * parseInt(val.heatjuly);
+				var aug = (parseInt(this.heatingkwvalue)) * parseInt(val.heataugust);
+				var sep = (parseInt(this.heatingkwvalue)) * parseInt(val.heatseptember);
+				var oct = (parseInt(this.heatingkwvalue)) * parseInt(val.heatoctober);
+				var nov = (parseInt(this.heatingkwvalue)) * parseInt(val.heatnovember)
+				var dec = (parseInt(this.heatingkwvalue)) * parseInt(val.heatdecember);
+				
+				function add(a,b){
+					return a+b;
+				}
+				
+				this.monthlyHeat = [jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec];
+				
+				this.heatProdSum = this.monthlyHeat.reduce(add,0).toLocaleString().replace(/,/g," ");
+				
+				console.log(this.heatProdSum);
+				
 				if (this.prodmodalCat == 1){
 					console.log("Modal Graph Active");
 					console.log(val);
 					var heatVal = this.heatValueForProd;
-					google.charts.load('current', { 'packages': ['corechart'] });
+					google.charts.load('current', { 'packages': ['corechart'], 'language':'us' });
 					google.charts.setOnLoadCallback(drawChart);
 					function drawChart() {
+						
+	
 						var data = google.visualization.arrayToDataTable([
 							['Kuukausi', 'Tuotettu Lämpö' , 'Lämmön Tarve'],
-							['Tammi', Number(parseInt(val.heatjanuary)), heatVal[0].value],
-							['Helmi', Number(parseInt(val.heatfebruary)), heatVal[1].value],
-							['Maalis', Number(parseInt(val.heatmarch)), heatVal[2].value],
-							['Huhti', Number(parseInt(val.heatapril)), heatVal[3].value],
-							['Touko', Number(parseInt(val.heatmay)), heatVal[4].value],
-							['Kesä', Number(parseInt(val.heatjune)), heatVal[5].value],
-							['Heinä', Number(parseInt(val.heatjuly)), heatVal[6].value],
-							['Elo', Number(parseInt(val.heataugust)), heatVal[7].value],
-							['Syys', Number(parseInt(val.heatseptember)), heatVal[8].value],
-							['Loka', Number(parseInt(val.heatoctober)), heatVal[9].value],
-							['Marras', Number(parseInt(val.heatnovember)), heatVal[10].value],
-							['Joulu', Number(parseInt(val.heatdecember)), heatVal[11].value],
+							['Tammi', Number(jan), heatVal[0].value],
+							['Helmi', Number(feb), heatVal[1].value],
+							['Maalis', Number(mar), heatVal[2].value],
+							['Huhti', Number(apr), heatVal[3].value],
+							['Touko', Number(may), heatVal[4].value],
+							['Kesä', Number(jun), heatVal[5].value],
+							['Heinä', Number(jul), heatVal[6].value],
+							['Elo', Number(aug), heatVal[7].value],
+							['Syys', Number(sep), heatVal[8].value],
+							['Loka', Number(oct), heatVal[9].value],
+							['Marras', Number(nov), heatVal[10].value],
+							['Joulu', Number(dec), heatVal[11].value],
 						]);
-
+						
+						//var formatter = new google.visualization.NumberFormat({prefix: '$',  decimalSymbol: ' ', groupingSymbol: ' ' });
+    					//formatter.format(data, 0);
+						
 						var options = {
 							title: 'Arvioitu lämmitysenergian tuotanto ja tarve (kWh / kk)',
 							legend: { 'position': 'right'},
 							bars: 'vertical',
-							vAxis: { format: 'decimal' },
+							/*vAxis: {format:'decimal'},*/
 							colors: ['#FE7621', '#C52F03'],
 							height: 550,
 							width: 850
 						};
+						
+						
 
 						var chart = new google.visualization.ColumnChart(document.getElementById('prodmodalchart'));
 
@@ -590,6 +623,7 @@ var vm = new Vue({
 				this.heatingkwvalue = 0;
 				this.electrpowerkwvalue = 0;
 		},
+
 		clearproductionresults: function () {			
 			this.finalpage = [];
 		},
@@ -598,12 +632,12 @@ var vm = new Vue({
 		clearresults: function () {		
 				this.yearlyTotal = 0;
 				this.result = 0;
-				this.HCTS = NULL;
+				this.HCTS = null;
 				this.eResult = 0;
 				this.kWhvalue = [];
 				this.heating = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
 				this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];	
-		},
+		},	
 		heatingCatTextSelect: function (HeatCatTextSelect){
 			var x = HeatCatTextSelect;
 			console.log(x);
@@ -821,8 +855,6 @@ var vm = new Vue({
 				cat = this.filterbyattrvalue(this.prodlist[0], 'materialcategory', allcategories[z].materialcategory);
 				var max = Math.max.apply(Math,cat.map(function(o){return o.heatingpowermax;}));
 				var min = Math.min.apply(Math,cat.map(function(o){return o.heatingpowermin;}));
-				console.log(allcategories[z].materialcatname+" max: "+max);
-				console.log(allcategories[z].materialcatname+" min: "+min);
 
 				if (this.heatingkwvalue > min && this.heatingkwvalue < max) {
 					console.log("Category "+allcategories[z].materialcatname+" added to availablecategories.")
