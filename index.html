@@ -486,23 +486,24 @@
 											
 											<!-- yleistiedot kaikelle paitsi maalämmölle -->
 											<p v-if="(item.energycategory) == 1 || (item.energycategory) == 3">{{item.method}}</p>
-											<p v-if="(item.energycategory) == 1">Yleiset tiedot:<br>{{ ((parseFloat((parseFloat(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))) / 3).toFixed(2) }} {{ item.inputunit }}</p>
+											<p v-if="(item.energycategory) == 1">Syötteen määrä:<br>{{ (parseFloat((parseFloat(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))).toFixed(2) }} {{ item.inputunit }}</p>
 											<div v-if="(item.energycategory) != 1">
 												<p v-if="(item.materialcategory) != 5">Yleiset tiedot:<br>{{parseInt(item.description)}} {{item.description2}}</p>
 											</div>
 											
 											<!-- puu -->
-											<div v-if="(item.materialcategory) == 1 && (item.energycategory) == 1">
-												<p>Jaettu syöte<br>(onko oikea yksikkö?):<br>{{(((parseFloat((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))) / 3) / parseFloat(item.proddescription)).toFixed(2)}} {{item.proddescriptionunit}}</p>
+											<div v-if="(item.energycategory) == 1 && (item.materialcategory) == 1">	
+												<p>Jaettu syöte:<br>{{((parseFloat((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))) / parseFloat(item.proddescription)).toFixed(2)}} {{item.description2}}</p>		
+											</div>
+											
+											<!-- pelto -->
+											<div v-if="((item.energycategory) == 1 && (item.materialcategory) == 2) && (item.proddescription != NULL)">
+												<p>Jaettu syöte:<br>{{(((parseFloat((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))) / parseFloat(item.proddescription)) / 100 * (item.solids)).toFixed(2)}} {{item.description2}}</p>
 											</div>
 											
 											<!-- maalämpö -->
 											<p v-if="(item.materialcategory) == 5">Putken tiedot:<br> {{(parseInt(item.geothermlenght) * heatingkwvalue)}} {{item.geothermunit}}</p>
-											<p v-if="(item.materialcategory) == 5">Yleiset tiedot:<br> {{parseInt(item.proddescription)}} {{item.proddescriptionunit}}</p>
 											<p v-if="(item.materialcategory) == 5">Ostosähkön tarve:<br>{{parseInt(heatresult) / 3}} {{item.inputunit}}</p>
-											
-											<!-- syötteen laskukaava kaikelle paitsi maalämmölle -->
-											<p v-if="(item.energycategory) == 1 && (item.materialcategory) != 5">Syötteen määrä:<br>{{parseInt((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))}} {{item.inputunit}}</p>
 											
 											<p v-if="item.materialcategory == 3">{{item.heatingpowerkw}} kW</p>
 											<p v-if="(item.energycategory) == 2 || (item.energycategory) == 3">{{parseInt(electrresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
