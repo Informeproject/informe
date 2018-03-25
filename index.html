@@ -414,7 +414,7 @@
 					<template v-if="prodstep == 5">
 						<div class="row">
 							<div class="col-md-12">
-								<h4>Valitse seruraavaksi aurinkopaneelien ilmansuunta.</h4>
+								<h4>Valitse seuraavaksi aurinkopaneelien ilmansuunta.</h4>
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.prodlist[1], 'paneldirection')">
 										<label>
@@ -450,7 +450,7 @@
 								<ul style="list-style: none" class="prodmatlist">
 									<li v-for="item in noduplicates(this.materiallist[2], 'heatingpowerkw')">
 										<label>
-											<button class="srcselectbtn" @click="biogasresults(item.energycategory, item.materialcategory, prodchoices[0], item.heatingpowerkw)">{{item.heatingpowerkw}}</button>
+											<button class="srcselectbtn" @click="biogasresults(item.energycategory, item.materialcategory, prodchoices[0], item.heatingpowerkw)">{{item.heatingpowerkw}} kW</button>
 										</label>
 									</li>
 								</ul>
@@ -464,7 +464,7 @@
 								<h4>Lämmitysenergian tarve: {{parseInt(heatresult)}} kWh</h4>
 								<h4>Lämmitystehon tarve: {{parseInt(heatingkwvalue)}} kW</h4>
 							</div>
-							<h4 v-if="(selectElectricity || selectElecheating)">Laitesähkön tarve: {{parseInt(electrresult)}} kWh</h4>
+							<h4 v-if="(selectElectricity || selectElecheating)">Laitesähkön tarve: {{parseInt(electrresult).toLocaleString().replace(/,/g," ")}} kWh</h4>
 							<br>
 						</div>
 						<p class="text-center">{{HCTS}}</p>
@@ -521,7 +521,7 @@
 								<div class="modal-body col-md-12">
 									<h4>Energianlähde: {{this.prodmodalvalue.energysource}}</h4>
 									<p>Tuotantotapa: {{this.prodmodalvalue.method}}</p>
-									<p v-if="(prodmodalvalue.energycategory) == 1">Lämmitysenergian tuotanto (netto): {{parseInt(this.prodmodalvalue.heatkwhnet)}} kWh</p>								
+									<p v-if="(prodmodalvalue.energycategory) == 1">Lämmitysenergian tuotanto (netto): {{parseInt(this.prodmodalvalue.heatkwhnet).toLocaleString().replace(/,/g," ")}} kWh</p>								
 									<p v-if="(prodmodalvalue.energycategory) == 1">Tarvittava määrä: {{parseInt((parseInt(this.heatingkwvalue)) * 2000 / (this.prodmodalvalue.efficiency) / (this.prodmodalvalue.energyperunitkwh))}} {{this.prodmodalvalue.inputunit}}</p>
 									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelien teholuokka: {{this.prodmodalvalue.electrpowerkw}} kW</p>
 									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelin kulma: {{this.prodmodalvalue.panelangle}}°, paneelin suunta: {{this.prodmodalvalue.paneldirection}}</p>
@@ -536,10 +536,10 @@
 									</div>
 									<div class="row">
 										<div class="col-md-12">
-											<div v-if="(prodmodalvalue.energycategory) == 1 || (prodmodalvalue.energycategory) == 3">
-											    <p>Lämmitysenergian kulutus: {{this.result}} kWh vuodessa</p>
+											<div v-if="(prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) != 3">
+											    <p>Lämmitysenergian kulutus: {{(this.result).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
 												<p>
-													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{heatProdSum}} kWh vuodessa
+													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{(heatProdSum).toLocaleString().replace(/,/g," ")}} kWh vuodessa
 												</p>
 												<!--<br>
 												<p>Tuotannon kuukausierittely:</p>
@@ -562,14 +562,20 @@
 													kWh
 												</p>-->
 											</div>
+											<div v-if="(prodmodalvalue.materialcategory) == 3">
+											    <p>Lämmitysenergian kulutus: {{(this.result).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
+												<p>
+													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{parseInt(this.prodmodalvalue.heatkwhnet).toLocaleString().replace(/,/g," ")}} kWh vuodessa
+												</p>
+											</div>
 											<div v-if="(prodmodalvalue.energycategory) == 2">
-												<p>Laitesähkön kulutus (tasattu kuukausien kesken): {{this.eResult}} kWh vuodessa</p>
+												<p>Laitesähkön kulutus (tasattu kuukausien kesken): {{(this.eResult).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
 												<p>
 													Yhteenlaskettu arvioitu laitesähkön tuotanto vuodessa: {{((parseInt(this.prodmodalvalue.electjanuary)) + (parseInt(this.prodmodalvalue.electfebruary))
 													+ (parseInt(this.prodmodalvalue.electmarch)) + (parseInt(this.prodmodalvalue.electapril)) + (parseInt(this.prodmodalvalue.electmay))
 													+ (parseInt(this.prodmodalvalue.electjune)) + (parseInt(this.prodmodalvalue.electjuly)) + (parseInt(this.prodmodalvalue.electaugust))
 													+ (parseInt(this.prodmodalvalue.electseptember)) + (parseInt(this.prodmodalvalue.electoctober)) + (parseInt(this.prodmodalvalue.electnovember))
-													+ (parseInt(this.prodmodalvalue.electdecember)))}} kWh vuodessa
+													+ (parseInt(this.prodmodalvalue.electdecember))).toLocaleString().replace(/,/g," ")}} kWh vuodessa
 												</p>
 												<!--<p>Tuotannon kuukausierittely:</p>
 												<p>Tammikuu: {{parseInt(this.prodmodalvalue.electjanuary)}} kWh, Helmikuu: {{parseInt(this.prodmodalvalue.electfebruary)}}
