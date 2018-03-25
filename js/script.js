@@ -829,15 +829,17 @@ var vm = new Vue({
 				return a.panelangle - b.panelangle;
 				});
 		},
-		biogasresults: function (energycat, materialcat, origin) {
+		biogasresults: function (energycat, materialcat, energysource, heatingpowerkw) {
+			console.log(energycat, materialcat, energysource, heatingpowerkw)
 			var producers = this.producerlist[0];
 
 			for (i=0, j=0; i<producers.length; i++) {
 				if (producers[i].energycategory == energycat
 					&& producers[i].materialcategory == materialcat
-					&& producers[i].origin == origin) {
-					Vue.set(this.finalpage, j, producers[i]);
-					j++;
+					&& producers[i].energysource == energysource
+					&& producers[i].heatingpowerkw == heatingpowerkw) {
+						Vue.set(this.finalpage, j, producers[i]);
+						j++;
 				}
 			}
 			this.prodstep = 3;
