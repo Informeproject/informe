@@ -318,19 +318,28 @@ var vm = new Vue({
 		},
 		prodmodalvalue: { 
 			handler: function (val, oldVal) {
-				
-				var jan = (parseInt(this.heatingkwvalue)) * parseInt(val.heatjanuary);
-				var feb = (parseInt(this.heatingkwvalue)) * parseInt(val.heatfebruary);
-				var mar = (parseInt(this.heatingkwvalue)) * parseInt(val.heatmarch);
-				var apr = (parseInt(this.heatingkwvalue)) * parseInt(val.heatapril);
-				var may = (parseInt(this.heatingkwvalue)) * parseInt(val.heatmay);
-				var jun = (parseInt(this.heatingkwvalue)) * parseInt(val.heatjune);
-				var jul = (parseInt(this.heatingkwvalue)) * parseInt(val.heatjuly);
-				var aug = (parseInt(this.heatingkwvalue)) * parseInt(val.heataugust);
-				var sep = (parseInt(this.heatingkwvalue)) * parseInt(val.heatseptember);
-				var oct = (parseInt(this.heatingkwvalue)) * parseInt(val.heatoctober);
-				var nov = (parseInt(this.heatingkwvalue)) * parseInt(val.heatnovember)
-				var dec = (parseInt(this.heatingkwvalue)) * parseInt(val.heatdecember);
+
+				var power
+
+				if (val.materialcategory == 3){
+					power = 1;
+				}
+				else {
+					power = this.heatingkwvalue;
+				}
+
+				var jan = (parseInt(power)) * parseInt(val.heatjanuary);
+				var feb = (parseInt(power)) * parseInt(val.heatfebruary);
+				var mar = (parseInt(power)) * parseInt(val.heatmarch);
+				var apr = (parseInt(power)) * parseInt(val.heatapril);
+				var may = (parseInt(power)) * parseInt(val.heatmay);
+				var jun = (parseInt(power)) * parseInt(val.heatjune);
+				var jul = (parseInt(power)) * parseInt(val.heatjuly);
+				var aug = (parseInt(power)) * parseInt(val.heataugust);
+				var oct = (parseInt(power)) * parseInt(val.heatoctober);
+				var nov = (parseInt(power)) * parseInt(val.heatnovember)
+				var dec = (parseInt(power)) * parseInt(val.heatdecember);
+				var sep = (parseInt(power)) * parseInt(val.heatseptember);
 				
 				function add(a,b){
 					return a+b;
