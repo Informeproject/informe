@@ -1,17 +1,16 @@
-/* ------ check if site can be arranged without "all: initial" (Edge can't utilize it) ------ */
-
-.panel-default {
-	all: initial;
-	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
-}
-
-
-
 /* ------ html/body ------ */
 
 html, body {
+	width: 100vw;
+	height: 100vh;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+}
+
+#container {
 	width: 100%;
-	height: 100%;
+	max-width: 1200px;
+	min-width: 420px;
+	margin: auto;
 }
 
 .backgroundimg { 
@@ -20,44 +19,103 @@ html, body {
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-	width: 100%;
-	max-width: 1200px;
-	min-width: 760px;
+}
+
+/* ------ disclaimer ------ */
+
+#disclaimer {
+	width: auto;
+	max-height: 100%;
+	overflow-y: auto!important;
+}
+
+.row {
+	margin:0!important;
+}
+
+/* ------ banner ------ */
+
+#bannerdiv .img {
+	
 }
 
 
+/* ------ footer ------ */
 
-/* ------ general ------ */
-.disabled {
-    pointer-events:none;
-    opacity:0.6;
-}
-.col-md-4 {
-	width: 353px;
-	padding-left:80px;
-	padding-right:0px;
+@media only screen and (max-width: 991px) {
+	.footer {
+		padding: 20px!important;
+		margin: 10px!important;
+	}
+	
+	.eulogo {
+		width: 30%;
+		min-width: 200px;
+	}
+
+	.proagrialogo {
+		width: 30%;
+		min-width: 200px;
+	}
+
+	.lamklogo {
+		width: 30%;
+		min-width: 200px;
+	}
 }
 
-.ptext2 {
-	margin: 10px 0 0 0;
-	font-size: 12px;
+@media only screen and (min-width: 992px) {
+	.footer {
+		border: 2px solid #bbb;
+		padding: 20px!important;
+		margin: 10px!important;
+		height: 150px;
+		line-height: 100px;
+	}
+	
+	.eulogo {
+		width: 75%;
+		vertical-align: middle!important;
+	}
+
+	.proagrialogo {
+		width: 50%;
+		vertical-align: middle!important;
+	}
+
+	.lamklogo {
+		width: 75%;
+		vertical-align: middle!important;
+	}	
 }
 
-.ptext {
-	margin: 3px 0 10px 0;
-	font-size: 12px;
+
+/* ------ panel settings ------ */
+
+.panel-group {
+	background-color: whitesmoke;
 }
 
-.header {
-	background-color: #21a07f;
-	margin-bottom: 10px;
-	width: 100%;
+.panel-heading {
+	background-color: #21a07f!important;
 	color: white;
 }
 
-.header label {
-	margin-top: 10px;
+.panel-default {
+	border: none!important;
 }
+
+#header-top {
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+}
+
+#header-bottom {
+	border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
+}
+
+/* ------ button settings ------ */
 
 .btn-primary {
 	background-color: #03824F;
@@ -68,6 +126,8 @@ html, body {
 	background-color: #0A623F !important;
 	float: right;
 	border-color: #0A623F !important;
+	margin-top: -10px;
+	height: 3em;
 }
 
 .collapsebutton:hover {
@@ -89,92 +149,21 @@ html, body {
 	outline: none !important;
 }
 
-/* ------ modals ------ */
 
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
+/* ------ general ------ */
+
+.icontext {
+	margin-bottom: 25px;
+	font-size: 12px;
 }
 
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+.ulstyle {
+	list-style: none;
 }
 
-.modal-container {
-  width: 50%;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
+.chartdiv {
+	width: 95%!important;
 }
-
-.modal-header h1 {
-  margin-top: 0;
-  color: #42b983;
-}
-
-.modal-body {
-  margin: 20px 0;
-}
-
-.modal-default-button {
-  float: right;
-}
-
-.modal-enter {
-  opacity: 0;
-}
-
-.modal-leave-active {
-  opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-
-
-
-/* ------ banner ------ */
-
-#banner {
-	width: 100%;
-}
-
-
-
-/* ------ container/wrapper ------ */
-
-#container {
-	width: 100%;
-	margin: 0 auto;
-	border-radius: 12px;
-	background-color: whitesmoke;
-}
-
-
-
-/* ------ disclaimer ------ */
-
-#disclaimer {
-	width: 100%;
-	height: 100vh;
-	position: absolute;
-}
-
 
 
 /* ------ rakennukset ------ */
@@ -207,13 +196,12 @@ html, body {
   	border:1px solid lightgray;
 	background-color: lightgray;
 	border-radius: 5px;
+	height: 104px;
 }
 
-.buttonicons {
+.buttonbase {
 	position: relative;
 }
-
-
 
 .buttonhighlight {
 	position: absolute;
@@ -280,7 +268,6 @@ html, body {
 .calculatebtn {
 	background-color: #0A623F !important;
 	border-color: #0A623F !important;
-
 }
 
 .calculatebtn:hover {
@@ -296,7 +283,6 @@ html, body {
 }
 
 
-
 /* ------ tulokset ------ */
 
 #resultchart {
@@ -308,20 +294,11 @@ html, body {
 }
 
 #resultcountericon {
-	position: absolute;
-	right: 15px;
-	bottom: -10px;
-	width: 35px;
-	height: 35px;
-	font-weight: bold;
-	color: black;
-	border: 1.5px solid #21a07f;
-	border-radius: 20px;
-	background: white;
+	
 }
 
 #resultcountericon p {
-	margin-top: 7px;
+	
 }
 
 #resultlist {
@@ -336,7 +313,6 @@ html, body {
 	font-weight: bold;
 	margin-bottom: 15px;
 }
-
 
 
 /* ------ tuotanto ------ */
@@ -386,18 +362,91 @@ html, body {
 	width: 200px;
 	height: auto;
 }
-.shoplistbackground {
-	margin-left: 3.5%;
-}
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
 	background-color: #21a07f;
 	color: #ffffff !important;
 }
-#shoplistcolor{
-	color: #000000;
+
+.buildingtabs {
+	color: #fff;
+	background-color: #0A623F !important;
+	border-color: #0A623F !important;
 	border: solid;
 	border-color: #21a07f;
 	border-width: 1px;
-	border-radius: 12px !important;
+	border-radius: 5px !important;
 	width: 190px;
+	padding: 10px;
+}
+
+.buildingtabs:hover {
+	color: #fff;
+	background-color: #005D2E !important;
+	border-color: #0A6C00 !important;
+	border: solid;
+	border-color: #21a07f;
+	border-width: 1px;
+	border-radius: 5px !important;
+	width: 190px;
+	padding: 10px;
+}	
+
+
+
+
+/* ------ modal settings ------ */
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 50%;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h1 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  overflow-y: auto;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
