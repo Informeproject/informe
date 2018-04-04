@@ -89,39 +89,7 @@ var vm = new Vue({
 
 		this.populate();
 
-	},
-	
-		browerdetection: function () {
-		var ua = window.navigator.userAgent;
-
-		  var msie = ua.indexOf('MSIE ');
-		  if (msie > 0) {
-			// IE 10 or older => return version number
-			this.IEdetection = true;
-			return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10); //returns the version number
-		  }
-
-		  var trident = ua.indexOf('Trident/');
-		  if (trident > 0) {
-			// IE 11 => return version number
-			var rv = ua.indexOf('rv:');
-			this.IEdetection = true;
-			return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-		  }
-
-		  var edge = ua.indexOf('Edge/');
-		  if (edge > 0) {
-			// Edge (IE 12+) => return version number
-			this.IEdetection = true;
-			return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
-		  }
-
-		  // other browser
-		  return false;
-		
-	},
-	
-	
+	},	
 	computed: {
 
 		// i: function () {
@@ -176,17 +144,17 @@ var vm = new Vue({
 
 	},
 	watch: {
-		// heatingovermaximum: {
-		// 				handler: function (val, oldVal) {
-		// 		if (this.heatingovermaximum) document.getElementById("calcbtn").disabled = true;
-		// 		else document.getElementById("calcbtn").disabled = false;
-		// 	},
-		// 	deep: true
-		// },
+		 /* heatingovermaximum: {
+		 	handler: function (val, oldVal) {
+		 		if (this.heatingovermaximum) document.getElementById("calcbtn").disabled = true;
+		 		else document.getElementById("calcbtn").disabled = false;
+		 	},
+			deep: true
+		}, */
 		heatingkwvalue: {
 			handler: function (val, oldVal) {
-				if (val > this.heatingmaximum) this.heatingovermaximum = true;
-				else this.heatingovermaximum = false;
+				if(val > this.heatingmaximum) {	this.heatingovermaximum = true;	}	 
+				else { this.heatingovermaximum = false; } 
 			},
 			deep: true
 		},
@@ -298,7 +266,8 @@ var vm = new Vue({
 							legend: { position: 'bottom' },
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
-							colors: ['#C52F03', '#328FB2']
+							colors: ['#C52F03', '#328FB2'],
+							height: 500,
 						};
 
 						var chart = new google.visualization.ColumnChart(document.getElementById('resultmodalchart'));
@@ -381,12 +350,11 @@ var vm = new Vue({
 						
 						var options = {
 							title: 'Arvioitu lämmitysenergian tuotanto ja tarve (kWh / kk)',
-							legend: { 'position': 'right'},
+							legend: { 'position': 'bottom'},
 							bars: 'vertical',
-							/*vAxis: {format:'decimal'},*/
+							vAxis: {format:'decimal'},
 							colors: ['#FE7621', '#C52F03'],
-							height: 550,
-							width: 850
+							height: 500
 						};
 						
 						
@@ -425,12 +393,11 @@ var vm = new Vue({
 
 						var options = {
 							title: 'Arvioitu laitesähkön tuotanto ja tarve (kWh / kk)',
-							legend: { 'position': 'right'},
+							legend: { 'position': 'bottom'},
 							bars: 'vertical',
 							vAxis: { format: 'decimal' },
 							colors: ['#328FB2', '#085978'],
-							height: 550,
-							width: 850
+							height: 500
 						};
 
 						var chart = new google.visualization.ColumnChart(document.getElementById('prodmodalchart'));
