@@ -381,7 +381,7 @@
 								<ul class="prodmatlist ulstyle">
 									<li v-for="item in noduplicates(this.prodlist[1], 'panelangle')">
 										<label>
-											<button class="srcselectbtn" @click="prodstep = 5; prodchoices.push(item.panelangle); heatingCatTextSelect(0);">{{item.panelangle}}&#176;</button>
+											<button class="srcselectbtn" @click="sortbydirection(prodlist[1]); prodstep = 5; prodchoices.push(item.panelangle); heatingCatTextSelect(0);">{{item.panelangle}}&#176;</button>
 											<br>
 											<img :src="'img/production/'+item.panelangle+'.png'" style="height: 150px;" />
 										</label>

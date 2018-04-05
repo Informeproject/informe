@@ -557,7 +557,12 @@ var vm = new Vue({
 			// Energycategory 2 (Sähkö)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory=2', { params: {} }).then(
 				function (response) {
-					Vue.set(this.prodlist, 1, response.data);
+					var responseData = response.data;
+
+					this.sortbydirection(responseData);
+
+					Vue.set(this.prodlist, 1, responseData);
+
 				}, function (error) {
 					// handle error
 				});
@@ -805,6 +810,18 @@ var vm = new Vue({
 				return a.panelangle - b.panelangle;
 				});
 		},
+		sortbydirection: function (items) {
+			items.sort(function (a, b) {
+				if(a.paneldirection < b.paneldirection) {
+					return -1;
+				}
+				if(a.paneldirection > b.paneldirection) {
+					return 1;
+				}
+
+				return 0;
+			});
+		},
 		biogasresults: function (energycat, materialcat, energysource, heatingpowerkw) {
 			console.log(energycat, materialcat, energysource, heatingpowerkw)
 			var producers = this.producerlist[0];
@@ -872,5 +889,3 @@ var vm = new Vue({
 		},
 	}
 });
-
-vm.populate();  
