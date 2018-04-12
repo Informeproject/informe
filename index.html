@@ -463,14 +463,17 @@
 											</p>
 
 											<!-- yleistiedot kaikelle paitsi maalämmölle -->
-											<p v-if="(item.energycategory) == 1 || (item.energycategory) == 3">{{item.method}}</p>
-											<p v-if="(item.energycategory) == 1">Syötteen määrä:<br>{{ (parseFloat((parseFloat(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))).toFixed(2) }} {{ item.inputunit }}</p>
+											<p v-if="(item.energycategory) == 1">{{item.method}}</p>
+											<p v-if="(item.energycategory) == 1 && (item.materialcategory) != 3 && (item.materialcategory) != 5">Syötteen määrä:<br>{{ (parseFloat((parseFloat(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))).toFixed(2) }} {{ item.inputunit }}</p>
 											<div v-if="(item.energycategory) != 1">
 												<p v-if="(item.materialcategory) != 5">Yleiset tiedot:<br>{{parseInt(item.description)}} {{item.description2}}</p>
 											</div>
-
+											
+											<!-- biokaasu -->
+											<p v-if="(item.energycategory) == 1 && (item.materialcategory) == 3">Syötteen määrä:<br>{{ parseInt(item.inputamount) }} {{ item.inputunit }}</p>
+											
 											<!-- puu -->
-											<div v-if="(item.energycategory) == 1 && (item.materialcategory) == 1">	
+											<div v-if="(item.energycategory) == 1 && (item.materialcategory) == 1 && (item.proddescription != NULL)">	
 												<p>Jaettu syöte:<br>{{((parseFloat((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))) / parseFloat(item.proddescription)).toFixed(2)}} {{item.description2}}</p>		
 											</div>
 
@@ -482,9 +485,14 @@
 											<!-- maalämpö -->
 											<p v-if="(item.materialcategory) == 5">Putken tiedot:<br> {{(parseInt(item.geothermlenght) * heatingkwvalue)}} {{item.geothermunit}}</p>
 											<p v-if="(item.materialcategory) == 5">Ostosähkön tarve:<br>{{parseInt(heatresult) / 3}} {{item.inputunit}}</p>
-
-											<p v-if="item.materialcategory == 3">{{item.heatingpowerkw}} kW</p>
-											<p v-if="(item.energycategory) == 2 || (item.energycategory) == 3">{{parseInt(electrresult/item.energyperunitkwh)}} {{item.inputunit}}</p>
+											
+											<!-- biokaasu -->
+											
+											<!-- laitoksen koko -->
+											<p v-if="item.materialcategory == 3">Laitoksen koko:<br>{{item.heatingpowerkw}} kW</p>
+											
+											<!-- aurinkopaneelit -->
+											<p v-if="(item.energycategory) == 2">Tarvittava pinta-ala:<br>{{ (parseInt(item.inputamount)) }} {{item.inputunit}}</p>
 										</button>
 									</li>
 								</ul>
@@ -498,13 +506,15 @@
 							<div class="modal-content">
 								<div class="modal-body">
 									<h4>Energianlähde: {{this.prodmodalvalue.energysource}}</h4>
-									<p>Tuotantotapa: {{this.prodmodalvalue.method}}</p>
-									<p v-if="(prodmodalvalue.energycategory) == 1">Lämmitysenergian tuotanto (netto): {{parseInt(this.prodmodalvalue.heatkwhnet).toLocaleString().replace(/,/g," ")}} kWh</p>								
+									<p>Tuotantotapa: {{this.prodmodalvalue.method}}</p>								
 									<p v-if="(prodmodalvalue.energycategory) == 1">Tarvittava määrä: {{parseInt((parseInt(this.heatingkwvalue)) * 2000 / (this.prodmodalvalue.efficiency) / (this.prodmodalvalue.energyperunitkwh))}} {{this.prodmodalvalue.inputunit}}</p>
 									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelien teholuokka: {{this.prodmodalvalue.electrpowerkw}} kW</p>
 									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelin kulma: {{this.prodmodalvalue.panelangle}}°, paneelin suunta: {{this.prodmodalvalue.paneldirection}}</p>
-									<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{parseInt(electrresult/this.prodmodalvalue.energyperunitkwh)}} {{this.prodmodalvalue.inputunit}}</p>
+									
+									<!-- aurinko pinta-ala -->
+									<p v-if="(prodmodalvalue.energycategory) == 2 || (prodmodalvalue.energycategory) == 3">Tarvittava pinta-ala: {{ this.prodmodalvalue.inputamount }} {{this.prodmodalvalue.inputunit}}</p>
 									<br>
+									
 									<div class="text-center">
 										<p v-if="(prodmodalvalue.energycategory) == 1 || (prodmodalvalue.energycategory) == 3">Alla esitettynä lämpöenergian tuotannon ja kulutuksen jakautuminen kuukausittain.</p>
 										<p v-if="(prodmodalvalue.energycategory) == 2">Alla esitettynä laitesähkön tuotannon ja kulutuksen jakautuminen kuukausittain.</p>

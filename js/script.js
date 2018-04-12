@@ -66,7 +66,7 @@ var vm = new Vue({
 
 		// Check disclaimer cookie
 		var disclaimercookie = getCookie("disclaimeraccepted");
-		if (disclaimercookie == "true") {
+		if (disclaimercookie === "true") {
 			this.showDisclaimer = false;
 		}
 
@@ -76,10 +76,10 @@ var vm = new Vue({
 			var ca = decodedCookie.split(';');
 			for (var i = 0; i < ca.length; i++) {
 				var c = ca[i];
-				while (c.charAt(0) == ' ') {
+				while (c.charAt(0) === ' ') {
 					c = c.substring(1);
 				}
-				if (c.indexOf(name) == 0) {
+				if (c.indexOf(name) === 0) {
 					return c.substring(name.length, c.length);
 				}
 			}
@@ -221,7 +221,7 @@ var vm = new Vue({
 						title: 'kWh / kk',
 						legend: { position: 'bottom' },
 						bars: 'vertical',
-						vAxis: { format: 'decimal' },
+						vAxis: { format: '' },
 						colors: ['#C52F03', '#328FB2']
 					};
 
@@ -256,7 +256,7 @@ var vm = new Vue({
 							['Heinä', Number(val.july), Number(eValue.july)],
 							['Elo', Number(val.august), Number(eValue.august)],
 							['Syys', Number(val.september), Number(eValue.september)],
-							['Loka', Number(val.october), Number(eValue.october)],
+							['Loka', Number(val.october), Number(eValue.october)],none
 							['Marras', Number(val.november), Number(eValue.november)],
 							['Joulu', Number(val.december), Number(eValue.december)],
 						]);
@@ -265,7 +265,7 @@ var vm = new Vue({
 							title: 'Lämmitysenergian ja laitesähkön kulutus kohteelle (kWh / kk): ' + val.consumer.use,
 							legend: { position: 'bottom' },
 							bars: 'vertical',
-							vAxis: { format: 'decimal' },
+							vAxis: { format: '' },
 							colors: ['#C52F03', '#328FB2'],
 							height: 500,
 						};
@@ -306,7 +306,7 @@ var vm = new Vue({
 				var jul = (parseInt(power)) * parseInt(val.heatjuly);
 				var aug = (parseInt(power)) * parseInt(val.heataugust);
 				var oct = (parseInt(power)) * parseInt(val.heatoctober);
-				var nov = (parseInt(power)) * parseInt(val.heatnovember)
+				var nov = (parseInt(power)) * parseInt(val.heatnovember);
 				var dec = (parseInt(power)) * parseInt(val.heatdecember);
 				var sep = (parseInt(power)) * parseInt(val.heatseptember);
 				
@@ -320,7 +320,7 @@ var vm = new Vue({
 				
 				console.log(this.heatProdSum);
 				
-				if (this.prodmodalCat == 1){
+				if (this.prodmodalCat === 1){
 					console.log("Modal Graph Active");
 					console.log(val);
 					var heatVal = this.heatValueForProd;
@@ -352,7 +352,7 @@ var vm = new Vue({
 							title: 'Arvioitu lämmitysenergian tuotanto ja tarve (kWh / kk)',
 							legend: { 'position': 'bottom'},
 							bars: 'vertical',
-							vAxis: {format:'decimal'},
+							vAxis: {format: ''},
 							colors: ['#FE7621', '#C52F03'],
 							height: 500
 						};
@@ -395,7 +395,7 @@ var vm = new Vue({
 							title: 'Arvioitu laitesähkön tuotanto ja tarve (kWh / kk)',
 							legend: { 'position': 'bottom'},
 							bars: 'vertical',
-							vAxis: { format: 'decimal' },
+							vAxis: { format: '' },
 							colors: ['#328FB2', '#085978'],
 							height: 500
 						};
@@ -656,32 +656,6 @@ var vm = new Vue({
 						j++;				
 					}
 				}
-
-				// Round up and down kwh power and get all producers with same
-				// kwh power as rounded values
-				// var roundedup = 0;
-				// var roundeddown = 0;
-	
-				// roundedup = this.nextproductionscale(energycat, materialcat);
-				// roundeddown = this.lastproductionscale(energycat, materialcat);
-				
-				// console.log("The smallest possible production option to fully cover consumption: "+roundedup);
-				// console.log("The production option to cover as much consumption as possible without exceeding it: "+roundeddown);
-				
-				// this.heatingpowersize = roundedup;
-				
-				// for (i=0, j=0; i<producers.length; i++) {
-				// 	if (producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
-				// 		if (producers[i].heatingpowerkw == roundedup) {
-				// 			Vue.set(this.finalpage, j, producers[i]);
-				// 			j++;
-				// 		}
-				// 		else if (producers[i].heatingpowerkw == roundeddown){
-				// 			Vue.set(this.finalpage, j, producers[i]);
-				// 			j++;
-				// 		}
-				// 	}
-				// }
 				
 				// Change view to results
 				this.prodstep = 3;
