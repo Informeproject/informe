@@ -727,8 +727,8 @@ var vm = new Vue({
 					producers[i].panelangle == panelang &&
 					producers[i].paneldirection == paneldir
 					) {
-						Vue.set(this.finalpage, 0, producers[i]);
-						this.prodstep = 3;
+						this.prodmodalCat = 2;
+						this.prodmodalvalue = producers[i];
 					}
 			}
 		},
@@ -748,32 +748,16 @@ var vm = new Vue({
 
 			console.log(energycat, materialcat, powersize, electrpowersize);
 
-			if (energycat == 2) {
-				for (i=0; i<allproducers.length; i++) {
-					this.prodmodalCat = 2;
-					if (allproducers[i].energycategory == energycat &&
-						allproducers[i].materialcategory == materialcat &&
-						allproducers[i].electrpowerkw == electrpowersize &&
-						allproducers[i].panelangle == panelang &&
-						allproducers[i].paneldirection == paneldir
-						) {
-							console.log(allproducers[i].materialcategory);
-							this.prodmodalvalue = allproducers[i];
-						}
-				}
-				
-			} else {
-				for (i=0; i<allproducers.length; i++) {
-					this.prodmodalCat = 1;
-					if (allproducers[i].energycategory == energycat &&
-						allproducers[i].materialcategory == materialcat &&
-						allproducers[i].energysource == energysrc &&
-						allproducers[i].heatingpowerkw == powersize) {
-							console.log(allproducers[i].materialcategory);
-							this.prodmodalvalue = allproducers[i];
-						}
-				}
-			}		
+			for (i = 0; i < allproducers.length; i++) {
+				this.prodmodalCat = 1;
+				if (allproducers[i].energycategory == energycat &&
+					allproducers[i].materialcategory == materialcat &&
+					allproducers[i].energysource == energysrc &&
+					allproducers[i].heatingpowerkw == powersize) {
+						console.log(allproducers[i].materialcategory);
+						this.prodmodalvalue = allproducers[i];
+					}
+			}			
 		},
 		sortbypowerkw: function (items) {
 			items.sort(function (a, b) {
@@ -798,7 +782,7 @@ var vm = new Vue({
 			});
 		},
 		biogasresults: function (energycat, materialcat, energysource, heatingpowerkw) {
-			console.log(energycat, materialcat, energysource, heatingpowerkw)
+			console.log('testi: ' + energycat, materialcat, energysource, heatingpowerkw)
 			var producers = this.producerlist[0];
 
 			for (i=0, j=0; i<producers.length; i++) {
@@ -807,7 +791,8 @@ var vm = new Vue({
 					&& producers[i].energysource == energysource
 					&& producers[i].heatingpowerkw == heatingpowerkw) {
 						console.log("Biogas result finalpage: "+producers[i].energycategory, producers[i].materialcategory, producers[i].energysource, producers[i].heatingpowerkw);
-						Vue.set(this.finalpage, j, producers[i]);
+						this.prodmodalCat = 1;
+						this.prodmodalvalue = producers[i];
 						j++;
 				}
 			}
