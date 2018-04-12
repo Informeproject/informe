@@ -607,6 +607,7 @@ var vm = new Vue({
 
 		clearproductionresults: function () {			
 			this.finalpage = [];
+			this.prodchoices = [];
 		},
 
 		//clears after results
@@ -831,6 +832,7 @@ var vm = new Vue({
 					&& producers[i].materialcategory == materialcat
 					&& producers[i].energysource == energysource
 					&& producers[i].heatingpowerkw == heatingpowerkw) {
+						console.log("Biogas result finalpage: "+producers[i].energycategory, producers[i].materialcategory, producers[i].energysource, producers[i].heatingpowerkw);
 						Vue.set(this.finalpage, j, producers[i]);
 						j++;
 				}
