@@ -398,7 +398,7 @@
 								<ul class="prodmatlist ulstyle">
 									<li v-for="item in noduplicates(this.prodlist[1], 'paneldirection')">
 										<label>
-											<button class="srcselectbtn" @click="electrprods(item.energycategory, item.materialcategory, prodchoices[0], prodchoices[1], item.paneldirection)">{{item.paneldirection}}</button>
+											<button data-toggle="modal" data-target="#prodresultmodal" class="srcselectbtn" @click="electrprods(item.energycategory, item.materialcategory, prodchoices[0], prodchoices[1], item.paneldirection)">{{item.paneldirection}}</button>
 											<br>
 											<img :src="'img/production/'+item.paneldirection+'.png'" style="height: 150px;" />
 										</label>
@@ -430,7 +430,7 @@
 								<ul class="prodmatlist ulstyle">
 									<li v-for="item in noduplicates(this.materiallist[2], 'heatingpowerkw')">
 										<label>
-											<button class="srcselectbtn" @click="biogasresults(item.energycategory, item.materialcategory, prodchoices[0], item.heatingpowerkw)">{{item.heatingpowerkw}} kW</button>
+											<button data-toggle="modal" data-target="#prodresultmodal" class="srcselectbtn" @click="biogasresults(item.energycategory, item.materialcategory, prodchoices[0], item.heatingpowerkw)">{{item.heatingpowerkw}} kW</button>
 										</label>
 									</li>
 								</ul>
