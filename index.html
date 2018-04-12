@@ -275,7 +275,7 @@
 				<div id="header-bottom" class="text-center panel-heading">
 					<label class="panel-title">TUOTANTO</label>
 					<button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" data-target="#productiontab" data-parent=".panel-group"
-						v-on:click="prodstep = -1; selectHeating = false; selectElectricity = false;  selectElecheating = false">
+						v-on:click="prodstep = -1; selectHeating = false; selectElectricity = false;  selectElecheating = false; clearproductionresults();">
 						<span class="glyphicon glyphicon-menu-down"></span>
 					</button>
 				</div>
@@ -292,10 +292,10 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="col-md-6">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false;">Lämpöä</button>
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 0; selectHeating = true; selectElectricity = false;  selectElecheating = false; clearproductionresults();">Lämpöä</button>
 							</div>
 							<div class="col-md-6">
-								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]);">Sähköä</button>
+								<button type="button" class="btn prodtypebtn" @click="prodstep = 1; selectElectricity = true; selectHeating = false; selectElecheating = false; sortbypowerkw(prodlist[1]); clearproductionresults();">Sähköä</button>
 							</div>
 						</div>
 					</div>
