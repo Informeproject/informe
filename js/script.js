@@ -256,7 +256,7 @@ var vm = new Vue({
 							['Heinä', Number(val.july), Number(eValue.july)],
 							['Elo', Number(val.august), Number(eValue.august)],
 							['Syys', Number(val.september), Number(eValue.september)],
-							['Loka', Number(val.october), Number(eValue.october)],none
+							['Loka', Number(val.october), Number(eValue.october)],
 							['Marras', Number(val.november), Number(eValue.november)],
 							['Joulu', Number(val.december), Number(eValue.december)],
 						]);
@@ -530,10 +530,10 @@ var vm = new Vue({
 						})
 					}
 
-					Vue.set(this.volumelist, 0, vollist[3]);
-					Vue.set(this.volumelist, 1, vollist[2]);
+					Vue.set(this.volumelist, 0, vollist[2]);
+					Vue.set(this.volumelist, 1, vollist[1]);
 					Vue.set(this.volumelist, 2, vollist[0]);
-					Vue.set(this.volumelist, 3, vollist[1]);		
+					Vue.set(this.volumelist, 3, vollist[3]);		
 				}, function (error) {
 					// handle error
 				});
@@ -612,28 +612,32 @@ var vm = new Vue({
 
 		//clears after results
 		clearresults: function () {		
-				this.yearlyTotal = 0;
-				this.result = 0;
-				this.HCTS = null;
-				this.eResult = 0;
-				this.kWhvalue = [];
-				this.heating = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
-				this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];	
+			this.yearlyTotal = 0;
+			this.result = 0;
+			this.HCTS = null;
+			this.eResult = 0;
+			this.kWhvalue = [];
+			this.heating = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+			this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
 		},	
+		modalClear: function () {
+			this.clearproductionresults();
+			this.prodstep = 0;
+		},
 		heatingCatTextSelect: function (HeatCatTextSelect){
 			var x = HeatCatTextSelect;
 			console.log(x);
-				if(x == 1){	
-					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
-				} else if (x == 2) {
-					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
-				} else if (x == 3) {
-					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan biokaasun syötteen määrän vuodessa. Klikkaamalla kuvaketta voi tarkastella soveltuvia tekniikoita ja eri kokoisia biokaasulaitoksia.";					
-				} else if (x == 4){
-					this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden tehon tarvetta vastaavan maa- tai vesilämpöputkiston pituuden. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla";
-				} else {
-					this.HCTS = null;
-				}
+			if(x == 1){	
+				this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
+			} else if (x == 2) {
+				this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
+			} else if (x == 3) {
+				this.HCTS = null;				
+			} else if (x == 4){
+				this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden tehon tarvetta vastaavan maa- tai vesilämpöputkiston pituuden. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla";
+			} else {
+				this.HCTS = null;
+			}
 			console.log(this.HCTS);
 		},
 		heatingprods: function (energycat, materialcat) {
