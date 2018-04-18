@@ -1,7 +1,7 @@
 /* ------ html/body ------ */
 
 html, body {
-	width: 100vw;
+	max-width: 100%;
 	height: 100vh;
 	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 }
@@ -9,7 +9,7 @@ html, body {
 #container {
 	width: 100%;
 	max-width: 1200px;
-	min-width: 420px;
+	min-width: 350px;
 	margin: auto;
 }
 
@@ -26,17 +26,33 @@ html, body {
 #disclaimer {
 	width: auto;
 	max-height: 100%;
-	overflow-y: auto!important;
 }
 
 .row {
 	margin:0!important;
 }
 
+.modal-container {
+	max-height: 100%!important;
+	overflow-y: scroll!important;
+	width: 80%;
+}
+
+@media only screen and (max-width: 850px) {
+	.modal-container {
+		width: 100%!important;
+	}
+}
+
+body.modal-open {
+	overflow:hidden!important;
+}
+
+
 /* ------ banner ------ */
 
-#bannerdiv .img {
-	
+#bannerdiv {
+	padding: 10px 0 10px 0;
 }
 
 
@@ -61,13 +77,16 @@ html, body {
 		width: 30%;
 		min-width: 200px;
 	}
+	#vastuuvapaus {
+		margin-top: 20px;
+	}
 }
 
 @media only screen and (min-width: 992px) {
 	.footer {
 		border: 2px solid #bbb;
 		padding: 20px!important;
-		height: 150px;
+		height: 215px;
 		line-height: 100px;
 	}
 	
@@ -91,7 +110,8 @@ html, body {
 /* ------ panel settings ------ */
 
 .panel-group {
-	background-color: whitesmoke;
+	background-color:whitesmoke;
+	border-radius:10px!important;
 }
 
 .panel-heading {
@@ -104,13 +124,13 @@ html, body {
 }
 
 #header-top {
-	border-top-left-radius: 12px;
-	border-top-right-radius: 12px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
 #header-bottom {
-	border-bottom-left-radius: 12px;
-	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 /* ------ button settings ------ */
@@ -166,10 +186,13 @@ html, body {
 
 
 /* ------ rakennukset ------ */
+.ptext {
+	word-wrap: break-word;
+}
+
 
 #buildingselectlist {
 	margin-top: 15px;
-	margin-left: 6em;
 }
 
 #buildingselectlist p::first-letter {
@@ -249,7 +272,7 @@ html, body {
 #quantityicon {
 	position: absolute;
 	right: 22%;
-	bottom: 0%;
+	bottom: 0;
 	font-weight: bold;
 	color: black;
 	width: 35px;
@@ -257,6 +280,11 @@ html, body {
 	border-radius: 20px;
 	border: 1.5px solid #21a07f;
 	background: white;
+}
+
+#quantityicon p {
+	position: relative;
+	bottom:2.2px;
 }
 
 .heatingmaxwarning {
@@ -289,6 +317,24 @@ html, body {
 
 /* ------ tulokset ------ */
 
+#resultquantityicon {
+	position: relative;
+	top: 103px;
+	left: 95px;
+	font-weight: bold;
+	color: black;
+	width: 35px;
+	height: 35px;
+	border-radius: 20px;
+	border: 1.5px solid #21a07f;
+	background: white;
+}
+
+#resultquantityicon p {
+	position:relative;
+	bottom:-6px;
+}
+
 #resulttab {
 	padding: 1.2em;
 }
@@ -301,19 +347,12 @@ html, body {
 	margin-bottom: 20px;
 }
 
-#resultcountericon {
-	
-}
-
-#resultcountericon p {
-	
-}
-
 #resultlist {
 	float: left;
 	width: 50%;
 	margin-bottom: 5px;
 	min-width: 150px;
+	height: 200px;
 }
 
 .biginfotext {
