@@ -29,7 +29,7 @@
 
 	<!-- banner image -->
 	<div id="bannerdiv" class="text-center">
-		<img src="img/banner2.png" alt="banner">
+		<img src="img/banner3.png" alt="banner">
 	</div>
 
 	<!-- container/wrapper (container) -->
@@ -60,10 +60,8 @@
 					uusiutuvan energian tuotantoon, energian kulutukseen ja niiden yhteensovittamiseen tarkoituksenmukaisella tavalla. Investointi
 					tulee aina perustaa tarkempiin laskelmiin.
 					<br>
-					<br>
-					<br> Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista
+					<br>Tekijät (Informe-hanke) eivät vastaa sovelluksen tuottamien tulosten oikeellisuudesta, siinä mahdollisesti olevista
 					virheistä eikä niistä aiheutuneista välittömistä tai välillisistä vahingoista.
-					<br>
 					<br>
 				</p>
 			</div>
@@ -85,9 +83,11 @@
 				<div class="panel-collapse collapse in text-center" id="buildingtab">
 					<!-- info text -->
 					<div class="text-center">
-						<h4>Valitse rakennukset:</h4>
-						<p class="ptext">Aloita sovelluksen käyttö valitsemalla kolmesta kategoriasta (Asuinrakennukset, Muut rakennukset, Tuotantorakennukset) kohteet,<br> joiden energiankulutusta ja uusiutuvan energian ratkaisuja haluat tarkastella.<br> Valitse kohde/kohteet klikkaamalla kuvaketta. Lisäklikkauksilla lisätään lukumäärää, kääntönuolella vähennetään.<br> Valittuasi kohteet paina Laske-nappia siirtyäksesi seuraavaan vaiheeseen.<br><br>Sovelluksessa on rajallinen määrä kohteita, joten valitse sopivin vaihtoehto.<br> Kulutuksessa ei ole huomioitu ajoneuvopolttoaineita, veden lämmitystä eikä lämmönsiirtohukkaa.
+						<h4>Ohjeet</h4>
+						<p class="ptext">Aloita sovelluksen käyttö valitsemalla kolmesta kategoriasta (Asuinrakennukset, Muut rakennukset, Tuotantorakennukset) kohteet,<br> joiden energiankulutusta ja uusiutuvan energian ratkaisuja haluat tarkastella. Valitse kohde/kohteet klikkaamalla kuvaketta.<br> Lisäklikkauksilla lisätään lukumäärää, kääntönuolella vähennetään </p> 
+						<p style="margin-bottom: 20px;" class="ptext">Valittuasi kohteet paina Laske-nappia siirtyäksesi seuraavaan vaiheeseen.<br> Sovelluksessa on rajallinen määrä kohteita, joten valitse sopivin vaihtoehto.<br> Kulutuksessa ei ole huomioitu ajoneuvopolttoaineita, veden lämmitystä eikä lämmönsiirtohukkaa.
 						</p>
+						<h4>Valitse rakennukset:</h4>
 					</div>
 					<!-- building category tabs -->
 					<div class="text-center">
@@ -113,7 +113,7 @@
 					<div>
 						<div>
 							<!-- show required heating energy in kW (heatingkwvalue) -->
-							<p>Lämmitystehon tarve (kaikki valinnat): {{ heatingkwvalue }} kW</p>
+							<p style="font-size: 16px;">Lämmitystehon tarve (kaikki valinnat): {{ heatingkwvalue }} kW</p>
 						</div>
 					</div>
 					<!-- building selector buttons (volumelist loop) -->
@@ -156,14 +156,19 @@
 					</div>
 					<div class="footer row">
 						<div>
-							<div class="col-md-4 text-center">
-								<img class="eulogo" src="img/maaseutu.jpg" alt="eulogo" style="max-width: 100%;" />
+							<div class="row">
+								<div class="col-md-4 text-center">
+									<img class="eulogo" src="img/maaseutu.jpg" alt="eulogo" style="max-width: 100%;" />
+								</div>
+								<div class="col-md-4 text-center">
+									<img class="proagrialogo" src="img/proagria.png" alt="proagrialogo" style="max-width: 100%;" />
+								</div>
+								<div class="col-md-4 text-center">
+									<img class="lamklogo" src="img/lamk_tunnus_vaaka_mv.jpg" alt="lamklogo" style="max-width: 100%;" />
+								</div>
 							</div>
-							<div class="col-md-4 text-center">
-								<img class="proagrialogo" src="img/proagria.png" alt="proagrialogo" style="max-width: 100%;" />
-							</div>
-							<div class="col-md-4 text-center">
-								<img class="lamklogo" src="img/lamk_tunnus_vaaka_mv.jpg" alt="lamklogo" style="max-width: 100%;" />
+							<div class="row">
+								<input type="button" value="Vastuuvapauslauseke" class="btn" id="vastuuvapaus" @click="showDisclaimer = true" />
 							</div>
 						</div>
 					</div>
@@ -211,32 +216,42 @@
 								</div>
 							</div>
 							<div class="col-md-4">
-								<div class="biginfotext">Valitse rakennus, jonka kulutustietoja haluat tarkastella yksilöllisesti:</div>
-								<div>
-									<!-- buttons for individual buildings (kWhvalue-loop=>id) -->
-									<div v-for="item in noduplicates(kWhvalue, 'id')" id="resultlist">
-										<label class="buildingselector">
-											<input type="button" v-on:click="modali(item.id)">
+								<p style="font-size: 16px;font-weight: bold;margin-bottom:-15px;">Valitse rakennus, jonka kulutustietoja haluat tarkastella yksilöllisesti:</p>
+								<!-- buttons for individual buildings (kWhvalue-loop=>id) -->
+								<ul class="ulstyle">
+									<li v-for="item in noduplicates(kWhvalue, 'id')" id="resultlist">
+										<!-- building counter icon -->
+										<div id="resultquantityicon">
+											<p>{{ countchecked(item.id) }}</p>
+										</div>
+										<label class="buildingselector">						
+											<input type="button" v-on:click="modali(item.id)" />
 											<img :src="'img/'+item.id+'.png'" style="height: 96px;" alt="" />
-											<div class="buttonicons" v-if="countchecked(item.id) > 0"></div>
-											<p style="margin: 10px 0 -5px 0;">{{ countchecked(item.id) }}kpl</p>
+											<div style="margin-bottom: 10px;" class="buttonicons" v-if="countchecked(item.id) > 0"></div>
 											<p>{{item.consumer.use}}</p>
-											<p style="margin-top: -8px;">{{item.consumer.volumeDefinition}}</p>
+											<p style="margin-top: -10px;">{{item.consumer.volumeDefinition}}</p>
 										</label>
-									</div>
-								</div>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
 					<div class="footer row">
-						<div class="col-md-4 text-center">
-							<img class="eulogo" src="img/maaseutu.jpg" alt="eulogo" style="max-width: 100%;" />
-						</div>
-						<div class="col-md-4 text-center">
-							<img class="proagrialogo" src="img/proagria.png" alt="proagrialogo" style="max-width: 100%;" />
-						</div>
-						<div class="col-md-4 text-center">
-							<img class="lamklogo" src="img/lamk_tunnus_vaaka_mv.jpg" alt="lamklogo" style="max-width: 100%;" />
+						<div>
+							<div class="row">
+								<div class="col-md-4 text-center">
+									<img class="eulogo" src="img/maaseutu.jpg" alt="eulogo" style="max-width: 100%;" />
+								</div>
+								<div class="col-md-4 text-center">
+									<img class="proagrialogo" src="img/proagria.png" alt="proagrialogo" style="max-width: 100%;" />
+								</div>
+								<div class="col-md-4 text-center">
+									<img class="lamklogo" src="img/lamk_tunnus_vaaka_mv.jpg" alt="lamklogo" style="max-width: 100%;" />
+								</div>
+							</div>
+							<div class="row">
+								<input type="button" value="Vastuuvapauslauseke" class="btn" id="vastuuvapaus" @click="showDisclaimer = true" />
+							</div>
 						</div>
 					</div>
 					<!-- tulokset-modal -->
@@ -246,7 +261,6 @@
 								<h3 id="resultmodaltext"></h3>
 								<div class="modal-body">
 									<div class="text-center chartdiv" id="resultmodalchart"></div>
-									<br>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default calculatebtn" data-dismiss="modal">Sulje</button>
@@ -546,14 +560,19 @@
 					</div>
 					<div class="footer row">
 						<div>
-							<div class="col-md-4 text-center">
-								<img class="eulogo" src="img/maaseutu.jpg" alt="eulogo" style="max-width: 100%;" />
+							<div class="row">
+								<div class="col-md-4 text-center">
+									<img class="eulogo" src="img/maaseutu.jpg" alt="eulogo" style="max-width: 100%;" />
+								</div>
+								<div class="col-md-4 text-center">
+									<img class="proagrialogo" src="img/proagria.png" alt="proagrialogo" style="max-width: 100%;" />
+								</div>
+								<div class="col-md-4 text-center">
+									<img class="lamklogo" src="img/lamk_tunnus_vaaka_mv.jpg" alt="lamklogo" style="max-width: 100%;" />
+								</div>
 							</div>
-							<div class="col-md-4 text-center">
-								<img class="proagrialogo" src="img/proagria.png" alt="proagrialogo" style="max-width: 100%;" />
-							</div>
-							<div class="col-md-4 text-center">
-								<img class="lamklogo" src="img/lamk_tunnus_vaaka_mv.jpg" alt="lamklogo" style="max-width: 100%;" />
+							<div class="row">
+								<input type="button" value="Vastuuvapauslauseke" class="btn" id="vastuuvapaus" @click="showDisclaimer = true" />
 							</div>
 						</div>
 					</div>
@@ -571,13 +590,12 @@
 		<div class="modal-mask">
 			<div class="modal-wrapper">
 				<div class="modal-container">
-					<div class="modal-header">
-						<slot name="header"></slot>
-					</div>
 					<div class="modal-body">
 						<slot name="body"></slot>
 					</div>
-					<button type="button" class="btn btn-primary calculatebtn" @click="$emit('close')" id="continue">Sulje</button>
+					<div style="text-align:center;">
+						<button type="button" class="btn btn-primary calculatebtn" @click="$emit('close')" id="continue">Sulje</button>
+					</div>
 				</div>
 			</div>
 		</div>
