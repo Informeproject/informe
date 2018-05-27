@@ -534,10 +534,10 @@ var vm = new Vue({
 						})
 					}
 
-					Vue.set(this.volumelist, 0, vollist[2]);
-					Vue.set(this.volumelist, 1, vollist[1]);
+					Vue.set(this.volumelist, 0, vollist[3]);
+					Vue.set(this.volumelist, 1, vollist[2]);
 					Vue.set(this.volumelist, 2, vollist[0]);
-					Vue.set(this.volumelist, 3, vollist[3]);		
+					//Vue.set(this.volumelist, 3, vollist[1]);		
 				}, function (error) {
 					// handle error
 				});
