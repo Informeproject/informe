@@ -54,7 +54,7 @@
 				<h3>Ohjeita käyttäjälle</h3>
 				<p>
 					Ohjelma on jaettu kolmeen eri vaiheeseen. Jokaisen vaiheen ikkunassa on ohjeet niiden käyttöä varten. Saadaksesi tämän ruudun
-					takaisin näkyviin, paina Info-nappia oikeasta yläkulmasta.
+					takaisin näkyviin, paina Vastuuvapauslauseke-nappia sivun alalaidasta.
 				</p>
 				<h3>Vastuuvapauslauseke</h3>
 				<p>
@@ -460,7 +460,7 @@
 									<li class="col-md-4" v-for="item in this.finalpage">
 										<button class="btn prodresultbutton" v-bind:id="item.id" v-on:click="getproducer(item.energycategory, item.materialcategory, item.energysource, item.heatingpowerkw, item.electrpowerkw, item.panelangle, item.paneldirection)"
 										 data-toggle="modal" data-target="#prodresultmodal">
-											{{item.energysource}}
+											<p>{{item.energysource}}</p>
 											<br>
 											<!-- aurinkopaneelien tiedot -->
 											<p v-if="(item.energycategory) == 2">
@@ -469,7 +469,7 @@
 											</p>
 
 											<!-- yleistiedot kaikelle paitsi maalämmölle -->
-											<p v-if="(item.energycategory) == 1">{{item.method}}</p>
+											<p style="white-space: pre-line;" v-if="(item.energycategory) == 1">{{item.method}}</p>
 											<p v-if="(item.energycategory) == 1 && (item.materialcategory) != 3 && (item.materialcategory) != 5">{{ (parseFloat((parseFloat(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))).toFixed(2) }} {{ item.inputunit }}</p>
 											<div v-if="(item.energycategory) != 1">
 												<p v-if="(item.materialcategory) != 5">Yleiset tiedot:<br>{{parseInt(item.description)}} {{item.description2}}</p>
@@ -553,6 +553,12 @@
 													+ (parseInt(this.prodmodalvalue.electseptember)) + (parseInt(this.prodmodalvalue.electoctober)) + (parseInt(this.prodmodalvalue.electnovember))
 													+ (parseInt(this.prodmodalvalue.electdecember))).toLocaleString().replace(/,/g," ")}} kWh vuodessa
 												</p>
+											</div>
+											<div v-if="(prodmodalvalue.energycategory) == 2">
+												<a href="http://re.jrc.ec.europa.eu/pvg_tools/en/tools.html#PVP" target="_blank">Tarkempia laskelmia voit tehdä PVGIS-laskurilla</a>
+											</div>
+											<div v-if="((prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) == 3)">
+												<a href="http://portal.mtt.fi/portal/pls/portal/gas_mtt.gas_mtt_laskuri" target="_blank">Tarkempia laskelmia voit tehdä Biokaasulaskurilla</a>
 											</div>
 										</div>
 									</div>
