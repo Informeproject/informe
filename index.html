@@ -211,7 +211,8 @@
 								</div>
 								<!-- button to move to productions -->
 								<div class="text-center">
-									<button style="margin: 5px 0 15px 0;" type="button" v-on:click="clearresults()" class="btn btn-primary" data-toggle="collapse" data-target="#buildingtab" data-parent=".panel-group">&lt; Takaisin</button>							
+									<button style="margin: 5px 0 15px 0;" type="button" v-on:click="clearresults()" class="btn btn-primary" data-toggle="collapse" data-target="#buildingtab" data-parent=".panel-group">&lt; Takaisin</button>	
+									<button style="margin: 5px 0 15px 0;" type="button" @click="printResultContent" class="btn">Tulosta</button>
 									<button style="margin: 5px 0 15px 0;" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#productiontab"
 									 data-parent=".panel-group">Tuotanto &gt;</button>
 								</div>
@@ -513,7 +514,11 @@
 									<p>Tuotantotapa: {{this.prodmodalvalue.method}}</p>	
 									<p v-if="(prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) != 3">Lämmitystehon tarve: {{ heatingkwvalue }} kW</p>
 									<p v-if="(prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) == 3">Laitoksen teholuokka: {{ this.prodmodalvalue.heatingpowerkw }} kW</p>
-									<p v-if="(prodmodalvalue.energycategory) == 1">Tarvittava määrä: {{parseInt((parseInt(this.heatingkwvalue)) * 2000 / (this.prodmodalvalue.efficiency) / (this.prodmodalvalue.energyperunitkwh))}} {{this.prodmodalvalue.inputunit}}</p>
+									<p v-if="(prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) != 3">Tarvittava määrä: {{parseInt((parseInt(this.heatingkwvalue)) * 2000 / (this.prodmodalvalue.efficiency) / (this.prodmodalvalue.energyperunitkwh))}} {{this.prodmodalvalue.inputunit}}</p>
+									
+									<!-- biokaasu -->
+									<p v-if="(prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) == 3">Syötteen määrä: {{parseInt(this.prodmodalvalue.inputamount)}} {{this.prodmodalvalue.inputunit}}</p>
+									
 									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelien teholuokka: {{this.prodmodalvalue.electrpowerkw}} kW</p>
 									<p v-if="(prodmodalvalue.energycategory) == 2">Paneelin kulma: {{this.prodmodalvalue.panelangle}}°, paneelin suunta: {{this.prodmodalvalue.paneldirection}}</p>
 									
@@ -562,6 +567,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
+									<button type="button" @click="printModalContent" class="btn">Tulosta</button>
 									<button type="button" @click="modalClear"  class="btn btn-default calculatebtn" data-dismiss="modal" style="background-color: #61a786; color: white;">Sulje</button>
 								</div>
 							</div>
