@@ -187,14 +187,12 @@ var vm = new Vue({
 				var eConsumptionValue = this.eConsumption;
 				var eyearlyTotal = 0;
 				for (var f = 0; f < val.length; f++) {
-					eyearlyTotal += Math.floor(eConsumptionValue[f].value);
+					eyearlyTotal += Math.ceil(eConsumptionValue[f].value);
 				}
-				var eResultPlaceholder = parseInt(Math.round(eyearlyTotal)).toLocaleString();
-				eResultPlaceholder = eResultPlaceholder.replace(/,/g," ");
-				this.eResult = eResultPlaceholder;
 				
+				this.eResult = Math.ceil(eyearlyTotal).toLocaleString().replace(/,/g," ");
+				this.electrresult = Math.ceil(eyearlyTotal);
 				
-				this.electrresult = parseFloat(eyearlyTotal).toFixed(2);	
 				google.charts.load('current', { 'packages': ['corechart'] });
 				google.charts.setOnLoadCallback(drawChart);
 
@@ -373,7 +371,7 @@ var vm = new Vue({
 					var eConsumptionValue = this.eConsumption;
 					var eyearlyTotal = 0;
 					for (var f = 0; f < val.length; f++) {
-						eyearlyTotal += Math.floor(eConsumptionValue[f].value);
+						eyearlyTotal += Math.ceil(eConsumptionValue[f].value);
 					}
 					google.charts.load('current', { 'packages': ['corechart'] });
 					google.charts.setOnLoadCallback(drawChart);
@@ -470,8 +468,10 @@ var vm = new Vue({
 
 			for (i=0; i < cons.length; i++){
 				if (cons[i].id == event.currentTarget.id) {
-					this.heatingkwvalue += parseInt(cons[i].heatingkw);
-					this.electrpowerkwvalue += parseInt(cons[i].electrkw);
+					//this.heatingkwvalue += parseInt(cons[i].heatingkw);
+					//this.electrpowerkwvalue += parseInt(cons[i].electrkw);	
+					this.heatingkwvalue += Math.ceil(cons[i].heatingkw);
+					this.electrpowerkwvalue += Math.ceil(cons[i].electrkw);
 				}
 			}
 	
@@ -482,8 +482,10 @@ var vm = new Vue({
 			
 			for (i=0; i < cons.length; i++){
 				if (cons[i].id == event.currentTarget.id) {
-					this.heatingkwvalue -= parseInt(cons[i].heatingkw);
-					this.electrpowerkwvalue -= parseInt(cons[i].electrkw);
+					//this.heatingkwvalue -= parseInt(cons[i].heatingkw);
+					//this.electrpowerkwvalue -= parseInt(cons[i].electrkw);				
+					this.heatingkwvalue -= Math.ceil(cons[i].heatingkw);
+					this.electrpowerkwvalue -= Math.ceil(cons[i].electrkw);
 				}
 			}
 
@@ -855,6 +857,22 @@ var vm = new Vue({
 			else {
 				return false;
 			}
+		},
+		printResultContent: function () {
+			var DocumentContainer = document.getElementById('resulttab');
+			var WindowObject = window.open("", "PrintWindow",
+			"width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+			WindowObject.document.writeln(DocumentContainer.innerHTML);
+			WindowObject.document.close();
+			WindowObject.print();
+		},
+		printModalContent: function () {
+			var DocumentContainer = document.getElementById('prodresultmodal');
+			var WindowObject = window.open("", "PrintWindow",
+			"width=750,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes");
+			WindowObject.document.writeln(DocumentContainer.innerHTML);
+			WindowObject.document.close();
+			WindowObject.print();
 		},
 	}
 });
