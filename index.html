@@ -77,9 +77,6 @@
 				<!-- rakennukset-header -->
 				<div id="header-top" class="panel-heading text-center">
 					<label class="panel-title">RAKENNUKSET</label>
-					<!-- <button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" v-on:click="clearresults()" data-target="#buildingtab" data-parent=".panel-group">
-						<span class="glyphicon glyphicon-menu-down"></span>
-					</button> -->
 				</div>
 				<!-- rakennukset-collapse -->
 				<div class="panel-collapse collapse in text-center" id="buildingtab">
@@ -152,7 +149,7 @@
 					<!-- buttons to clear selected buildings & calculate -->
 					<div class="row">
 						<button style="margin: 15px 0 15px 0;" type="button" class="btn" v-on:click="clearchecked()">Tyhjennä valinnat</button>
-						<button style="margin: 15px 0 15px 0;" type="button" class="btn btn-primary calculatebtn" id="calcbtn" v-on:click="heatingresults(); econsumptionresult();" data-toggle="collapse" data-target="#resulttab"
+						<button style="margin: 15px 0 15px 0;" type="button" class="btn btn-primary calculatebtn" id="calcbtn" v-on:click="getHeatConsumptions(); getHeatConsumptions();" data-toggle="collapse" data-target="#resulttab"
 						data-parent=".panel-group">Laske</button>
 					</div>
 					<div class="footer row">
@@ -183,9 +180,6 @@
 				<!-- tulokset-header -->
 				<div class="panel-heading text-center">
 					<label class="panel-title">TULOKSET</label>
-					<!-- <button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" data-target="#resulttab" data-parent=".panel-group">
-						<span class="glyphicon glyphicon-menu-down"></span>
-					</button> -->
 				</div>
 				<!-- tulokset-collapse -->
 				<div class="panel-collapse collapse text-center" id="resulttab">
@@ -195,7 +189,7 @@
 								<!-- calculated values -->
 								<div class="biginfotext">Rakennusten yhteenlaskettu lämmitysenergian ja laitesähkön kulutus</div>
 								<div class="biginfotext">
-									<h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4>
+									<h4>Lämmitysenergian kulutus: {{heatconsumption}} kWh vuodessa</h4>
 								</div>
 								<!-- Lämmitysenergian kulutus -->
 								<div class="biginfotext">
@@ -281,10 +275,6 @@
 				<!-- tuotanto-header -->
 				<div id="header-bottom" class="text-center panel-heading">
 					<label class="panel-title">TUOTANTO</label>
-					<!-- <button type="button" class="btn btn-primary collapsebutton" data-toggle="collapse" data-target="#productiontab" data-parent=".panel-group"
-						v-on:click="prodstep = -1; selectHeating = false; selectElectricity = false;  selectElecheating = false; clearproductionresults();">
-						<span class="glyphicon glyphicon-menu-down"></span>
-					</button> -->
 				</div>
 				<!-- tuotanto-collapse -->
 				<div class="panel-collapse collapse text-center" id="productiontab">
@@ -446,7 +436,7 @@
 					<template v-if="prodstep == 3">
 						<div>
 							<div v-if="selectHeating">
-								<h4>Lämmitysenergian tarve: {{parseInt(heatresult)}} kWh</h4>
+								<h4>Lämmitysenergian tarve: {{parseInt(heatconsumption)}} kWh</h4>
 								<h4>Lämmitystehon tarve: {{parseInt(heatingkwvalue)}} kW</h4>
 							</div>
 							<h4 v-if="(selectElectricity || selectElecheating)">Laitesähkön tarve: {{parseInt(electrresult).toLocaleString().replace(/,/g," ")}} kWh</h4>
@@ -478,18 +468,18 @@
 											<p v-if="(item.energycategory) == 1 && (item.materialcategory) == 3">{{ parseInt(item.inputamount) }} {{ item.inputunit }}</p>
 											
 											<!-- puu -->
-											<div v-if="(item.energycategory) == 1 && (item.materialcategory) == 1 && (item.proddescription != NULL)">	
+											<div v-if="(item.energycategory) == 1 && (item.materialcategory) == 1 && (item.proddescription != null)">	
 												<p>{{((parseFloat((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))) / parseFloat(item.proddescription)).toFixed(2)}} {{item.description2}}</p>		
 											</div>
 
 											<!-- pelto -->
-											<div v-if="((item.energycategory) == 1 && (item.materialcategory) == 2) && (item.proddescription != NULL)">
+											<div v-if="((item.energycategory) == 1 && (item.materialcategory) == 2) && (item.proddescription != null)">
 												<p>{{(((parseFloat((parseInt(heatingkwvalue)) * 2000 / (item.efficiency) / (item.energyperunitkwh))) / parseFloat(item.proddescription)) / 100 * (item.solids)).toFixed(2)}} {{item.description2}}</p>
 											</div>
 
 											<!-- maalämpö -->
 											<p v-if="(item.materialcategory) == 5">Keruuputkiston pituus:<br> {{(parseInt(item.geothermlenght) * heatingkwvalue)}} {{item.geothermunit}}</p>
-											<p v-if="(item.materialcategory) == 5">Ostosähkön tarve:<br>{{parseInt(heatresult) / 3}} {{item.inputunit}}</p>
+											<p v-if="(item.materialcategory) == 5">Ostosähkön tarve:<br>{{parseInt(heatconsumption) / 3}} {{item.inputunit}}</p>
 											
 											<!-- biokaasu -->
 											
@@ -536,13 +526,13 @@
 									<div>
 										<div>
 											<div v-if="(prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) != 3">
-												<p>Lämmitysenergian kulutus: {{(this.result).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
+												<p>Lämmitysenergian kulutus: {{(this.heatconsumption).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
 												<p>
 													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{(heatProdSum).toLocaleString().replace(/,/g," ")}} kWh vuodessa
 												</p>
 											</div>
 											<div v-if="(prodmodalvalue.materialcategory) == 3">
-												<p>Lämmitysenergian kulutus: {{(this.result).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
+												<p>Lämmitysenergian kulutus: {{(this.heatconsumption).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
 												<p>
 													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{parseInt(this.prodmodalvalue.heatkwhnet).toLocaleString().replace(/,/g," ")}} kWh vuodessa
 												</p>
