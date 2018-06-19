@@ -366,6 +366,8 @@ var vm = new Vue({
 
 			var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
+			this.yearlyHeatConsumption = 0;
+
 			for (var i = 0; i < this.checkedid.length; i++) {
 				
 				this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
@@ -374,8 +376,11 @@ var vm = new Vue({
 
 						for (var h = 0; h <= 11; h++) {
 							this.monthlyHeatConsumption[h].value += parseFloat(response.data[months[h]]);
+							this.yearlyHeatConsumption += parseFloat(response.data[months[h]]);
 						}
 	
+						this.kWhvalue.push(response.data);  //adds the received object to kWhvalue
+
 					},
 					function (error) {
 						// handle error
@@ -387,6 +392,7 @@ var vm = new Vue({
 
 						for (var e = 0; e <= 11; e++) {
 							this.monthlyElecConsumption[e].value += parseFloat(response.data[months[e]]);
+							this.yearlyElecConsumption += parseFloat(response.data[months[e]]);
 						}
 						
 					},
@@ -400,21 +406,6 @@ var vm = new Vue({
 
 		},
 		drawResultChart: function (heat, elec) {
-			// var yearlyHeat = 0;
-			// var yearlyElec = 0;
-
-			// for (var i = 0; i < heat.length; i++) {
-			// 	console.log(heat[i].value);
-			// 	yearlyHeat += heat[i];
-			// }
-
-			// for (var i = 0; i < elec.length; i++) {
-			// 	console.log(elec[i].value);
-			// 	yearlyElec += elec[i];
-			// }
-
-			// this.yearlyHeatConsumption = yearlyHeat;
-			// this.yearlyElecConsumption = yearlyElec;
 
 			google.charts.load('current', { 'packages': ['corechart'] });
 			google.charts.setOnLoadCallback(drawChart);
@@ -422,7 +413,7 @@ var vm = new Vue({
 			function drawChart() {
 				
 				var data = google.visualization.arrayToDataTable([
-					['Kuukausi', 'Lämmitysenergian kulutus', 'Laitesähkön kulutus'],
+					['Kuukausi', 'Lämmitys', 'Sähkö'],
 					['Tammi', heat[0].value, elec[0].value],
 					['Helmi', heat[1].value, elec[1].value],
 					['Maalis', heat[2].value, elec[2].value],
@@ -440,11 +431,13 @@ var vm = new Vue({
 				var options = {
 					backgroundColor: '#f5f5f5',
 					title: 'kWh / kk',
-					legend: { position: 'bottom' },
+					legend: { position: 'right' },
 					bars: 'vertical',
 					vAxis: { format: '' },
 					colors: ['#C52F03', '#328FB2'],
-					backgroundColor: '#fff'
+					backgroundColor: '#fff',
+					width: '691',
+					height: '360'
 				};
 
 				var chart = new google.visualization.ColumnChart(document.getElementById('resultchart'));
