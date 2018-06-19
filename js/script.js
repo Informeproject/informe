@@ -19,6 +19,8 @@ var vm = new Vue({
 		heatingpowervalues: [],
 		eConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 		heating: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
+		monthlyElecConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
+		monthlyHeatConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 		result: 0,
 		HCTS: 0,
 		eResult: 0,
@@ -104,11 +106,12 @@ var vm = new Vue({
 				
 				this.eResult = eyearlyTotal.toLocaleString().replace(/,/g," ");
 				this.electrresult = eyearlyTotal;
-				
+
 				google.charts.load('current', { 'packages': ['corechart'] });
 				google.charts.setOnLoadCallback(drawChart);
 
 				function drawChart() {
+					
 					var data = google.visualization.arrayToDataTable([
 						['Kuukausi', 'Lämmitysenergian kulutus', 'Laitesähkön kulutus'],
 						['Tammi', val[0].value, eConsumptionValue[0].value],
@@ -356,6 +359,45 @@ var vm = new Vue({
 						// handle error
 					});
 			}
+		},
+		getConsumptions: function () {
+
+			var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+
+			for (var i = 0; i < this.checkedid.length; i++) {
+				
+				this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
+				.then(
+					function (response) {
+
+						for (var h = 0; h <= 11; h++) {
+							this.monthlyHeatConsumption[h].value += parseFloat(response.data[months[h]]);
+						}
+	
+					},
+					function (error) {
+						// handle error
+					});
+
+				this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/energy', { params: {} })
+				.then(
+					function (response) {
+
+						for (var e = 0; e <= 11; e++) {
+							this.monthlyElecConsumption[e].value += parseFloat(response.data[months[e]]);
+						}
+						
+					},
+					function (error) {
+						// handle error
+					});
+
+			}
+		},
+		drawResultChart: function (heat, elec) {
+
+			// Draw total consumptions result chart
+			
 		},
 		modali: function (id) {
 			$("#resultmodal").modal()
