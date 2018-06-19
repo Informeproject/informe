@@ -366,6 +366,8 @@ var vm = new Vue({
 
 			var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
+			this.yearlyHeatConsumption = 0;
+
 			for (var i = 0; i < this.checkedid.length; i++) {
 				
 				this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
@@ -374,7 +376,7 @@ var vm = new Vue({
 
 						for (var h = 0; h <= 11; h++) {
 							this.monthlyHeatConsumption[h].value += parseFloat(response.data[months[h]]);
-							this.yearlyHeatConsumption += response.data[months[h]];
+							this.yearlyHeatConsumption += parseFloat(response.data[months[h]]);
 						}
 	
 						this.kWhvalue.push(response.data);  //adds the received object to kWhvalue
@@ -390,7 +392,7 @@ var vm = new Vue({
 
 						for (var e = 0; e <= 11; e++) {
 							this.monthlyElecConsumption[e].value += parseFloat(response.data[months[e]]);
-							this.yearlyElecConsumption += response.data[months[e]];
+							this.yearlyElecConsumption += parseFloat(response.data[months[e]]);
 						}
 						
 					},
