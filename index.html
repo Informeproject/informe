@@ -152,8 +152,10 @@
 					<!-- buttons to clear selected buildings & calculate -->
 					<div class="row">
 						<button style="margin: 15px 0 15px 0;" type="button" class="btn" v-on:click="clearchecked()">Tyhjennä valinnat</button>
-						<button style="margin: 15px 0 15px 0;" type="button" class="btn btn-primary calculatebtn" id="calcbtn" v-on:click="heatingresults(); econsumptionresult();" data-toggle="collapse" data-target="#resulttab"
+						<button style="margin: 15px 0 15px 0;" type="button" class="btn btn-primary calculatebtn" id="calcbtn" v-on:click="getConsumptions" data-toggle="collapse" data-target="#resulttab"
 						data-parent=".panel-group">Laske</button>
+						<!-- <button style="margin: 15px 0 15px 0;" type="button" class="btn btn-primary calculatebtn" id="calcbtn" v-on:click="heatingresults(); econsumptionresult();" data-toggle="collapse" data-target="#resulttab"
+						data-parent=".panel-group">Laske</button> -->
 					</div>
 					<div class="footer row">
 						<div>
@@ -195,11 +197,11 @@
 								<!-- calculated values -->
 								<div class="biginfotext">Rakennusten yhteenlaskettu lämmitysenergian ja laitesähkön kulutus</div>
 								<div class="biginfotext">
-									<h4>Lämmitysenergian kulutus: {{ parseInt(result)}} kWh vuodessa</h4>
+									<h4>Lämmitysenergian kulutus: {{ parseInt(yearlyHeatConsumption)}} kWh vuodessa</h4>
 								</div>
 								<!-- Lämmitysenergian kulutus -->
 								<div class="biginfotext">
-									<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{ parseInt(eResult)}} kWh vuodessa</h4>
+									<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{ parseInt(yearlyElecConsumption)}} kWh vuodessa</h4>
 								</div>
 								<!--laitesähkön tehonkulutus -->
 								<div class="biginfotext">
