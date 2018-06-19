@@ -195,15 +195,15 @@
 								<!-- calculated values -->
 								<div class="biginfotext">Rakennusten yhteenlaskettu lämmitysenergian ja laitesähkön kulutus</div>
 								<div class="biginfotext">
-									<h4>Lämmitysenergian kulutus: {{result}} kWh vuodessa</h4>
+									<h4>Lämmitysenergian kulutus: {{ parseInt(result)}} kWh vuodessa</h4>
 								</div>
 								<!-- Lämmitysenergian kulutus -->
 								<div class="biginfotext">
-									<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{eResult}} kWh vuodessa</h4>
+									<h4>Laitesähkön kulutus (tasattu kuukausien kesken): {{ parseInt(eResult)}} kWh vuodessa</h4>
 								</div>
 								<!--laitesähkön tehonkulutus -->
 								<div class="biginfotext">
-									<h4>Yhteenlaskettu lämmitystehon tarve: {{ heatingkwvalue }} kW</h4>
+									<h4>Yhteenlaskettu lämmitystehon tarve: {{ parseInt(heatingkwvalue) }} kW</h4>
 								</div>
 								<!-- consumption chart -->
 								<div class="text-center chartdiv">
