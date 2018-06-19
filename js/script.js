@@ -1,4 +1,3 @@
-// register modal component
 Vue.component('modal', {
 	template: '#modal-template'
 });
@@ -6,46 +5,36 @@ Vue.component('modal', {
 var vm = new Vue({
 	el: '#container',
 	data: {
-		buildings: [],
-		volumelist: [],
-		consumerlist: [],
-		producerlist: [],
+		biogasproducers: [],
+		buildingcategory: 0,
 		checkedid: [],
+		consumerlist: [],
+		eConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
+		electrpowerkwvalue: 0,
+		finalpage: [],
+		HCTS: 0,
+		heatingkwvalue: 0,	
+		heatingpowersize: 0,
+		heatProdSum:0,
 		kWhvalue: [],
-		prodValue: [],
-		prodlist: [],
 		materiallist: [],
 		modalValue: [],
-		heatingpowervalues: [],
-		eConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
-		heating: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 		monthlyElecConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
 		monthlyHeatConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
-		yearlyHeatConsumption: 0,
-		yearlyElecConsumption: 0,
-		result: 0,
-		HCTS: 0,
-		eResult: 0,
-		showDisclaimer: true,
-		showSelected: false,
-		buildingcategory: 0,
-		prodstep: -1,
+		monthlyHeat:[],
+		prodchoices: [],
+		prodlist: [],
+		prodmodalvalue: [],
+		prodmodalCat: 0,
+		producerlist: [],
+		prodstep: -1,	
 		selectHeating: false,
 		selectElectricity: false,
 		selectElecheating: false,
-		prodchoices: [],
-		finalpage: [],
-		heatresult: 0,
-		electrresult: 0,
-		heatingkwvalue: 0,
-		electrpowerkwvalue: 0,
-		heatingpowersize: 0, // power size rounded up from heatingkwvalue
-		prodmodalvalue: [],
-		prodmodalCat: 0,
-		heatValueForProd: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
-		biogasproducers: [],
-		monthlyHeat:[],
-		heatProdSum:0
+		showDisclaimer: true,
+		volumelist: [],
+		yearlyHeatConsumption: 0,
+		yearlyElecConsumption: 0
 	},
 	created: function () {
 
@@ -85,67 +74,6 @@ var vm = new Vue({
 		},
 	},
 	watch: {
-		heating: {
-			handler: function (val, oldVal) {
-				var yearlyTotal = 0;
-
-				for (var i = 0; i < val.length; i++) {
-					yearlyTotal += val[i].value;
-				}
-
-				this.heatValueForProd = val;
-				var resultPlaceholder = yearlyTotal.toLocaleString();
-				resultPlaceholder = resultPlaceholder.replace(/,/g," ");
-				this.result = resultPlaceholder;
-				this.heatresult = yearlyTotal.toFixed(2);
-
-				var eConsumptionValue = this.eConsumption;
-				var eyearlyTotal = 0;
-
-				for (var f = 0; f < val.length; f++) {
-					eyearlyTotal += eConsumptionValue[f].value;
-				}
-				
-				this.eResult = eyearlyTotal.toLocaleString().replace(/,/g," ");
-				this.electrresult = eyearlyTotal;
-
-				google.charts.load('current', { 'packages': ['corechart'] });
-				google.charts.setOnLoadCallback(drawChart);
-
-				function drawChart() {
-					
-					var data = google.visualization.arrayToDataTable([
-						['Kuukausi', 'Lämmitysenergian kulutus', 'Laitesähkön kulutus'],
-						['Tammi', val[0].value, eConsumptionValue[0].value],
-						['Helmi', val[1].value, eConsumptionValue[1].value],
-						['Maalis', val[2].value, eConsumptionValue[2].value],
-						['Huhti', val[3].value, eConsumptionValue[3].value],
-						['Touko', val[4].value, eConsumptionValue[4].value],
-						['Kesä', val[5].value, eConsumptionValue[5].value],
-						['Heinä', val[6].value, eConsumptionValue[6].value],
-						['Elo', val[7].value, eConsumptionValue[7].value],
-						['Syys', val[8].value, eConsumptionValue[8].value],
-						['Loka', val[9].value, eConsumptionValue[9].value],
-						['Marras', val[10].value, eConsumptionValue[10].value],
-						['Joulu', val[11].value, eConsumptionValue[11].value],
-					]);
-
-					var options = {
-						backgroundColor: '#f5f5f5',
-						title: 'kWh / kk',
-						legend: { position: 'bottom' },
-						bars: 'vertical',
-						vAxis: { format: '' },
-						colors: ['#C52F03', '#328FB2'],
-						backgroundColor: '#fff'
-					};
-
-					var chart = new google.visualization.ColumnChart(document.getElementById('resultchart'));
-					chart.draw(data, options);
-				}
-			},
-			deep: true
-		},
 		modalValue: { //tämä tarvitaan
 			handler: function (val, oldVal) {
 
@@ -205,23 +133,22 @@ var vm = new Vue({
 
 				if (val.materialcategory == 3){
 					power = 1;
-				}
-				else {
+				} else {
 					power = this.heatingkwvalue;
 				}
 
-				var jan = (parseInt(power)) * parseInt(val.heatjanuary);
-				var feb = (parseInt(power)) * parseInt(val.heatfebruary);
-				var mar = (parseInt(power)) * parseInt(val.heatmarch);
-				var apr = (parseInt(power)) * parseInt(val.heatapril);
-				var may = (parseInt(power)) * parseInt(val.heatmay);
-				var jun = (parseInt(power)) * parseInt(val.heatjune);
-				var jul = (parseInt(power)) * parseInt(val.heatjuly);
-				var aug = (parseInt(power)) * parseInt(val.heataugust);
-				var oct = (parseInt(power)) * parseInt(val.heatoctober);
-				var nov = (parseInt(power)) * parseInt(val.heatnovember);
-				var dec = (parseInt(power)) * parseInt(val.heatdecember);
-				var sep = (parseInt(power)) * parseInt(val.heatseptember);
+				var jan = (parseFloat(power)) * (parseFloat(val.heatjanuary));
+				var feb = (parseFloat(power)) * (parseFloat(val.heatfebruary));
+				var mar = (parseFloat(power)) * (parseFloat(val.heatmarch));
+				var apr = (parseFloat(power)) * (parseFloat(val.heatapril));
+				var may = (parseFloat(power)) * (parseFloat(val.heatmay));
+				var jun = (parseFloat(power)) * (parseFloat(val.heatjune));
+				var jul = (parseFloat(power)) * (parseFloat(val.heatjuly));
+				var aug = (parseFloat(power)) * (parseFloat(val.heataugust));
+				var oct = (parseFloat(power)) * (parseFloat(val.heatoctober));
+				var nov = (parseFloat(power)) * (parseFloat(val.heatnovember));
+				var dec = (parseFloat(power)) * (parseFloat(val.heatdecember));
+				var sep = (parseFloat(power)) * (parseFloat(val.heatseptember));
 				
 				function add(a,b){
 					return a+b;
@@ -233,7 +160,7 @@ var vm = new Vue({
 				
 				if (this.prodmodalCat === 1){
 
-					var heatVal = this.heatValueForProd;
+					var heatVal = this.monthlyHeatConsumption;
 
 					google.charts.load('current', { 'packages': ['corechart'], 'language':'us' });
 					google.charts.setOnLoadCallback(drawChart);
@@ -256,9 +183,6 @@ var vm = new Vue({
 							['Joulu', Number(dec), heatVal[11].value],
 						]);
 						
-						//var formatter = new google.visualization.NumberFormat({prefix: '$',  decimalSymbol: ' ', groupingSymbol: ' ' });
-    					//formatter.format(data, 0);
-						
 						var options = {
 							title: 'Arvioitu lämmitysenergian tuotanto ja tarve (kWh / kk)',
 							legend: { 'position': 'bottom'},
@@ -269,21 +193,20 @@ var vm = new Vue({
 							backgroundColor: '#fff'
 						};
 						
-						
-
 						var chart = new google.visualization.ColumnChart(document.getElementById('prodmodalchart'));
 
 						chart.draw(data, options);
 					}
 				}
 				else {
-					var eConsumptionValue = this.eConsumption;
+					
+					var eConsumptionValue = this.monthlyElecConsumption;
 					var eyearlyTotal = 0;
-
+					
 					for (var f = 0; f < val.length; f++) {
 						eyearlyTotal += eConsumptionValue[f].value;
 					}
-
+					
 					google.charts.load('current', { 'packages': ['corechart'] });
 					google.charts.setOnLoadCallback(drawChart);
 
@@ -315,7 +238,6 @@ var vm = new Vue({
 						};
 
 						var chart = new google.visualization.ColumnChart(document.getElementById('prodmodalchart'));
-
 						chart.draw(data, options);
 					}
 				}
@@ -329,39 +251,6 @@ var vm = new Vue({
 			this.showDisclaimer = false;
 			document.cookie = "disclaimeraccepted=true";
 		},
-		// heatingresults: function (event) {
-
-		// 	for (var i = 0; i < this.checkedid.length; i++) {
-
-		// 		this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} }).then(
-		// 			function (response) {
-		// 				months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-
-		// 				for (var j = 0; j <= 11; j++) {
-		// 					this.heating[j].value += parseFloat(response.data[months[j]]);
-		// 				}
-
-		// 				this.kWhvalue.push(response.data);  //adds the received object to kWhvalue			
-
-		// 			}, function (error) {
-		// 				// handle error
-		// 			});
-		// 	}
-		// },
-		// econsumptionresult: function (event) {
-		// 	for (var val = 0; val < this.checkedid.length; val++) {
-		// 		this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[val] + '/energy', { params: {} }).then(
-		// 			function (response) {
-		// 				months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-
-		// 				for (var j = 0; j <= 11; j++) {
-		// 					this.eConsumption[j].value += parseFloat(response.data[months[j]]);
-		// 				}
-		// 			}, function (error) {
-		// 				// handle error
-		// 			});
-		// 	}
-		// },
 		getConsumptions: function () {
 
 			var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
@@ -407,6 +296,19 @@ var vm = new Vue({
 
 		},
 		drawResultChart: function (heat, elec) {
+			
+			var yearlyTotal = 0;
+
+			for (var i = 0; i < heat.length; i++) {
+				yearlyTotal += heat[i].value;
+			}
+
+			var eConsumptionValue = this.eConsumption;
+			var eyearlyTotal = 0;
+
+			for (var f = 0; f < elec.length; f++) {
+				eyearlyTotal += eConsumptionValue[f].value;
+			}
 
 			google.charts.load('current', { 'packages': ['corechart'] });
 			google.charts.setOnLoadCallback(drawChart);
@@ -591,11 +493,8 @@ var vm = new Vue({
 		//clears after results
 		clearresults: function () {		
 			this.yearlyTotal = 0;
-			this.result = 0;
 			this.HCTS = null;
-			this.eResult = 0;
 			this.kWhvalue = [];
-			this.heating = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
 			this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
 		},	
 		modalClear: function () {
@@ -649,7 +548,7 @@ var vm = new Vue({
 
 			for (i=0; i<producers.length; i++) {
 				if(producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
-					var heatingpower = parseInt(producers[i].heatingpowerkw);
+					var heatingpower = producers[i].heatingpowerkw;
 					Vue.set(values, i, heatingpower);
 				}
 			}
@@ -674,7 +573,7 @@ var vm = new Vue({
 
 			for (i=0; i<producers.length; i++) {
 				if(producers[i].energycategory == energycat && producers[i].materialcategory == materialcat) {
-					var heatingpower = parseInt(producers[i].heatingpowerkw);
+					var heatingpower = producers[i].heatingpowerkw;
 					Vue.set(values, i, heatingpower);
 				}
 			}
