@@ -367,6 +367,7 @@ var vm = new Vue({
 			var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
 			this.yearlyHeatConsumption = 0;
+			this.yearlyElecConsumption = 0;
 
 			for (var i = 0; i < this.checkedid.length; i++) {
 				
