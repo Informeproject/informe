@@ -16,7 +16,7 @@ var vm = new Vue({
 		heatingkwvalue: 0,	
 		heatingpowersize: 0,
 		heatProdSum:0,
-		kWhvalue: [],
+		monthlyConsumptions: [],
 		materiallist: [],
 		modalValue: [],
 		monthlyElecConsumption: [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }],
@@ -269,7 +269,7 @@ var vm = new Vue({
 							this.yearlyHeatConsumption += parseFloat(response.data[months[h]]);
 						}
 	
-						this.kWhvalue.push(response.data);  //adds the received object to kWhvalue
+						this.monthlyConsumptions.push(response.data);  //adds the received object to monthlyConsumptions
 
 					},
 					function (error) {
@@ -296,22 +296,11 @@ var vm = new Vue({
 
 		},
 		drawResultChart: function (heat, elec) {
-			
-			var yearlyTotal = 0;
 
-			for (var i = 0; i < heat.length; i++) {
-				yearlyTotal += heat[i].value;
-			}
-
-			var eConsumptionValue = this.eConsumption;
-			var eyearlyTotal = 0;
-
-			for (var f = 0; f < elec.length; f++) {
-				eyearlyTotal += eConsumptionValue[f].value;
-			}
-
-			google.charts.load('current', { 'packages': ['corechart'] });
-			google.charts.setOnLoadCallback(drawChart);
+			setTimeout(function () {
+				google.charts.load('current', { 'packages': ['corechart'] });
+				google.charts.setOnLoadCallback(drawChart);
+			}, 600);
 
 			function drawChart() {
 				
@@ -491,11 +480,15 @@ var vm = new Vue({
 		},
 
 		//clears after results
-		clearresults: function () {		
-			this.yearlyTotal = 0;
+		clearresults: function () {
 			this.HCTS = null;
-			this.kWhvalue = [];
-			this.eConsumption = [{ value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }, { value: 0 }];
+			this.monthlyConsumptions = [];
+
+			for (i = 0; i <= 11; i++) {
+				this.monthlyHeatConsumption[i].value = 0;
+				this.monthlyElecConsumption[i].value = 0;
+			}
+
 		},	
 		modalClear: function () {
 			this.clearproductionresults();
