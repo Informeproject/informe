@@ -221,9 +221,9 @@
 							</div>
 							<div class="col-md-4">
 								<p style="font-size: 16px;font-weight: bold;margin-bottom:-15px;">Valitse rakennus, jonka kulutustietoja haluat tarkastella yksilöllisesti:</p>
-								<!-- buttons for individual buildings (kWhvalue-loop=>id) -->
+								<!-- buttons for individual buildings (monthlyConsumptions-loop=>id) -->
 								<ul class="ulstyle">
-									<li v-for="item in noduplicates(kWhvalue, 'id')" id="resultlist">
+									<li v-for="item in noduplicates(monthlyConsumptions, 'id')" id="resultlist">
 										<!-- building counter icon -->
 										<div id="resultquantityicon">
 											<p>{{ countchecked(item.id) }}</p>
