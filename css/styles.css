@@ -417,7 +417,7 @@ body.modal-open {
 	font-size: 15px;
 	border-radius: 3px;
 	width: 200px;
-	height: auto;
+	height: 250px;
 }
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
 	background-color: #21a07f;

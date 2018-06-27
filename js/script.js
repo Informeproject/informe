@@ -609,7 +609,7 @@ var vm = new Vue({
 			});
 			return uniques;
 		},
-		getproducer: function (energycat, materialcat, energysrc, powersize, electrpowersize, panelang, paneldir) {
+		getproducer: function (energycat, materialcat, energysrc, powersize, electrpowersize, panelang, paneldir, geothermunit, geothermlenght) {
 			var allproducers = this.producerlist[0];
 
 			for (i = 0; i < allproducers.length; i++) {
@@ -617,7 +617,9 @@ var vm = new Vue({
 				if (allproducers[i].energycategory == energycat &&
 					allproducers[i].materialcategory == materialcat &&
 					allproducers[i].energysource == energysrc &&
-					allproducers[i].heatingpowerkw == powersize) {
+					allproducers[i].heatingpowerkw == powersize &&
+				    allproducers[i].geothermunit == geothermunit &&
+				    allproducers[i].geothermlenght == geothermlenght) {
 						this.prodmodalvalue = allproducers[i];
 					}
 			}			
