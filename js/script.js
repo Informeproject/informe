@@ -34,7 +34,7 @@ var vm = new Vue({
 		showDisclaimer: true,
 		volumelist: [],
 		yearlyHeatConsumption: 0,
-		yearlyElecConsumption: 0
+		yearlyElecConsumption: 0,
 	},
 	created: function () {
 
@@ -243,7 +243,8 @@ var vm = new Vue({
 				}
 			},
 			deep: true
-		}
+		},
+
 	},
 
 	methods: {
@@ -271,6 +272,11 @@ var vm = new Vue({
 	
 						this.monthlyConsumptions.push(response.data);  //adds the received object to monthlyConsumptions
 
+						console.log(response.data.id);
+						if (response.data.id == this.checkedid[this.checkedid.length-1]) {
+							this.drawResultChart(this.monthlyHeatConsumption, this.monthlyElecConsumption);
+						}
+						
 					},
 					function (error) {
 						// handle error
@@ -291,15 +297,14 @@ var vm = new Vue({
 					});
 			}
 
-			this.drawResultChart(this.monthlyHeatConsumption, this.monthlyElecConsumption);
-
 		},
 		drawResultChart: function (heat, elec) {
 
 			setTimeout(function () {
 				google.charts.load('current', { 'packages': ['corechart'] });
 				google.charts.setOnLoadCallback(drawChart);
-			}, 1000);
+			}, 1500);
+
 
 			function drawChart() {
 				
