@@ -289,7 +289,6 @@ var vm = new Vue({
 					function (error) {
 						// handle error
 					});
-
 			}
 
 			this.drawResultChart(this.monthlyHeatConsumption, this.monthlyElecConsumption);
@@ -300,7 +299,7 @@ var vm = new Vue({
 			setTimeout(function () {
 				google.charts.load('current', { 'packages': ['corechart'] });
 				google.charts.setOnLoadCallback(drawChart);
-			}, 600);
+			}, 1000);
 
 			function drawChart() {
 				
@@ -321,7 +320,6 @@ var vm = new Vue({
 				]);
 
 				var options = {
-					backgroundColor: '#f5f5f5',
 					title: 'kWh / kk',
 					legend: { position: 'right' },
 					bars: 'vertical',
