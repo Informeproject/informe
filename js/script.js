@@ -295,7 +295,6 @@ var vm = new Vue({
 					function (error) {
 						// handle error
 					});
-
 			}
 
 		},
@@ -305,6 +304,7 @@ var vm = new Vue({
 				google.charts.load('current', { 'packages': ['corechart'] });
 				google.charts.setOnLoadCallback(drawChart);
 			}, 1500);
+
 
 			function drawChart() {
 				
@@ -325,7 +325,6 @@ var vm = new Vue({
 				]);
 
 				var options = {
-					backgroundColor: '#f5f5f5',
 					title: 'kWh / kk',
 					legend: { position: 'right' },
 					bars: 'vertical',
