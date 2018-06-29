@@ -13,7 +13,7 @@ var vm = new Vue({
 		electrpowerkwvalue: 0,
 		finalpage: [],
 		HCTS: 0,
-		heatingkwvalue: 0,	
+		heatingkwvalue: 0,
 		heatingpowersize: 0,
 		heatProdSum:0,
 		monthlyConsumptions: [],
@@ -27,7 +27,7 @@ var vm = new Vue({
 		prodmodalvalue: [],
 		prodmodalCat: 0,
 		producerlist: [],
-		prodstep: -1,	
+		prodstep: -1,
 		selectHeating: false,
 		selectElectricity: false,
 		selectElecheating: false,
@@ -63,7 +63,7 @@ var vm = new Vue({
 
 		this.populate();
 
-	},	
+	},
 	computed: {
 		firstselected: function () {
 			if (this.checkedid.length === 0) {
@@ -127,7 +127,7 @@ var vm = new Vue({
 			},
 			deep: true
 		},
-		prodmodalvalue: { 
+		prodmodalvalue: {
 			handler: function (val, oldVal) {
 				var power
 
@@ -149,15 +149,15 @@ var vm = new Vue({
 				var nov = (parseFloat(power)) * (parseFloat(val.heatnovember));
 				var dec = (parseFloat(power)) * (parseFloat(val.heatdecember));
 				var sep = (parseFloat(power)) * (parseFloat(val.heatseptember));
-				
+
 				function add(a,b){
 					return a+b;
 				}
-				
+
 				this.monthlyHeat = [jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec];
-				
+
 				this.heatProdSum = this.monthlyHeat.reduce(add,0).toLocaleString().replace(/,/g," ");
-				
+
 				if (this.prodmodalCat === 1){
 
 					var heatVal = this.monthlyHeatConsumption;
@@ -166,7 +166,7 @@ var vm = new Vue({
 					google.charts.setOnLoadCallback(drawChart);
 
 					function drawChart() {
-						
+
 						var data = google.visualization.arrayToDataTable([
 							['Kuukausi', 'Tuotettu Lämpö' , 'Lämmön Tarve'],
 							['Tammi', Number(jan), heatVal[0].value],
@@ -182,7 +182,7 @@ var vm = new Vue({
 							['Marras', Number(nov), heatVal[10].value],
 							['Joulu', Number(dec), heatVal[11].value],
 						]);
-						
+
 						var options = {
 							title: 'Arvioitu lämmitysenergian tuotanto ja tarve (kWh / kk)',
 							legend: { 'position': 'bottom'},
@@ -192,21 +192,21 @@ var vm = new Vue({
 							height: 500,
 							backgroundColor: '#fff'
 						};
-						
+
 						var chart = new google.visualization.ColumnChart(document.getElementById('prodmodalchart'));
 
 						chart.draw(data, options);
 					}
 				}
 				else {
-					
+
 					var eConsumptionValue = this.monthlyElecConsumption;
 					var eyearlyTotal = 0;
-					
+
 					for (var f = 0; f < val.length; f++) {
 						eyearlyTotal += eConsumptionValue[f].value;
 					}
-					
+
 					google.charts.load('current', { 'packages': ['corechart'] });
 					google.charts.setOnLoadCallback(drawChart);
 
@@ -254,14 +254,17 @@ var vm = new Vue({
 		},
 		getConsumptions: function () {
 
+			var heatResponse;
+			var elecResponse;
+			var promises = [];
 			var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
 			this.yearlyHeatConsumption = 0;
 			this.yearlyElecConsumption = 0;
 
 			for (var i = 0; i < this.checkedid.length; i++) {
-				
-				this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
+
+				heatResponse = this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
 				.then(
 					function (response) {
 
@@ -269,20 +272,15 @@ var vm = new Vue({
 							this.monthlyHeatConsumption[h].value += parseFloat(response.data[months[h]]);
 							this.yearlyHeatConsumption += parseFloat(response.data[months[h]]);
 						}
-	
+
 						this.monthlyConsumptions.push(response.data);  //adds the received object to monthlyConsumptions
 
-						console.log(response.data.id);
-						if (response.data.id == this.checkedid[this.checkedid.length-1]) {
-							this.drawResultChart(this.monthlyHeatConsumption, this.monthlyElecConsumption);
-						}
-						
 					},
 					function (error) {
 						// handle error
 					});
 
-				this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/energy', { params: {} })
+				elecResponse = this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/energy', { params: {} })
 				.then(
 					function (response) {
 
@@ -290,24 +288,28 @@ var vm = new Vue({
 							this.monthlyElecConsumption[e].value += parseFloat(response.data[months[e]]);
 							this.yearlyElecConsumption += parseFloat(response.data[months[e]]);
 						}
-						
+
 					},
 					function (error) {
 						// handle error
 					});
+
+					promises.push(heatResponse, elecResponse);
 			}
+
+			Promise.all(promises).then(function (ret) {
+				vm.drawResultChart(vm.monthlyHeatConsumption, vm.monthlyElecConsumption);
+			});
 
 		},
 		drawResultChart: function (heat, elec) {
 
-			setTimeout(function () {
-				google.charts.load('current', { 'packages': ['corechart'] });
-				google.charts.setOnLoadCallback(drawChart);
-			}, 1500);
+			google.charts.load('current', { 'packages': ['corechart'] });
+			google.charts.setOnLoadCallback(drawChart);
 
 
 			function drawChart() {
-				
+
 				var data = google.visualization.arrayToDataTable([
 					['Kuukausi', 'Lämmitys', 'Sähkö'],
 					['Tammi', heat[0].value, elec[0].value],
@@ -338,7 +340,7 @@ var vm = new Vue({
 				var chart = new google.visualization.ColumnChart(document.getElementById('resultchart'));
 				chart.draw(data, options);
 			}
-			
+
 		},
 		modali: function (id) {
 			$("#resultmodal").modal()
@@ -356,15 +358,15 @@ var vm = new Vue({
 					this.electrpowerkwvalue += parseFloat(cons[i].electrkw);
 				}
 			}
-	
+
 			this.checkedid.push(event.currentTarget.id);
 		},
 		unselect: function (event) {
 			var cons = this.consumerlist[0];
-			
+
 			for (i=0; i < cons.length; i++){
 
-				if (cons[i].id == event.currentTarget.id) {			
+				if (cons[i].id == event.currentTarget.id) {
 					this.heatingkwvalue -= parseFloat(cons[i].heatingkw);
 					this.electrpowerkwvalue -= parseFloat(cons[i].electrkw);
 				}
@@ -379,7 +381,7 @@ var vm = new Vue({
 				if (itemid == item) {
 					checked++;
 				}
-				
+
 			});
 
 			return checked;
@@ -405,7 +407,7 @@ var vm = new Vue({
 					Vue.set(this.volumelist, 0, vollist[2]);
 					Vue.set(this.volumelist, 1, vollist[1]);
 					Vue.set(this.volumelist, 2, vollist[0]);
-					//Vue.set(this.volumelist, 3, vollist[1]);	
+					//Vue.set(this.volumelist, 3, vollist[1]);
 				}, function (error) {
 					// handle error
 				});
@@ -446,7 +448,7 @@ var vm = new Vue({
 				}, function (error) {
 					// handle error
 				});
-			
+
 			// Materialcategory 1 (Puu)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=1', { params: {} }).then(
 				function (response) {
@@ -454,7 +456,7 @@ var vm = new Vue({
 				}, function (error) {
 					// handle error
 				});
-			
+
 			// Materialcategory 2 (Pelto)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=2', { params: {} }).then(
 				function (response) {
@@ -462,7 +464,7 @@ var vm = new Vue({
 				}, function (error) {
 					// handle error
 				});
-			
+
 			// Materialcategory 3 (Biokaasu)
 			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=3', { params: {} }).then(
 				function (response) {
@@ -471,13 +473,13 @@ var vm = new Vue({
 					// handle error
 				});
 		},
-		clearchecked: function () {			
+		clearchecked: function () {
 				this.checkedid = [];
 				this.heatingkwvalue = 0;
 				this.electrpowerkwvalue = 0;
 		},
 
-		clearproductionresults: function () {			
+		clearproductionresults: function () {
 			this.finalpage = [];
 			this.prodchoices = [];
 		},
@@ -492,7 +494,7 @@ var vm = new Vue({
 				this.monthlyElecConsumption[i].value = 0;
 			}
 
-		},	
+		},
 		modalClear: function () {
 			this.clearproductionresults();
 			this.prodstep = 0;
@@ -500,12 +502,12 @@ var vm = new Vue({
 		heatingCatTextSelect: function (HeatCatTextSelect){
 			var x = HeatCatTextSelect;
 
-			if(x == 1){	
+			if(x == 1){
 				this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
 			} else if (x == 2) {
 				this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden lämmitystarvetta vastaavan polttoaineen määrän vuodessa. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla.";
 			} else if (x == 3) {
-				this.HCTS = null;				
+				this.HCTS = null;
 			} else if (x == 4){
 				this.HCTS = "Alla olevissa kuvakkeissa näet valitsemiesi kohteiden tehon tarvetta vastaavan maa- tai vesilämpöputkiston pituuden. Klikkaamalla kuvaketta voit tarkastella soveltuvia tekniikoita ja lämmöntuotannon jakautumista kuukausitasolla";
 			} else {
@@ -528,13 +530,13 @@ var vm = new Vue({
 					if ((producers[i].energycategory == energycat && producers[i].materialcategory == materialcat)
 						&& (this.heatingkwvalue >= producers[i].heatingpowermin && this.heatingkwvalue <= producers[i].heatingpowermax)) {
 						Vue.set(this.finalpage, j, producers[i]);
-						j++;				
+						j++;
 					}
 				}
-				
+
 				// Change view to results
 				this.prodstep = 3;
-			}		
+			}
 		},
 		nextproductionscale: function (energycat, materialcat) {
 			producers = this.producerlist[0];
@@ -548,12 +550,12 @@ var vm = new Vue({
 					Vue.set(values, i, heatingpower);
 				}
 			}
-			
+
 			values.sort(function(a, b){return a-b});
 
 			for (i = 0; i < values.length; i++) {
 				if (val <= values[i]) {
-					
+
 					r = values[i];
 					break;
 				}
@@ -573,12 +575,12 @@ var vm = new Vue({
 					Vue.set(values, i, heatingpower);
 				}
 			}
-			
+
 			values.sort(function(a, b){return a-b});
 
 			for (i = 0; i < values.length; i++) {
 				if (val <= values[i]) {
-					
+
 					r = values[i-1];
 					break;
 				}
@@ -625,7 +627,7 @@ var vm = new Vue({
 				    allproducers[i].geothermlenght == geothermlenght) {
 						this.prodmodalvalue = allproducers[i];
 					}
-			}			
+			}
 		},
 		sortbypowerkw: function (items) {
 			items.sort(function (a, b) {
@@ -673,7 +675,7 @@ var vm = new Vue({
 
 				// Biogas category is displayed ignoring heatingpowermin and max values.
 				if (allcategories[z].materialcategory == 3) availablecategories.push(allcategories[z]);
-				
+
 				cat = this.filterbyattrvalue(this.prodlist[0], 'materialcategory', allcategories[z].materialcategory);
 				var max = Math.max.apply(Math,cat.map(function(o){return o.heatingpowermax;}));
 				var min = Math.min.apply(Math,cat.map(function(o){return o.heatingpowermin;}));
@@ -682,12 +684,12 @@ var vm = new Vue({
 					availablecategories.push(allcategories[z]);
 				}
 			}
-			
+
 			return availablecategories;
 		},
 		filterbyattrvalue: function (arr, attr, val) {
 			var filtered = [];
-			
+
 			for (i=0; i<arr.length; i++) {
 				if (arr[i][attr] == val) {
 					filtered.push(arr[i]);
