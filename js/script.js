@@ -77,7 +77,7 @@ var vm = new Vue({
 		modalValue: { //tämä tarvitaan
 			handler: function (val, oldVal) {
 
-				this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + val.id + '/energy').then(function (response) {
+				this.$http.get('http://informe.lamk.fi/informeapi/public/consumers/' + val.id + '/energy').then(function (response) {
 
 					var eValue = response.data;
 
@@ -263,8 +263,9 @@ var vm = new Vue({
 			this.yearlyElecConsumption = 0;
 
 			for (var i = 0; i < this.checkedid.length; i++) {
+        
+				heatResponse = this.$http.get('http://informe.lamk.fi/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
 
-				heatResponse = this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
 				.then(
 					function (response) {
 
@@ -280,7 +281,8 @@ var vm = new Vue({
 						// handle error
 					});
 
-				elecResponse = this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + this.checkedid[i] + '/energy', { params: {} })
+				elecResponse = this.$http.get('http://informe.lamk.fi/informeapi/public/consumers/' + this.checkedid[i] + '/energy', { params: {} })
+
 				.then(
 					function (response) {
 
@@ -344,7 +346,7 @@ var vm = new Vue({
 		},
 		modali: function (id) {
 			$("#resultmodal").modal()
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers/' + id + '/heating').then(function (response) {
+			this.$http.get('http://informe.lamk.fi/informeapi/public/consumers/' + id + '/heating').then(function (response) {
 				this.modalValue = response.data;
 			});
 		},
@@ -389,7 +391,7 @@ var vm = new Vue({
 		populate: function () {
 
 			//All consumer buildings
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/consumers?id=true', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/consumers?id=true', { params: {} }).then(
 				function (response) {
 					Vue.set(this.consumerlist, 0, response.data);
 
@@ -413,7 +415,7 @@ var vm = new Vue({
 				});
 
 			// Kaikki tuotantopuolen rakennukset
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/productions', { params: {} }).then(
 				function (response) {
 					Vue.set(this.producerlist, 0, response.data);
 				}, function (error) {
@@ -421,7 +423,7 @@ var vm = new Vue({
 				});
 
 			// Energycategory 1 (Lämpö)
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory=1', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/productions?energycategory=1', { params: {} }).then(
 				function (response) {
 					Vue.set(this.prodlist, 0, response.data);
 				}, function (error) {
@@ -429,7 +431,7 @@ var vm = new Vue({
 				});
 
 			// Energycategory 2 (Sähkö)
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory=2', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/productions?energycategory=2', { params: {} }).then(
 				function (response) {
 					var responseData = response.data;
 
@@ -442,7 +444,7 @@ var vm = new Vue({
 				});
 
 			// Energycategory 3 (CHP)
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?energycategory=3', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/productions?energycategory=3', { params: {} }).then(
 				function (response) {
 					Vue.set(this.prodlist, 2, response.data);
 				}, function (error) {
@@ -450,7 +452,7 @@ var vm = new Vue({
 				});
 
 			// Materialcategory 1 (Puu)
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=1', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/productions?materialcategory=1', { params: {} }).then(
 				function (response) {
 					Vue.set(this.materiallist, 0, response.data);
 				}, function (error) {
@@ -458,7 +460,7 @@ var vm = new Vue({
 				});
 
 			// Materialcategory 2 (Pelto)
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=2', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/productions?materialcategory=2', { params: {} }).then(
 				function (response) {
 					Vue.set(this.materiallist, 1, response.data);
 				}, function (error) {
@@ -466,7 +468,7 @@ var vm = new Vue({
 				});
 
 			// Materialcategory 3 (Biokaasu)
-			this.$http.get('http://niisku.lamk.fi/~informe/informeapi/public/productions?materialcategory=3', { params: {} }).then(
+			this.$http.get('http://informe.lamk.fi/informeapi/public/productions?materialcategory=3', { params: {} }).then(
 				function (response) {
 					Vue.set(this.materiallist, 2, response.data);
 				}, function (error) {
