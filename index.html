@@ -531,7 +531,7 @@
 											<div v-if="(prodmodalvalue.energycategory) == 1 && (prodmodalvalue.materialcategory) != 3">
 												<p>Lämmitysenergian kulutus: {{ parseInt(this.yearlyHeatConsumption).toLocaleString().replace(/,/g," ")}} kWh vuodessa</p>
 												<p>
-													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{ parseInt(heatProdSum).toLocaleString().replace(/,/g," ") }} kWh vuodessa
+													Yhteenlaskettu arvioitu lämmitysenergian tuotanto vuodessa: {{ heatProdSum }} kWh vuodessa
 												</p>
 											</div>
 											<div v-if="(prodmodalvalue.materialcategory) == 3">
