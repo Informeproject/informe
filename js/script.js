@@ -263,8 +263,9 @@ var vm = new Vue({
 			this.yearlyElecConsumption = 0;
 
 			for (var i = 0; i < this.checkedid.length; i++) {
-
+        
 				heatResponse = this.$http.get('http://informe.lamk.fi/informeapi/public/consumers/' + this.checkedid[i] + '/heating', { params: {} })
+
 				.then(
 					function (response) {
 
@@ -281,6 +282,7 @@ var vm = new Vue({
 					});
 
 				elecResponse = this.$http.get('http://informe.lamk.fi/informeapi/public/consumers/' + this.checkedid[i] + '/energy', { params: {} })
+
 				.then(
 					function (response) {
 
